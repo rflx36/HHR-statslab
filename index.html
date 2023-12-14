@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HHR STAT LAB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="UI/icon-title.png">
+</head>
+
+<body>
+    <a id="discord" href="https://discord.gg/59ydTv7QC"></a>
+    <div class="loader" id="loader-cont">
+        <div class="loading-bar-cont">
+            <div class="loading-bar-progress" id="loading-progress"></div>
+            <p id="loading-information"></p>
+        </div>
+        <div id="loading-cache-cont">
+
+        </div>
+    </div>
+    <div class="cont">
+        <h1>REBORN STAT LAB</h1>
+        <div class="cont-items-selection" id="set-items-cont">
+            <div id="close-item-selection" onclick="CloseSetItems();"></div>
+            <div class="cont-items-all" id="items">
+
+            </div>
+            <div class="cont-items-info">
+                <div class="cont-items-image"></div>
+                <div class="cont-items-details" id="item-detail"></div>
+                <div class="all-class-cont">
+                    <p>Include All Class</p>
+                    <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img" src="UI/icon-unchecked.png"></button>
+    
+                </div>
+            </div>
+
+        </div>
+        <div class="cont-class-selection" id="class-cont">
+            <div onclick="SetClass('warrior');">
+                <button class="class-warrior">
+                <p>Warrior</p>
+            </div>
+            <div onclick="SetClass('archer');">
+                <button class="class-archer">
+                <p>Archer</p>
+            </div>
+            <div onclick="SetClass('cowboy');">
+                <button class="class-cowboy">
+                <p>Cowboy</p>
+            </div>
+            <div onclick="SetClass('mage');">
+                <button class="class-mage">
+                <p>Mage</p>
+            </div>
+
+        </div>
+        <div class="cont-all">
+            <div class="cont-items">
+                <div class="item-sheath item-cont">
+                    <button id="item-sheath-primary" onclick="LoadItems('weapons-s1');"></button>
+                    <button id="item-sheath-secondary" onclick="LoadItems('weapons-s2');"></button>
+                    <p>Sheath</p>
+                </div>
+                <div class="item-set item-cont">
+                    <button id="item-helmet" onclick="LoadItems('helmets');"></button>
+                    <button id="item-armor" onclick="LoadItems('armors');"></button>
+                    <button id="item-pants" onclick="LoadItems('pants');"></button>
+                    <button id="item-shoes" onclick="LoadItems('shoes');"></button>
+                </div>
+
+                <div class="item-weapon item-cont">
+                    <button id="item-weapon-primary" onclick="LoadItems('weapons-e1');"></button>
+                    <button id="item-weapon-secondary" onclick="LoadItems('weapons-e2');"></button>
+                </div>
+            </div>
+            <div class="cont-stats">
+                <div class="stat-info-cont">
+                    <p>HP:</p>
+                    <input type="number" onchange="SetStat('hp');" id="hp-amount" min="15" value="15">
+                    <button disabled id="minus-hp" class="icon-minus" onclick="UpdateStat('hp',false);"></button>
+                    <button disabled id="plus-hp" class="icon-plus" onclick="UpdateStat('hp',true);"></button>
+                </div>
+                <div class="stat-info-cont">
+                    <p>MP:</p>
+                    <input type="number" onchange="SetStat('mp');" id="mp-amount" value="0">
+                    <button disabled id="minus-mp" class="icon-minus" onclick="UpdateStat('mp',false);"></button>
+                    <button disabled class="icon-plus" onclick="UpdateStat('mp',true);"></button>
+                </div>
+                <div class="stat-info-cont">
+                    <p>Atk:</p>
+                    <input type="number" onchange="SetStat('atk');" id="atk-amount" value="1">
+                    <button disabled id="minus-atk" class="icon-minus" onclick="UpdateStat('atk',false);"></button>
+                    <button disabled class="icon-plus" onclick="UpdateStat('atk',true);"></button>
+                </div>
+                <div class="stat-info-cont">
+                    <p>Def:</p>
+                    <input type="number" onchange="SetStat('def');" id="def-amount" value="1">
+                    <button disabled id="minus-def" class="icon-minus" onclick="UpdateStat('def',false);"></button>
+                    <button disabled class="icon-plus" onclick="UpdateStat('def',true);"></button>
+                </div>
+                <div class="stat-info-cont">
+                    <p>Dex:</p>
+                    <input type="number" onchange="SetStat('dex');" id="dex-amount" value="1">
+                    <button disabled id="minus-dex" class="icon-minus" onclick="UpdateStat('dex',false);"></button>
+                    <button disabled class="icon-plus" onclick="UpdateStat('dex',true);"></button>
+                </div>
+                <div class="stat-br"></div>
+                <div class="stat-result-cont">
+                    <p>crit multiplier:</p>
+                    <p id="fdex">1.00x</p>
+                </div>
+                <div class="stat-result-cont">
+                    <p>speed:</p>
+                    <p id="fspeed">100%</p>
+                </div>
+                <div class="stat-result-cont">
+                    <p>final attack:</p>
+                    <p id="fatk">0</p>
+                </div>
+                <div class="stat-result-cont">
+                    <p>final defense:</p>
+                    <p id="fdef">0</p>
+                </div>
+                <div class="stat-cost-cont">
+                    <p>Total Cost:</p>
+                    <div>
+                         <p id="tcost">0</p>
+                         <div id="coin-bg"></div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="cont-set">
+                <div class="set-cont">
+                    <div class="level-set">
+                        <p>Level:</p>
+                        <div class="level-input-cont">
+                            <input id="level-input" onchange="UpdateLevel();" type="number" value="1">
+                        </div>
+                    </div>
+                    <div class="points-label">
+                        <p>Points:</p>
+                        <p id="points-label-value">0</p>
+                    </div>
+                    <p id="class-label">Class: Warrior</p>
+                    <div class="set-button" id="reset-points" onclick="ResetSkillPoint();">
+                        <p>Reset Points</p>
+                    </div>
+                    <div class="set-button" id="change-class" onclick="LoadClass();">
+                        <p>Change Class</p>
+                    </div>
+                    <div class="toggle-monster">
+                        <div class="toggle-monster-button" onclick="ToggleMonsters();"><div class="toggle-monster-image" id="toggle-monster-img"></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="shield-skill-cont" id="shield-container">
+            <div class="skill-cont">
+                <p>Shield Skill</p>
+                <input type="range" min="0" max="15" value="0" onchange="UpdateShield();" id="shield-skill-input">
+                <p id="shield-skill-label">0%</p>
+            </div>
+        </div>
+        <div class="booster-skill-cont" id="booster-container">
+            <div class="skill-cont">
+                <p>Attack Skill</p>
+                <input type="range" min="0" max="30" value="0" onchange="UpdateBooster();" id="booster-skill-input">
+                <p id="booster-skill-label">0%</p>
+            </div>
+        </div>
+        <div class="monster-stat-cont" id="cont-stat-monster">
+            <div class="monster-cont" id="cont-monster">
+                
+            </div>
+        </div>
+    </div>
+    
+    <script src="stat.js"></script>
+</body>
+
+</html>
