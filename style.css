@@ -6,12 +6,12 @@
 
 @font-face {
     font-family: Comicy;
-    src: url(Comicy.ttf);
+    src: url(Fonts/Comicy.ttf);
 }
 
 @font-face {
     font-family: Confetti;
-    src: url(PartyConfettiRegular.ttf);
+    src: url(Fonts/PartyConfettiRegular.ttf);
 }
 
 
