@@ -1396,5 +1396,57 @@ function SetMonsters() {
       UpdateMonsterStat();
     });
 }
+
+
+
+
+function SetLoad(){
+  
+  try{
+    
+   selected_helmet = localStorage.getItem('u_helmet');
+   selected_armor= localStorage.getItem('u_armor');
+   selected_pants = localStorage.getItem('u_pants');
+   selected_shoes = localStorage.getItem('u_shoes');
+   selected_primary_weapon = localStorage.getItem('u_primary');
+   selected_secondary_weapon = localStorage.getItem('u_secondary');
+   sheated_primary_weapon = localStorage.getItem('u_primary_sheath');
+   sheated_secondary_weapon = localStorage.getItem('u_secondary_sheath');
+  
+  }
+  catch(ex){
+
+  }
+
+   UpdateStats();
+}
+
+function SetSave(){
+  
+  localStorage.setItem("u_helmet", JSON.stringify(selected_helmet));
+  localStorage.setItem("u_armor", selected_armor);
+  localStorage.setItem("u_pants", selected_pants);
+  localStorage.setItem("u_shoes", selected_shoes);
+
+  localStorage.setItem("u_primary", selected_primary_weapon);
+  localStorage.setItem("u_secondary", selected_secondary_weapon);
+
+  localStorage.setItem("u_primary_sheath", sheated_primary_weapon);
+  localStorage.setItem("u_secondary_sheath", sheated_secondary_weapon);
+  
+  console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
+
+}
+
+
+function TriggerSaves(){
+  //SetLoad();
+  SetSave();
+  let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
+  console.log("tEST>"+ tesTname.name);
+}
+
+
+
 // electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

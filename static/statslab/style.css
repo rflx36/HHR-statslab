@@ -1055,12 +1055,25 @@ body {
 }
 
 
-.toggle-monster{
+.toggle-cont{
     display: flex;
     justify-content: end;
     align-items: end;
     height: 140px;
     margin: 5px;
+}
+
+.toggle-saves-button{
+    background-image: url(UI/button.png);
+    width: 65px;
+    height: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.toggle-saves-button:hover{
+    background-image: url(UI/button-hovered.png);
 }
 
 .toggle-monster-button{
@@ -1078,6 +1091,16 @@ body {
     background-image: url(UI/button-hovered.png);
 }
 
+
+.toggle-saves-image{
+    width: 65px;
+    height: 31px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: 2px;
+    background-image: url(UI/icon-character.png);
+}
 
 .toggle-monster-image{
     width: 65px;
