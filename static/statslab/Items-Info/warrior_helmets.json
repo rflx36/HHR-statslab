@@ -241,5 +241,14 @@
         "price": 1212704,
         "url": "Item-Images/warrior-helmets/27.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Snout Zinc Helmet",
+        "defense": 145,
+        "power": 16,
+        "level": 187,
+        "price": 1460257,
+        "url": "Item-Images/warrior-helmets/28.webp",
+        "class": "warrior"
     }
 ]

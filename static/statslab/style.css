@@ -567,7 +567,27 @@ input::-webkit-inner-spin-button {
 .item-underleveled img {
     filter: grayscale();
 }
+/*
+#loading-bullhorn{
+    
+}
+*/
 
+#item-id-unhoverable:hover{
+    opacity: 1;
+}
+
+.item .item-equipped-cont{
+    position: relative;
+}
+.item .item-equipped-cont .item-equipped{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background-image: url(UI/icon-equipped.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 .item .item-details {
 

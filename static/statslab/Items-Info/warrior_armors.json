@@ -124,5 +124,14 @@
         "price": 1212704,
         "url": "Item-Images/warrior-armors/14.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Zinc Armor",
+        "defense": 145,
+        "power": 16,
+        "level": 187,
+        "price": 1460257,
+        "url": "Item-Images/warrior-armors/15.webp",
+        "class": "warrior"
     }
 ]

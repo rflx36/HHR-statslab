@@ -61,5 +61,14 @@
         "price": 410030,
         "url": "Item-Images/warrior-shoes/7.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Zinc Shoes",
+        "power": 8,
+        "defense": 94,
+        "level": 116,
+        "price": 472727,
+        "url": "Item-Images/warrior-shoes/8.webp",
+        "class": "warrior"
     }
 ]
