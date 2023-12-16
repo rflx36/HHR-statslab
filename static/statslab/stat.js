@@ -1423,6 +1423,10 @@ function SetLoad(){
 
 function SetSave(){
   
+  // get name get class
+  // name class name class name class
+ //
+  /*
   localStorage.setItem("u_helmet", JSON.stringify(selected_helmet));
   localStorage.setItem("u_armor", selected_armor);
   localStorage.setItem("u_pants", selected_pants);
@@ -1435,15 +1439,65 @@ function SetSave(){
   localStorage.setItem("u_secondary_sheath", sheated_secondary_weapon);
   
   console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
+  */
+  let save_data = [];
+  
+  save_data.push(selected_level);
+  save_data.push(shield_ability);
+  save_data.push(booster_ability);
+  save_data.push(selected_class);
+  save_data.push(hp);
+  save_data.push(mp);
+  save_data.push(atk);
+  save_data.push(def);
+  save_data.push(dex);
+  
+  save_data.push(selected_helmet.name);
+  save_data.push(selected_helmet.class);
 
+  save_data.push(selected_armor.name);
+  save_data.push(selected_armor.class);
+
+  save_data.push(selected_pants.name);
+  save_data.push(selected_pants.class);
+
+  save_data.push(selected_shoes.name);
+  save_data.push(selected_shoes.class);
+
+  save_data.push(selected_primary_weapon.name);
+  save_data.push(selected_primary_weapon.class);
+
+  save_data.push(selected_secondary_weapon.name);
+  save_data.push(selected_secondary_weapon.class);
+
+  save_data.push(sheated_primary_weapon.name);
+  save_data.push(sheated_primary_weapon.class);
+
+  save_data.push(sheated_secondary_weapon.name);
+  save_data.push(sheated_secondary_weapon.class);
+
+  localStorage.setItem("Save 1",JSON.stringify(save_data));
+  //call set items();
+
+  save_data.push(selected_level);
+  save_data.push(shield_ability);
+  save_data.push(booster_ability);
+  save_data.push(selected_class);
+  save_data.push(hp);
+  save_data.push(mp);
+  save_data.push(atk);
+  save_data.push(def);
+  save_data.push(dex);
+  
 }
 
 
 function TriggerSaves(){
   //SetLoad();
   SetSave();
-  let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
-  console.log("tEST>"+ tesTname.name);
+  //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
+    let tesTname = JSON.parse(localStorage.getItem('Save 1') );
+   console.log("tEST>"+ tesTname.name);
 }
 
 
