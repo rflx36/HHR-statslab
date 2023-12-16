@@ -29,13 +29,25 @@ let loading_bar = document.getElementById('loading-progress');
 let loading_info = document.getElementById('loading-information');
 let loader_cont = document.getElementById('loader-cont');
 let loader_cache_cont = document.getElementById('loading-cache-cont');
+let quote = document.getElementById('quote');
 
 
-window.addEventListener("load", function () {
 
-  loading_info.innerHTML = "Loading - Menu ";
-  StartLoading();
-})
+async function SetRandomQuote(){
+  let response = await fetch("static/statslab/Items-Info/player_quotes.json");
+  let QuotesData = await response.json();
+
+  let p_q = Object.keys(QuotesData);
+
+  let quoter_name = Math.floor(Math.random() * p_q.length);
+  let r_q = p_q[quoter_name];
+
+  let rand = Math.floor(Math.random() *QuotesData[r_q].length);
+
+  var quote_b = QuotesData[r_q];
+  let quote_ = quote_b[rand];
+  quote.innerHTML =``+r_q+` - "`+quote_+`"`;
+}
 
 function LoadCache(images) {
   if (images.length == 0) {
@@ -61,6 +73,14 @@ function UpdateLoadingBar(progress) {
 
   }
 }
+
+window.addEventListener("load", function () {
+
+loading_info.innerHTML = "Loading - Menu ";
+StartLoading();
+SetRandomQuote();
+
+})
 async function StartLoading() {
   let c = ["archer", "cowboy", "mage", "warrior"];
   let e = ["armors", "helmets", "pants", "shoes", "weapons", "shields"];
@@ -72,20 +92,21 @@ async function StartLoading() {
       if (j == 5 && i != 3) {
         continue;
       }
-      var FileLocation = "Items-Info/" + c[i] + "_" + e[j] + ".json";
+      var FileLocation = "static/statslab/Items-Info/" + c[i] + "_" + e[j] + ".json";
       response = await fetch(FileLocation);
       parsedData = await response.json();
-      var te;
+
       loading_info.innerHTML = "Loading - " + c[i] + " " + e[j];
       for (let item of parsedData) {
-        images.push(item.url);
+        images.push("static/statslab/"+item.url);
       }
       AssignItems(k, parsedData);
-      console.log("Progress [" + (k * 5) + "]: " + FileLocation);
+      var filename = c[i] + "_" + e[j] + ".json";
+      console.log("Progress [" + (k * 5) + "]: " + filename);
       k++;
       UpdateLoadingBar(k * 5);
     }
-    
+
     LoadCache(images);
     images = [];
   }
@@ -421,14 +442,14 @@ function ClearEquips() {
     class: ""
   }
 
-  item_helmet.style.backgroundImage = "url('UI/icon-helmets.png')";
-  item_armor.style.backgroundImage = "url('UI/icon-armor.png')";
-  item_pants.style.backgroundImage = "url('UI/icon-pants.png')";
-  item_shoes.style.backgroundImage = "url('UI/icon-shoes.png')";
-  item_primary.style.backgroundImage = "url('UI/icon-single-handed.png')";
-  item_secondary.style.backgroundImage = "url('UI/icon-single-handed.png')";
-  item_sheath_primary.style.backgroundImage = "url('UI/icon-single-handed.png')";
-  item_sheath_secondary.style.backgroundImage = "url('UI/icon-single-handed.png')";
+  item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
+  item_armor.style.backgroundImage = "url('static/statslab/UI/icon-armor.png')";
+  item_pants.style.backgroundImage = "url('static/statslab/UI/icon-pants.png')";
+  item_shoes.style.backgroundImage = "url('static/statslab/UI/icon-shoes.png')";
+  item_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_sheath_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
 
 }
 
@@ -465,7 +486,7 @@ function LoadClass() {
   Monster_toggle_variant = false;
 
   Monster_stat_cont.style = "transform:translateY(159px);";
-  Monster_image_cont.style = " background-image:url('UI/monster-toggle-hide.png');";
+  Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-hide.png');";
 }
 function UpdateShield() {
   shield_ability = shield_input.value;
@@ -496,17 +517,19 @@ function UpdateStats() {
     selected_shoes.attack = 0;
   }
 
-  if (selected_secondary_weapon.defense != 0 && !shielded) {
+  if ((selected_secondary_weapon.defense != 0 || sheated_primary_weapon.defense != 0)&& !shielded) {
     shielded = true;
     // shield_cont.style.display = "block";
     shield_cont.style.transform = "translateY(0px)";
   }
-  else if (selected_secondary_weapon.defense == 0 && shielded) {
+  else if (selected_secondary_weapon.defense == 0 && sheated_primary_weapon.defense == 0 && shielded) {
     shielded = false;
     // shield_cont.style.display = "none";
     shield_cont.style.transform = "translateY(-80px)";
 
   }
+
+
   current_fdef = (def + 8) * (2 + parseInt(selected_helmet.defense) + parseInt(selected_armor.defense) + parseInt(selected_pants.defense) + parseInt(selected_shoes.defense) + parseInt(selected_secondary_weapon.defense * (1 + ((shield_ability * 5) / 100))) + parseInt(Math.floor(Math.floor(sheated_primary_weapon.defense * 0.35) * (1 + ((shield_ability * 5) / 100)))));
   fdef_.textContent = current_fdef.toLocaleString('en-US');
   current_totalprice = (parseInt(selected_helmet.price) + parseInt(selected_armor.price) + parseInt(selected_pants.price) + parseInt(selected_shoes.price) + parseInt(selected_primary_weapon.price) + parseInt(selected_secondary_weapon.price) + parseInt(sheated_primary_weapon.price) + parseInt(sheated_secondary_weapon.price));
@@ -518,28 +541,42 @@ function UpdateStats() {
     fdex.textContent = dex_crit_chance[dex] + "x";
   }
   var bonus_sheath_damage = 0;
+  var sheated_primary_weapon_pow = sheated_primary_weapon.power;
+  var sheated_secondary_weapon_pow = sheated_secondary_weapon.power;
+
+  if (sheated_primary_weapon.class != selected_class ){
+
+    sheated_primary_weapon_pow = sheated_primary_weapon.power * 0.25;
+  }
+  if (sheated_secondary_weapon.class != selected_class ){
+    sheated_secondary_weapon_pow = sheated_secondary_weapon.power * 0.25;
+  }
+  //console.log("p:"+sheated_primary_weapon_pow +":"+ sheated_primary_weapon.class);
+  //console.log("s:"+sheated_secondary_weapon_pow + ":"+ sheated_secondary_weapon.class);
+
+
   if (sheathed_two_hander == false) {
 
     if (sheated_primary_weapon.name != "" && sheated_secondary_weapon.name != "") {
 
       speed = 110;
-      bonus_sheath_damage = (Math.floor(sheated_primary_weapon.power * 0.06) + Math.floor(sheated_secondary_weapon.power * 0.06));
+      bonus_sheath_damage = (Math.floor(sheated_primary_weapon_pow * 0.06) + Math.floor(sheated_secondary_weapon_pow * 0.06));
     }
     else if (sheated_primary_weapon.name != "" || sheated_secondary_weapon.name != "") {
 
       speed = 105;
 
       if (sheated_primary_weapon.name != "") {
-        bonus_sheath_damage = Math.floor(sheated_primary_weapon.power * 0.06);
+        bonus_sheath_damage = Math.floor(sheated_primary_weapon_pow * 0.06);
       }
       else {
-        bonus_sheath_damage = Math.floor(sheated_secondary_weapon.power * 0.06);
+        bonus_sheath_damage = Math.floor(sheated_secondary_weapon_pow * 0.06);
       }
     }
 
   }
   else {
-    bonus_sheath_damage = Math.floor(sheated_primary_weapon.power * 0.25);
+    bonus_sheath_damage = Math.floor(sheated_primary_weapon_pow * 0.25);
     speed = 100;
   }
 
@@ -557,6 +594,8 @@ function UpdateStats() {
   if (selected_secondary_weapon.class != selected_class) {
     current_fatk_s = Math.floor(current_fatk_s * 0.25);
   }
+
+
   fatk_.textContent = (!equipped_two_hander) ? current_fatk_p.toLocaleString('en-US') + " & " + current_fatk_s.toLocaleString('en-US') : current_fatk_p.toLocaleString('en-US');
   fspeed.textContent = speed + "%";
 
@@ -819,7 +858,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_helmet.defense = item_def;
       selected_helmet.price = item_price;
       selected_helmet.class = type_class;
-      item_helmet.style.backgroundImage = `url("${item_url}")`;
+      item_helmet.style.backgroundImage = `url("static/statslab/${item_url}")`;
       break;
     case "armors":
       selected_armor.name = item_name;
@@ -827,7 +866,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_armor.defense = item_def;
       selected_armor.price = item_price;
       selected_armor.class = type_class;
-      item_armor.style.backgroundImage = `url("${item_url}")`;
+      item_armor.style.backgroundImage = `url("static/statslab/${item_url}")`;
       break;
     case "pants":
       selected_pants.name = item_name;
@@ -835,7 +874,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_pants.defense = item_def;
       selected_pants.price = item_price;
       selected_pants.class = type_class;
-      item_pants.style.backgroundImage = `url("${item_url}")`;
+      item_pants.style.backgroundImage = `url("static/statslab/${item_url}")`;
       break;
     case "shoes":
       selected_shoes.name = item_name;
@@ -843,7 +882,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_shoes.defense = item_def;
       selected_shoes.price = item_price;
       selected_shoes.class = type_class;
-      item_shoes.style.backgroundImage = `url("${item_url}")`;
+      item_shoes.style.backgroundImage = `url("static/statslab/${item_url}")`;
 
       break;
     case "weapons":
@@ -867,18 +906,18 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
               price: 0
             };
 
-            item_secondary.style.backgroundImage = "url('UI/icon-single-handed.png')";
+            item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
             equipped_two_hander = true;
             secondary_equip.style.display = "none";
           }
-          item_primary.style.backgroundImage = `url("${item_url}")`;
+          item_primary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           break;
         case "e2":
           selected_secondary_weapon.name = item_name;
           selected_secondary_weapon.class = type_class;
           selected_secondary_weapon.power = item_pow;
           selected_secondary_weapon.defense = item_def;
-          item_secondary.style.backgroundImage = `url("${item_url}")`;
+          item_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           selected_secondary_weapon.price = item_price;
           break;
         case "s1":
@@ -897,7 +936,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
 
             secondary_sheath.style.display = "none";
           }
-          item_sheath_primary.style.backgroundImage = `url("${item_url}")`;
+          item_sheath_primary.style.backgroundImage = `url("static/statslab/${item_url}")`;
 
 
           sheated_secondary_weapon = {
@@ -907,14 +946,14 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
             price: 0
           };
 
-          item_sheath_secondary.style.backgroundImage = "url('UI/icon-single-handed.png')";
+          item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
           break;
         case "s2":
           sheated_secondary_weapon.name = item_name;
           sheated_secondary_weapon.power = item_pow;
           sheated_secondary_weapon.price = item_price;
-          sheated_secondary_weapon.class = selected_class;
-          item_sheath_secondary.style.backgroundImage = `url("${item_url}")`;
+          sheated_secondary_weapon.class = type_class;
+          item_sheath_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           break;
 
 
@@ -938,18 +977,18 @@ let btn_image = document.getElementById("toggle-class-img");
 function ToggleInclude() {
   set_items.style.display = "none";
 
-  //btn_image.src = (include_all)?"UI/icon-checked.png":"UI/icon-unchecked.png";
+  //btn_image.src = (include_all)?"static/statslab/UI/icon-checked.png":"static/statslab/UI/icon-unchecked.png";
   items_container.innerHTML = '';
 
   if (include_all) {
     include_all = false;
-    btn_image.src = "UI/icon-unchecked.png";
+    btn_image.src = "static/statslab/UI/icon-unchecked.png";
     LoadItems(current_type_selected);
 
   }
   else {
     include_all = true;
-    btn_image.src = "UI/icon-checked.png";
+    btn_image.src = "static/statslab/UI/icon-checked.png";
     LoadItems(current_type_selected);
   }
 
@@ -997,13 +1036,13 @@ function LoadItems(type) {
 
   let jsonfile = "";
   if (!include_all) {
-    //jsonfile = "Items-Info/" + selected_class + "_" + type + ".json";
+    //jsonfile = "static/statslab/Item-Info/" + selected_class + "_" + type + ".json";
     parsedData = ReturnItems(selected_class, type);
   }
 
 
   else {
-    //jsonfile = "Items-Info/warrior_" + type + ".json";
+    //jsonfile = "static/statslab/Item-Info/warrior_" + type + ".json";
     parsedData = ReturnItems("warrior", type);
 
     console.log(type);
@@ -1099,11 +1138,11 @@ function LoadItems(type) {
     }
 
     out += `
-            <img class="item-display"src='${item.url}'>
+            <img class="item-display"src='static/statslab/${item.url}'>
 
             <div class="item-details">
               <p class="details-title">${item.name}</p> 
-              <img class="details-img"src='${item.url}'>`;
+              <img class="details-img"src='static/statslab/${item.url}'>`;
     if (include_all) {
       out += `<p class="details-p"`;
       if (item.class == selected_class) {
@@ -1222,7 +1261,7 @@ function ToggleMonsters() {
     Monster_stat_cont.style = "transform:translateY(159px);";
 
 
-    Monster_image_cont.style = " background-image:url('UI/monster-toggle-hide.png');";
+    Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-hide.png');";
   }
   else if (Monster_selection == 2) {
 
@@ -1230,14 +1269,14 @@ function ToggleMonsters() {
     Monster_toggle_variant = true;
     monster_cont.innerHTML = '';
     SetMonsters();
-    Monster_image_cont.style = " background-image:url('UI/monster-toggle-show.png');";
+    Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-show.png');";
   }
   else {
 
     Monster_toggle_variant = false;
     monster_cont.innerHTML = '';
     SetMonsters();
-    Monster_image_cont.style = " background-image:url('UI/monster-toggle-variant.png');";
+    Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-variant.png');";
   }
 
   console.log(Monster_selection)
@@ -1246,7 +1285,7 @@ function ToggleMonsters() {
 
 function SetMonsters() {
 
-  fetch("Items-Info/monsters.json")
+  fetch("static/statslab/Items-Info/monsters.json")
     .then(response => response.json())
     .then(parsedData => {
       var out = ``;
@@ -1265,8 +1304,15 @@ function SetMonsters() {
           m_def_bonus = monster.variant_def;
           m_atk_bonus = monster.variant_atk;
         }
+
+
         var monster_dmg = monster.attack * (monster.attack + m_atk_bonus);
         var monster_def = monster.defense * (monster.defense + m_def_bonus);
+
+        if (monster.name == "Sasquatch"){
+          monster_dmg = monster_dmg * 2.5; // Punch 250%
+        }
+
         m_dmg.push(monster_dmg);
         m_def.push(monster_def);
         var dmg = Math.round(5 * (monster_dmg + 30) / (current_fdef + 30));

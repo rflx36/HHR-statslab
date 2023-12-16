@@ -1,364 +1,387 @@
 [
     {
-        "name": "green bouncer",
+        "name": "Green Bouncer",
         "attack": 1,
         "defense": 1,
         "variant": false,
-        "url":"Item-Images/monsters/1.png"
+        "url":"static/statslab/Item-Images/monsters/1.png"
     },
     {
-        "name": "green bouncer green beanie",
+        "name": "Green Bouncer Green beanie",
         "attack": 1,
         "defense": 1,
         "variant": true,
-        "url":"Item-Images/monsters/2.png",
+        "url":"static/statslab/Item-Images/monsters/2.png",
         "variant_def":5,
         "variant_atk":0
     },
     {
-        "name": "green bouncer half coconut",
+        "name": "Green Bouncer Half Coconut",
         "attack": 1,
         "defense": 1,
         "variant": true,
-        "url":"Item-Images/monsters/3.png",
+        "url":"static/statslab/Item-Images/monsters/3.png",
         "variant_def":26,
         "variant_atk":0
     },
     {
-        "name": "purple bouncer",
+        "name": "Purple Bouncer",
         "attack": 3,
         "defense": 3,
         "variant": false,
-        "url":"Item-Images/monsters/4.png"
+        "url":"static/statslab/Item-Images/monsters/4.png"
     },
     {
-        "name": "green walker",
+        "name": "Green Walker",
         "attack": 7,
         "defense": 3,
         "variant": false,
-        "url":"Item-Images/monsters/5.png"
+        "url":"static/statslab/Item-Images/monsters/5.png"
     },
     {
-        "name": "green walker half coconut",
+        "name": "Green Walker Half Coconut",
         "attack": 7,
         "defense": 3,
         "variant": true,
-        "url":"Item-Images/monsters/6.png",
+        "url":"static/statslab/Item-Images/monsters/6.png",
         "variant_def":26,
         "variant_atk":0
     },
     {
-        "name": "green walker detective hat",
+        "name": "Green walker Detective Hat",
         "attack": 7,
         "defense": 3,
         "variant": true,
-        "url":"Item-Images/monsters/7.png",
+        "url":"static/statslab/Item-Images/monsters/7.png",
         "variant_def":10,
         "variant_atk":3
     },
     {
-        "name": "red bouncer",
+        "name": "Red Bouncer",
         "attack": 9,
         "defense": 7,
         "variant": false,
-        "url":"Item-Images/monsters/8.png"
+        "url":"static/statslab/Item-Images/monsters/8.png"
     },
     {
-        "name": "red bouncer sombrero",
+        "name": "Red Bouncer Sombrero",
         "attack": 9,
         "defense": 7,
         "variant": true,
-        "url":"Item-Images/monsters/9.png",
+        "url":"static/statslab/Item-Images/monsters/9.png",
         "variant_def":16,
         "variant_atk":5
     },
     {
-        "name": "yellow hairy",
+        "name": "Yellow Hairy",
         "attack": 11,
         "defense": 10,
         "variant": false,
-        "url":"Item-Images/monsters/10.png"
+        "url":"static/statslab/Item-Images/monsters/10.png"
     },
     {
-        "name": "yellow hairy shades",
+        "name": "Yellow Hairy Shades",
         "attack": 11,
         "defense": 10,
         "variant": true,
-        "url":"Item-Images/monsters/11.png",
+        "url":"static/statslab/Item-Images/monsters/11.png",
         "variant_def":3,
         "variant_atk":3
     },
     {
-        "name": "yellow hairy coon hat",
+        "name": "Yellow Hairy Coon Hat",
         "attack": 11,
         "defense": 10,
         "variant": true,
-        "url":"Item-Images/monsters/13.png",
+        "url":"static/statslab/Item-Images/monsters/13.png",
         "variant_def":13,
         "variant_atk":1
     },
     {
-        "name": "yellow hairy half ski mask",
+        "name": "Yellow Hairy Half Ski Mask",
         "attack": 11,
         "defense": 10,
         "variant": true,
-        "url":"Item-Images/monsters/12.png",
+        "url":"static/statslab/Item-Images/monsters/12.png",
         "variant_def":8,
         "variant_atk":3
     },
     {
-        "name": "yellow hairy jester hat",
+        "name": "Yellow Hairy Jester Hat",
         "attack": 11,
         "defense": 10,
         "variant": true,
-        "url":"Item-Images/monsters/14.png",
+        "url":"static/statslab/Item-Images/monsters/14.png",
         "variant_def":18,
         "variant_atk":8
     },
     {
-        "name": "yellow hairy monster skull",
+        "name": "Yellow Hairy Monster Skull",
         "attack": 11,
         "defense": 10,
         "variant": true,
-        "url":"Item-Images/monsters/15.png",
+        "url":"static/statslab/Item-Images/monsters/15.png",
         "variant_def":43,
         "variant_atk":5
     },
     {
-        "name": "mushroom squish",
+        "name": "Mushroom Squish",
         "attack": 18,
         "defense": 16,
         "variant": false,
-        "url":"Item-Images/monsters/16.png"
+        "url":"static/statslab/Item-Images/monsters/16.png"
     },
     {
-        "name": "mushroom squish laser shades",
+        "name": "Mushroom Squish Laser Shades",
         "attack": 18,
         "defense": 16,
         "variant": true,
-        "url":"Item-Images/monsters/17.png",
+        "url":"static/statslab/Item-Images/monsters/17.png",
         "variant_def":20,
         "variant_atk":4
     },
     {
-        "name": "mushroom ball",
+        "name": "Mushroom Ball",
         "attack": 24,
         "defense": 19,
         "variant": false,
-        "url":"Item-Images/monsters/18.png"
+        "url":"static/statslab/Item-Images/monsters/18.png"
     },
     {
-        "name": "mushroom ball shades",
+        "name": "Mushroom Ball Shades",
         "attack": 24,
         "defense": 19,
         "variant": true,
-        "url":"Item-Images/monsters/19.png",
+        "url":"static/statslab/Item-Images/monsters/19.png",
         "variant_def":3,
         "variant_atk":3
     },
     {
-        "name": "mushroom ball half coconut",
+        "name": "Mushroom Ball Half Coconut",
         "attack": 24,
         "defense": 19,
         "variant": true,
-        "url":"Item-Images/monsters/20.png",
+        "url":"static/statslab/Item-Images/monsters/20.png",
         "variant_def":26,
         "variant_atk":0
     },
     {
-        "name": "mushroom ball tiara",
+        "name": "Mushroom Ball Tiara",
         "attack": 24,
         "defense": 19,
         "variant": true,
-        "url":"Item-Images/monsters/21.png",
+        "url":"static/statslab/Item-Images/monsters/21.png",
         "variant_def":8,
         "variant_atk":7
     },
     {
-        "name": "mushroom ball pirate hat",
+        "name": "Mushroom Ball Pirate Hat",
         "attack": 24,
         "defense": 19,
         "variant": true,
-        "url":"Item-Images/monsters/22.png",
+        "url":"static/statslab/Item-Images/monsters/22.png",
         "variant_def":26,
         "variant_atk":6
     },
     {
-        "name": "crab",
+        "name": "Crab",
         "attack": 27,
         "defense": 38,
         "variant": false,
-        "url":"Item-Images/monsters/23.png"
+        "url":"static/statslab/Item-Images/monsters/23.png"
     },
     {
-        "name": "crab hair flower",
+        "name": "Crab Hair Flower",
         "attack": 27,
         "defense": 38,
         "variant": true,
-        "url":"Item-Images/monsters/24.png",
+        "url":"static/statslab/Item-Images/monsters/24.png",
         "variant_def":1,
         "variant_atk":0
     },
     {
-        "name": "crab laser shades",
+        "name": "Crab Laser Shades",
         "attack": 27,
         "defense": 38,
         "variant": true,
-        "url":"Item-Images/monsters/25.png",
+        "url":"static/statslab/Item-Images/monsters/25.png",
         "variant_def":20,
         "variant_atk":4
     },
     {
-        "name": "orange crazy",
+        "name": "Orange Crazy",
         "attack": 55,
         "defense": 36,
         "variant": false,
-        "url":"Item-Images/monsters/26.png"
+        "url":"static/statslab/Item-Images/monsters/26.png"
     },
     {
-        "name": "orange crazy shades",
+        "name": "Orange Crazy Shades",
         "attack": 55,
         "defense": 36,
         "variant": true,
-        "url":"Item-Images/monsters/27.png",
+        "url":"static/statslab/Item-Images/monsters/27.png",
         "variant_def":3,
         "variant_atk":3
     },
     {
-        "name": "orange crazy monster skull",
+        "name": "Orange Crazy Monster Skull",
         "attack": 55,
         "defense": 36,
         "variant": true,
-        "url":"Item-Images/monsters/28.png",
+        "url":"static/statslab/Item-Images/monsters/28.png",
         "variant_def":43,
         "variant_atk":5
     },
     {
-        "name": "horned monster",
+        "name": "Horned Monster",
         "attack": 63,
         "defense": 37,
         "variant": false,
-        "url":"Item-Images/monsters/29.png"
+        "url":"static/statslab/Item-Images/monsters/29.png"
     },
     {
-        "name": "pumpkin creeper",
+        "name": "Pumpkin Creeper",
         "attack": 45,
         "defense": 30,
         "variant": false,
-        "url":"Item-Images/monsters/30.png"
+        "url":"static/statslab/Item-Images/monsters/30.png"
     },
     {
-        "name": "pumpkin creeper army helmet",
+        "name": "Pumpkin Creeper Army Helmet",
         "attack": 45,
         "defense": 30,
         "variant": true,
-        "url":"Item-Images/monsters/31.png",
+        "url":"static/statslab/Item-Images/monsters/31.png",
         "variant_def":53,
         "variant_atk":6
     },
     {
-        "name": "yellow puff monster",
+        "name": "Yellow Puff Monster",
         "attack": 93,
         "defense": 12,
         "variant": false,
-        "url":"Item-Images/monsters/32.png"
+        "url":"static/statslab/Item-Images/monsters/32.png"
     },
     {
-        "name": "bouncing mushroom",
+        "name": "Bouncing Mushroom",
         "attack": 84,
         "defense": 22,
         "variant": false,
-        "url":"Item-Images/monsters/33.png"
+        "url":"static/statslab/Item-Images/monsters/33.png"
     },
     {
-        "name": "bouncing mushroom pirate hat",
+        "name": "Bouncing Mushroom Pirate Hat",
         "attack": 84,
         "defense": 22,
         "variant": true,
-        "url":"Item-Images/monsters/34.png",
+        "url":"static/statslab/Item-Images/monsters/34.png",
         "variant_def":26,
         "variant_atk":6
     },
     {
-        "name": "bouncing mushroom pointed pirate hat",
+        "name": "Bouncing Mushroom Pointed Pirate Hat",
         "attack": 84,
         "defense": 22,
         "variant": true,
-        "url":"Item-Images/monsters/35.png",
+        "url":"static/statslab/Item-Images/monsters/35.png",
         "variant_def":31,
         "variant_atk":6
     },
     {
-        "name": "aipster",
+        "name": "Aipster",
         "attack": 100,
         "defense": 33,
         "variant": false,
-        "url":"Item-Images/monsters/36.png"
+        "url":"static/statslab/Item-Images/monsters/36.png"
     },
     {
-        "name": "aipster sorcerer hat",
+        "name": "Aipster sorcerer Hat",
         "attack": 100,
         "defense": 33,
         "variant": true,
-        "url":"Item-Images/monsters/37.png",
+        "url":"static/statslab/Item-Images/monsters/37.png",
         "variant_def":22,
         "variant_atk":7
     },
     {
-        "name": "aipster coconut leaves helmet",
+        "name": "Aipster Coconut leaves Helmet",
         "attack": 100,
         "defense": 33,
         "variant": true,
-        "url":"Item-Images/monsters/38.png",
+        "url":"static/statslab/Item-Images/monsters/38.png",
         "variant_def":35,
         "variant_atk":3
     },
     {
-        "name": "aipster racing helmet",
+        "name": "Aipster Racing Helmet",
         "attack": 100,
         "defense": 33,
         "variant": true,
-        "url":"Item-Images/monsters/39.png",
+        "url":"static/statslab/Item-Images/monsters/39.png",
         "variant_def":49,
         "variant_atk":4
     },
     {
-        "name": "aipster bronze helmet",
+        "name": "Aipster Bronze Helmet",
         "attack": 100,
         "defense": 33,
         "variant": true,
-        "url":"Item-Images/monsters/40.png",
+        "url":"static/statslab/Item-Images/monsters/40.png",
         "variant_def":65,
         "variant_atk":6
     },
     {
-        "name": "plant monster",
+        "name": "Plant Monster",
         "attack": 108,
         "defense": 45,
         "variant": false,
-        "url":"Item-Images/monsters/41.png"
+        "url":"static/statslab/Item-Images/monsters/41.png"
     },
     {
-        "name": "great frog",
+        "name": "Great Frog",
         "attack": 120,
         "defense": 29,
         "variant": false,
-        "url":"Item-Images/monsters/42.png"
+        "url":"static/statslab/Item-Images/monsters/42.png"
     },
     {
-        "name": "penguin",
+        "name": "Great Frog Strong Bascket Helmet",
+        "attack": 120,
+        "defense": 29,
+        "variant": true,
+        "url":"static/statslab/Item-Images/monsters/43.png",
+        "variant_def":59,
+        "variant_atk":8
+    },
+    {
+        "name": "Penguin",
         "attack": 155,
         "defense": 165,
         "variant": false,
-        "url":"Item-Images/monsters/43.png"
+        "url":"static/statslab/Item-Images/monsters/44.png"
     },
     {
-        "name": "penguin knight",
+        "name": "Penguin Knight",
         "attack": 155,
         "defense": 165,
         "variant": true,
-        "url":"Item-Images/monsters/44.png",
+        "url":"static/statslab/Item-Images/monsters/45.png",
         "variant_def":80,
         "variant_atk":8
+    },
+    {
+        "name":"Sasquatch",
+        "attack":248,
+        "defense":44,
+        "variant":false,
+        "url":"static/statslab/Item-Images/monsters/46.png"
+    },
+    {
+      "name": "Goo Cube",
+      "attack": 330,
+      "defense": 12,
+      "variant": false,
+      "url":"static/statslab/Item-Images/monsters/47.png"
     }
 ]
