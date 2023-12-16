@@ -1396,5 +1396,5 @@ function SetMonsters() {
       UpdateMonsterStat();
     });
 }
-
+// electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

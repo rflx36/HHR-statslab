@@ -18,6 +18,15 @@
         "class": "mage"
     },
     {
+        "name": "Santa Claus Hat",
+        "power": 5,
+        "defense": 9,
+        "level": 11,
+        "price": 2140,
+        "url": "Item-Images/mage-helmets/22.webp",
+        "class": "mage"
+    },
+    {
         "name": "Red Wizard Hat",
         "power": 3,
         "defense": 12,
