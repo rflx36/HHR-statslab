@@ -1294,7 +1294,12 @@ function UpdateMonsterStat() {
     var temp_def = document.getElementById("m_def_" + i);
     var dmg = Math.round(5 * (m_dmg[i] + 30) / (current_fdef + 30));
     temp_dmg.innerHTML = formatNumberWithAbbreviation(dmg);
-    temp_dmg.style.color = (dmg >= 1) ? "red" : "#00EA00";
+    if (dmg >= 1){
+      temp_dmg.style.background="linear-gradient(180deg, #EC0002 0%, #A9000B 100%)";
+    }
+    else{
+      temp_dmg.style.background = "lime";
+    }
     temp_def.innerHTML = formatNumberWithAbbreviation(Math.round(5 * (current_fatk_p + 30) / (m_def[i] + 30)));
   }
 }
