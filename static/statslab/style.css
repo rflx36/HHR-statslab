@@ -413,6 +413,26 @@ input::-webkit-inner-spin-button {
     opacity: 0.7;
 }
 
+
+#close-detailed-damage{
+    background-image: url(UI/icon-close.png);
+    width: 38px;
+    height: 38px;
+    z-index: 3;
+    background-size: 40px;
+    background-position: center;
+    right: -20px;
+    top: -50px;
+    position: absolute;
+    border-radius: 100px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+#close-detailed-damage:hover{
+    opacity: 0.7;
+}
+
 #item-sheath-primary {
     background-image: url(UI/icon-single-handed.png);
     background-size: contain;
@@ -481,7 +501,19 @@ input::-webkit-inner-spin-button {
     display: none;
     z-index: 3;
 }
+.cont-detailed-damage{
+    position: absolute;
+    background: #278C0D;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: 2px solid #17590D;
+    width: 936px;
+    height: 486px;
+    display: none; 
+    z-index: 3;
 
+}
 .cont-items-all {
     width: 552px;
     background: #56A043;
@@ -984,6 +1016,7 @@ body {
     width: 200px;
     height: 85px;
     border-radius: 5px;
+    overflow: hidden;
     border: 2px solid #083807;
     flex: none;
     background: #3DB81E;
@@ -991,14 +1024,35 @@ body {
     margin-top: 5px;
     display: flex;
     scroll-snap-align: start;
+    cursor: pointer;
+    transition: background .5s cubic-bezier(0.1, 0.89, 0.08, 0.92);
 }
+.monster-index:hover{
+    background:#aad926;
 
+    .monster-image{
+        background-color: #95bf20;
+    }
+
+    .monster-stat{
+        .monster-dmg{
+            background: #95bf20;
+        }
+        .monster-def{
+            background: #95bf20;
+        }
+
+    }
+
+}
 .monster-image {
     background-image: url(Item-Images/monsters/1.png);
     width: 85px;
     height: 85px;
     background-color: #32A215;
     border-radius: 2px;
+
+    transition: background-color .5s cubic-bezier(0.1, 0.89, 0.08, 0.92);
 }
 
 
@@ -1013,6 +1067,8 @@ body {
     display: flex;
     justify-content: space-between;
     font-family: Confetti;
+    
+    transition: background .5s cubic-bezier(0.1, 0.89, 0.08, 0.92);
 }
 
 .monster-dmg p,
@@ -1025,8 +1081,12 @@ body {
 
 .monster-dmg-icon {
     background-image: url(UI/icon-monster-dmg.png);
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 3px;
 }
 
 .monster-def-icon {

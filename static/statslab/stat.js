@@ -983,34 +983,34 @@ function DisplayEquipped(type, item, wslot) {
   } else if (type == "helmets") {
     isEquipped = (item.name == selected_helmet.name);
   } else if (type == "pants") {
-  
+
     isEquipped = (item.name == selected_pants.name);
   } else if (type == "shoes") {
-   
+
     isEquipped = (item.name == selected_shoes.name);
   } else {
     if (wslot == "e1") {
-     
-    isEquipped = (item.name == selected_primary_weapon.name);
+
+      isEquipped = (item.name == selected_primary_weapon.name);
     }
     else if (wslot == "e2") {
-  
+
       isEquipped = (item.name == selected_secondary_weapon.name);
     }
     else if (wslot == "s1") {
-    
+
       isEquipped = (item.name == sheated_primary_weapon.name);
     }
     else if (wslot == "s2") {
-     
+
       isEquipped = (item.name == sheated_secondary_weapon.name);
     }
   }
   let text_val = "";
-  if (isEquipped){
+  if (isEquipped) {
     text_val = `<div class='item-equipped-cont'><div class='item-equipped'></div></div>`
   }
-  
+
   return text_val;
 
 }
@@ -1185,15 +1185,15 @@ function LoadItems(type) {
       item.defense = null;
     }
     let d_equipped_text = "";
-    d_equipped_text= DisplayEquipped(type, item, weapon_slot);
+    d_equipped_text = DisplayEquipped(type, item, weapon_slot);
 
     out += d_equipped_text;
 
-    if (d_equipped_text != ""){
-      out+= `<img id="item-id-unhoverable" class="item-display"src='static/statslab/${item.url}'>`;
+    if (d_equipped_text != "") {
+      out += `<img id="item-id-unhoverable" class="item-display"src='static/statslab/${item.url}'>`;
     }
-    else{
-      out+=`<img class="item-display"src='static/statslab/${item.url}'>`;
+    else {
+      out += `<img class="item-display"src='static/statslab/${item.url}'>`;
     }
     out += `
             <div class="item-details">
@@ -1368,6 +1368,8 @@ function SetMonsters() {
         if (monster.name == "Sasquatch") {
           monster_dmg = monster_dmg * 2.5; // Punch 250%
         }
+        let d_dmg = monster_dmg;
+        let d_def = monster_def;
 
         m_dmg.push(monster_dmg);
         m_def.push(monster_def);
@@ -1376,7 +1378,7 @@ function SetMonsters() {
         var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
 
 
-        out += `<div class='monster-index'>
+        out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}');">
           <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
           <div class='monster-stat'>
             <div class='monster-dmg' title='Monster Damage to you'>
@@ -1398,34 +1400,57 @@ function SetMonsters() {
 }
 
 
+function DisplayMonsterDetail(dmg, def, url) {
 
+  let base_p_dmg = Math.round((current_fatk_p + 30) / (def + 30) * 5);
+  let base_s_dmg = Math.round((current_fatk_s + 30) / (def + 30) * 5);
 
-function SetLoad(){
-  
-  try{
-    
-   selected_helmet = localStorage.getItem('u_helmet');
-   selected_armor= localStorage.getItem('u_armor');
-   selected_pants = localStorage.getItem('u_pants');
-   selected_shoes = localStorage.getItem('u_shoes');
-   selected_primary_weapon = localStorage.getItem('u_primary');
-   selected_secondary_weapon = localStorage.getItem('u_secondary');
-   sheated_primary_weapon = localStorage.getItem('u_primary_sheath');
-   sheated_secondary_weapon = localStorage.getItem('u_secondary_sheath');
-  
-  }
-  catch(ex){
-
-  }
-
-   UpdateStats();
+  console.log(base_p_dmg);
+  console.log(base_s_dmg);
+  DisplayDetailedDamage();
+  console.log(dmg + ":" + def + ":" + url);
 }
 
-function SetSave(){
-  
+function SetWarriorDamage(){
+
+  return;
+}
+
+
+
+let d_cont = document.getElementById('damage-cont');
+function DisplayDetailedDamage() {
+  d_cont.style.display = "flex";
+}
+function CloseDetailedDamage() {
+  d_cont.style.display = "none";
+}
+function SetLoad() {
+
+  try {
+
+    selected_helmet = localStorage.getItem('u_helmet');
+    selected_armor = localStorage.getItem('u_armor');
+    selected_pants = localStorage.getItem('u_pants');
+    selected_shoes = localStorage.getItem('u_shoes');
+    selected_primary_weapon = localStorage.getItem('u_primary');
+    selected_secondary_weapon = localStorage.getItem('u_secondary');
+    sheated_primary_weapon = localStorage.getItem('u_primary_sheath');
+    sheated_secondary_weapon = localStorage.getItem('u_secondary_sheath');
+
+  }
+  catch (ex) {
+
+  }
+
+  UpdateStats();
+}
+
+function SetSave() {
+
   // get name get class
   // name class name class name class
- //
+  //
   /*
   localStorage.setItem("u_helmet", JSON.stringify(selected_helmet));
   localStorage.setItem("u_armor", selected_armor);
@@ -1441,7 +1466,7 @@ function SetSave(){
   console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
   */
   let save_data = [];
-  
+
   save_data.push(selected_level);
   save_data.push(shield_ability);
   save_data.push(booster_ability);
@@ -1451,7 +1476,7 @@ function SetSave(){
   save_data.push(atk);
   save_data.push(def);
   save_data.push(dex);
-  
+
   save_data.push(selected_helmet.name);
   save_data.push(selected_helmet.class);
 
@@ -1476,29 +1501,21 @@ function SetSave(){
   save_data.push(sheated_secondary_weapon.name);
   save_data.push(sheated_secondary_weapon.class);
 
-  localStorage.setItem("Save 1",JSON.stringify(save_data));
+  localStorage.setItem("Save 1", JSON.stringify(save_data));
   //call set items();
 
-  save_data.push(selected_level);
-  save_data.push(shield_ability);
-  save_data.push(booster_ability);
-  save_data.push(selected_class);
-  save_data.push(hp);
-  save_data.push(mp);
-  save_data.push(atk);
-  save_data.push(def);
-  save_data.push(dex);
-  
+
 }
 
 
-function TriggerSaves(){
+function TriggerSaves() {
   //SetLoad();
   SetSave();
   //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
-    let tesTname = JSON.parse(localStorage.getItem('Save 1') );
-   console.log("tEST>"+ tesTname.name);
+  let tesTname = JSON.parse(localStorage.getItem('Save 1'));
+  console.log("tEST>" + tesTname.name);
 }
+
 
 
 
