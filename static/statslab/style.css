@@ -512,8 +512,31 @@ input::-webkit-inner-spin-button {
     height: 486px;
     display: none; 
     z-index: 3;
+    flex-direction: row-reverse;
 
 }
+
+.cont-detailed-damage .cont-damage{
+    width: 486px;
+    height: calc(100% - 14px);
+    background: #3DB81E;
+    margin: 5px;
+    border-radius: 5px;
+    border: #083807 2px solid;
+}
+
+.cont-detailed-damage .cont-skills{
+    background: #6DA95C;
+    height: calc(100% - 10px);
+    width: 440px;
+    margin: 5px;
+    border-radius: 5px;
+    overflow-y: scroll;
+
+}
+
+
+
 .cont-items-all {
     width: 552px;
     background: #56A043;

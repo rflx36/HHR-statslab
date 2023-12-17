@@ -564,7 +564,10 @@ function UpdateStats() {
     }
     else if (sheated_primary_weapon.name != "" || sheated_secondary_weapon.name != "") {
 
-      speed = 105;
+      if (sheated_primary_weapon.power > 0) {
+        speed = 105;
+      }
+
 
       if (sheated_primary_weapon.name != "") {
         bonus_sheath_damage = Math.floor(sheated_primary_weapon_pow * 0.06);
@@ -1294,10 +1297,10 @@ function UpdateMonsterStat() {
     var temp_def = document.getElementById("m_def_" + i);
     var dmg = Math.round(5 * (m_dmg[i] + 30) / (current_fdef + 30));
     temp_dmg.innerHTML = formatNumberWithAbbreviation(dmg);
-    if (dmg >= 1){
-      temp_dmg.style.background="linear-gradient(180deg, #EC0002 0%, #A9000B 100%)";
+    if (dmg >= 1) {
+      temp_dmg.style.background = "linear-gradient(180deg, #EC0002 0%, #A9000B 100%)";
     }
-    else{
+    else {
       temp_dmg.style.background = "lime";
     }
     temp_def.innerHTML = formatNumberWithAbbreviation(Math.round(5 * (current_fatk_p + 30) / (m_def[i] + 30)));
@@ -1412,11 +1415,14 @@ function DisplayMonsterDetail(dmg, def, url) {
 
   console.log(base_p_dmg);
   console.log(base_s_dmg);
-  DisplayDetailedDamage();
-  console.log(dmg + ":" + def + ":" + url);
+  UpdateSkillCase();
+  DisplayDetailedDamage(dmg,def);
+
+  //console.log(dmg + ":" + def + ":" + url);
 }
 
-function SetWarriorDamage(){
+
+function SetWarriorDamage() {
 
   return;
 }
@@ -1424,11 +1430,71 @@ function SetWarriorDamage(){
 
 
 let d_cont = document.getElementById('damage-cont');
-function DisplayDetailedDamage() {
+let t_cont = document.getElementById('cont-title-id');
+var skill_weapon_case = "";
+let cont_skills  = document.getElementById('cont-skills-id');
+
+function UpdateSkillCase() {
+  if (equipped_two_hander) {
+    skill_weapon_case == "two hander";
+  }
+  else if (shielded) {
+    skill_weapon_case == "shield";
+  }
+  else {
+    skill_weapon_case == "dual";
+  }
+}
+function RequestSkillsInfo(m_dmg,m_def) {
+  
+  let skill_info_data = "";
+  let skill_damage_info = "";
+  fetch("static/statslab/Items-Info/skills.json")
+    .then(response => response.json())
+    .then(parsedData => {
+      for (let skill of parsedData) {
+        
+        if (skill.class == selected_class) {
+          if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
+              skill_info_data +=
+              `
+              <div class="skill-detail-cont" id="skill-class-${selected_class}">
+                <img src="static/statslab/${skill.url}">
+                <div class="skill-detail-more-cont">
+                <p>${skill.name}</p> 
+                <input type="range" min="0" max="${skill.max_level}" value="0">
+                </div> 
+
+              </div>
+              
+              `;
+              skill_damage_info +=
+              `
+              <div class="skill-damage-detail-cont">
+                  
+              </div>
+              `;
+          }
+        }
+      }
+    });
+
+    return skill_info_data;
+}
+
+
+
+function DisplayDetailedDamage(dmg,def) {
   d_cont.style.display = "flex";
+  t_cont.innerHTML = "YOUR DAMAGE DEALT ";
+  let a = RequestSkillsInfo(dmg,def);
+  console.log(a);
+  cont_skills.innerHTML = a;
 }
 function CloseDetailedDamage() {
   d_cont.style.display = "none";
+
+  t_cont.innerHTML = "REBORN STAT LAB";
 }
 function SetLoad() {
 

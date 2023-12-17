@@ -1,0 +1,102 @@
+[
+    {
+        "class":"warrior",
+        "name":"dual wield dash attack",
+        "base_value":0.8,
+        "value_increase":0.3,
+        "max_level":4,
+        "weapon_type":"dual",
+        "is_multiply":false,
+        "url":"UI/skill_1.webp"
+    },
+    {
+        "class":"warrior",
+        "name":"two handed dash attack",
+        "base_value":1.5,
+        "value_increase":0.6,
+        "max_level":3,
+        "weapon_type":"two hander",
+        "is_multiply":false,
+        "url":"UI/skill_2.webp"
+    },
+    {
+        "class":"warrior",
+        "name":"shield dash attack",
+        "base_value":1.2,
+        "value_increase":0.5,
+        "max_level":2,
+        "weapon_type":"shield",
+        "is_multiply":false,
+        "url":"UI/skill_3.webp"
+    },
+    {
+        "class":"warrior",
+        "name":"two hander jump attack",
+        "base_value":1,
+        "value_increase":1.6,
+        "max_level":2,
+        "weapon_type":"two hander",
+        "is_multiply":false,
+        "url":"UI/skill_4.webp"
+    },
+    {
+        "class":"mage",
+        "name":"dual wield magic jump attack",
+        "base_value":0,
+        "value_increase":1,
+        "max_level":3,
+        "weapon_type":"dual",
+        "is_multiply":true,
+        "url":"UI/skill_5.webp"
+    },
+    {
+        "class":"mage",
+        "name":"two hander magic jump attack",
+        "base_value":1,
+        "value_increase":0.25,
+        "max_level":10,
+        "weapon_type":"two hander",
+        "is_multiply":false,
+        "url":"UI/skill_6.webp"
+    },
+    {
+        "class":"cowboy",
+        "name":"jump grenade",
+        "base_value":3,
+        "value_increase":1,
+        "max_level":6,
+        "weapon_type":"any",
+        "is_multiply":false,
+        "url":"UI/skill_7.webp"
+    },
+    {
+        "class":"cowboy",
+        "name":"shotgun blast",
+        "base_value":0,
+        "value_increase":1,
+        "max_level":5,
+        "weapon_type":"any",
+        "is_multiply":true,
+        "url":"UI/skill_8.webp"
+    },
+    {
+        "class":"archer",
+        "name":"multi arrow",
+        "base_value":1,
+        "value_increase":1,
+        "max_level":5,
+        "weapon_type":"two hander",
+        "is_multiply":true,
+        "url":"UI/skill_9.webp"
+    },
+    {
+        "class":"archer",
+        "name":"targeting arrow",
+        "base_value":0.5,
+        "value_increase":0.15,
+        "max_level":10,
+        "weapon_type":"two hander",
+        "is_multiply":false,
+        "url":"UI/skill_10.webp"
+    }
+]
