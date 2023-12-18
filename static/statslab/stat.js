@@ -586,7 +586,7 @@ function UpdateStats() {
 
   current_fatk_p = parseInt(selected_primary_weapon.power) * (1 + bonus_sheath_damage + atk + parseInt(selected_helmet.attack) + parseInt(selected_armor.attack) + parseInt(selected_pants.attack) + parseInt(selected_shoes.attack));
   current_fatk_s = parseInt(selected_secondary_weapon.power) * (1 + bonus_sheath_damage + atk + parseInt(selected_helmet.attack) + parseInt(selected_armor.attack) + parseInt(selected_pants.attack) + parseInt(selected_shoes.attack));
-  console.log(selected_primary_weapon.name + ":" + selected_primary_weapon.class);
+  //console.log(selected_primary_weapon.name + ":" + selected_primary_weapon.class);
 
   current_fatk_p = Math.floor(current_fatk_p * (1 + (booster_ability / 100)));
 
@@ -1343,7 +1343,7 @@ function ToggleMonsters() {
     Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-variant.png');";
   }
 
-  console.log(Monster_selection)
+  //console.log(Monster_selection)
 }
 
 
@@ -1410,11 +1410,7 @@ function SetMonsters() {
 
 function DisplayMonsterDetail(dmg, def, url) {
 
-  let base_p_dmg = Math.round((current_fatk_p + 30) / (def + 30) * 5);
-  let base_s_dmg = Math.round((current_fatk_s + 30) / (def + 30) * 5);
 
-  console.log(base_p_dmg);
-  console.log(base_s_dmg);
   UpdateSkillCase();
   RequestSkillsInfo(dmg, def, url);
   DisplayDetailedDamage();
@@ -1437,6 +1433,10 @@ var skill_weapon_case = "";
 let cont_skills = document.getElementById('cont-skills-id');
 let cont_damage = document.getElementById('cont-damage-id');
 
+
+
+
+
 function UpdateSkillCase() {
   if (equipped_two_hander == null) {
     equipped_two_hander = false;
@@ -1452,12 +1452,61 @@ function UpdateSkillCase() {
   }
 }
 
+let skill_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //data saves
+let skills = [];
+let current_m_def = 0;
 
-function RepaintSkillLevel(id, val) {
-  document.getElementById('skill-lvl-id-' + id).innerHTML = "lvl: " + val;
+function RepaintSkillLevel(id, val, j) {
+
+  let p_lvl = document.getElementById('skill-lvl-id-' + id);
+  p_lvl.innerHTML = "lvl: " + val;
+
+  let p_skill = document.getElementById('skill-type-' + (id ));
+  let p_skill_crit = document.getElementById('skill-type-crit-' + (id ));
+  let p_label = document.getElementById('skill-label-type-' + id );
+  
+  skill_level[id]= val; //updates skill data
+  skills[j].skill_level = parseInt(val); //updates skill data
+
+
+  let s_base_val = skills[j].base_value;
+  let s_increase_val = skills[j].value_increase;
+  let s_level = skills[j].skill_level;
+
+
+  let p_dmg = Math.round(5 * (current_fatk_p + 30) / (current_m_def + 30));
+  let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (current_m_def + 30)) * dex_crit_chance[dex]);
+
+
+  if (skills[j].is_multiply) {  
+    p_label.innerHTML = s_level + "x";
+
+    p_skill.innerHTML = p_dmg;
+    p_skill_crit.innerHTML = p_dmg_crit;
+  }
+  else{
+    console.log(s_base_val + (s_increase_val * s_level));
+    
+    let skill_damage = parseInt(Math.round(p_dmg * (s_base_val + (s_increase_val * s_level))));
+    let skill_damage_crit = parseInt( Math.round(p_dmg_crit * (s_base_val + (s_increase_val * s_level))));
+
+    p_skill.innerHTML = skill_damage;
+    p_skill_crit.innerHTML = skill_damage_crit;
+  }
+
+  /*
+  "base_value": skill.base_value,
+    "value_increase": skill.value_increase,
+      "skill_id": i + 1,
+        "is_multiply": skill.is_multiply,
+          "skill_level": i
+  */
+
+
+
 }
 function RequestSkillsInfo(m_dmg, m_def, m_url) {
-
+  skills = [];
   fetch("static/statslab/Items-Info/skills.json")
     .then(response => response.json())
     .then(parsedData => {
@@ -1465,19 +1514,48 @@ function RequestSkillsInfo(m_dmg, m_def, m_url) {
       let skill_damage_info = "";
 
       let i = 0;
-
+      current_m_def = m_def;
       let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
 
       let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex]);
+
+      let p_dmg_fire = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1);
+      let p_dmg_electric = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35);
+      let p_dmg_poison = 0;
+      let p_dmg_ice = 0;
+
       skill_damage_info +=
         `
       <div class="base-damage-detail-cont">
-        <div class="image-elemental-damage-cont">
+        <div class="base-info-detail-cont">
           <img src="${m_url}">
           
         </div>
       </div>
       <div class="skill-damage-detail-cont">
+        <div class="damage-dealt-m-cont">
+        <div class="dealt-element-cont">
+          <img src="static/statslab/UI/icon-element-fire.png">
+          <p class="element-fire" >${p_dmg_fire}</p>
+        </div>
+
+        <div class="dealt-element-cont">
+          <img src="static/statslab/UI/icon-element-electric.png">
+          <p class="element-electric">${p_dmg_electric}</p>
+        </div>
+      </div>
+
+      <div class="damage-dealt-m-cont">
+        <div class="dealt-element-cont">
+          <img src="static/statslab/UI/icon-element-poison.png">
+          <p class="element-poison">${p_dmg_poison}</p>
+        </div>
+        
+        <div class="dealt-element-cont">
+          <p id="element-reserved" >ICE RESERVED</p>
+        </div>
+      </div>
+
         <div class="damage-dealt-m-cont">
           <div class="dealt-cont">
             <label>Base Damage</label>
@@ -1490,21 +1568,30 @@ function RequestSkillsInfo(m_dmg, m_def, m_url) {
             <p>${p_dmg_crit}</p>
           </div>
         </div>
+
+        
       `;
+      let j = 0;
       for (let skill of parsedData) {
 
         if (skill.class == selected_class) {
+          let disable_cont = `disable-skill-cont`;
+
+          if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
+            disable_cont = ``;
+
+          }
           skill_info_data +=
             `
-            <div class="skill-detail-cont skill-class-${selected_class}">
+            <div  class="skill-detail-cont skill-class-${selected_class} ${disable_cont}">
               <img src="static/statslab/${skill.url}">
               <div class="skill-detail-more-cont">
-              <p>${skill.name}</p> 
-              <div class="range-level-cont">
-              <input type="range" min="0" max="${skill.max_level}" value="0" onclick="RepaintSkillLevel(${i},this.value);">
-              <p id="skill-lvl-id-${i}">lvl: 0</p>
-              <p class="skill-number-identifier">#${i + 1}</p>
-              </div>
+                <p>${skill.name}</p> 
+                <div class="range-level-cont">
+                  <input type="range" min="0" max="${skill.max_level}" value="${skill_level[i]}" onchange="RepaintSkillLevel(${i},this.value,${j});">
+                  <p id="skill-lvl-id-${i}">lvl: ${skill_level[i]}</p>
+              
+                </div>
               </div> 
 
             </div>
@@ -1512,25 +1599,49 @@ function RequestSkillsInfo(m_dmg, m_def, m_url) {
             `;
 
           if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
+            j++;
+            let skill_damage = Math.round(p_dmg * (skill.base_value + (skill.value_increase * skill_level[i])));
+            let skill_damage_crit = Math.round(p_dmg_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
 
+            let temp_skill = {
+              "name": skill.name,
+              "skill_id": i,
+              "base_value": skill.base_value,
+              "value_increase": skill.value_increase,
+              "skill_level": skill_level[i],
+              "is_multiply": skill.is_multiply
+            }
+            skills.push(temp_skill);
+            let text = "";
+            let text_display_multiplier = "("+(skill.base_value + (skill.value_increase * skill_level[i]))*100 +"%)";
 
+            let text_damage = skill_damage;
+            let text_damage_crit = skill_damage_crit;
+            if (skill.is_multiply){
+              text = "x" + skill_level[i] ;
+
+              text_damage = p_dmg;
+              text_damage_crit = p_dmg_crit;
+             
+            }
             skill_damage_info += `
                 <div class="damage-dealt-m-cont">
                   <div class="dealt-cont">
-                    <label>#${i+1} Skill</label>
+                    <label >${skill.name} <span id="skill-label-type-${i}"> ${text_display_multiplier} </span></p></label>
                     <img src="static/statslab/UI/icon-base-damage.png">
-                    <p>${Math.round(p_dmg * skill.base_value)}</p>
+                    <p id="skill-type-${i }">${text_damage} <span id="skill-label-multiplier-${i}">${text}</span></p>
                   </div>
                   <div class="dealt-cont">
-                    <label>#${i+1} Skill Crit</label>
+                    <label>Skill Crit</label>
                     <img src="static/statslab/UI/icon-base-damage-crit.png">
-                    <p>${Math.round(p_dmg_crit * skill.base_value)}</p>
+                    <p id="skill-type-crit-${i }">${text_damage_crit}</p>
                   </div>
                 </div>
                   `;
           }
-          i++;
+
         }
+        i++;
 
 
       }

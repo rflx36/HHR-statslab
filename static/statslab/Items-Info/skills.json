@@ -92,7 +92,7 @@
     {
         "class":"archer",
         "name":"targeting arrow",
-        "base_value":0.5,
+        "base_value":1.5,
         "value_increase":0.15,
         "max_level":10,
         "weapon_type":"two hander",

@@ -53,6 +53,7 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
 .loader {
     background: #575757;
     border: 2px #272827 solid;
@@ -67,10 +68,10 @@ input::-webkit-inner-spin-button {
     bottom: 0;
     transition: .3s ease;
     display: flex;
-    z-index:5;
+    z-index: 5;
 }
 
-.loading-bar-cont{
+.loading-bar-cont {
     width: 300px;
     height: 10px;
     background: #3b3b3b;
@@ -80,7 +81,7 @@ input::-webkit-inner-spin-button {
 
 }
 
-.loading-bar-progress{
+.loading-bar-progress {
     height: 100%;
     width: 0px;
     animation: loader ease 1s infinite alternate;
@@ -88,24 +89,26 @@ input::-webkit-inner-spin-button {
     border-radius: 100px;
 }
 
-@keyframes loader{
-    from{
+@keyframes loader {
+    from {
         background-color: #fbfb1e;
         box-shadow: none;
     }
-    to{
+
+    to {
 
         background-color: #f1f1cd;
         box-shadow: 0px 0px 16px 4px #f8f86e61, 0px 0px 5px 4px #f8f86e inset;
     }
 }
 
-#loading-information{
+#loading-information {
     font-size: 15px;
     margin: 5px;
     text-align: center;
 }
-#loading-cache-cont{
+
+#loading-cache-cont {
 
     border-radius: 15px;
     margin: auto;
@@ -122,7 +125,8 @@ input::-webkit-inner-spin-button {
     display: block;
     overflow: hidden;
 }
-#loading-cache-cont img{
+
+#loading-cache-cont img {
     width: 35px;
     height: 35px;
     position: relative;
@@ -414,7 +418,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-#close-detailed-damage{
+#close-detailed-damage {
     background-image: url(UI/icon-close.png);
     width: 38px;
     height: 38px;
@@ -429,7 +433,7 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-#close-detailed-damage:hover{
+#close-detailed-damage:hover {
     opacity: 0.7;
 }
 
@@ -501,7 +505,8 @@ input::-webkit-inner-spin-button {
     display: none;
     z-index: 3;
 }
-.cont-detailed-damage{
+
+.cont-detailed-damage {
     position: absolute;
     background: #278C0D;
     margin-left: 10px;
@@ -510,13 +515,13 @@ input::-webkit-inner-spin-button {
     border: 2px solid #17590D;
     width: 936px;
     height: 486px;
-    display: none; 
+    display: none;
     z-index: 3;
     flex-direction: row-reverse;
 
 }
 
-.cont-detailed-damage .cont-damage{
+.cont-detailed-damage .cont-damage {
     width: 486px;
     height: calc(100% - 14px);
     background: #3DB81E;
@@ -526,26 +531,70 @@ input::-webkit-inner-spin-button {
 
 }
 
-.cont-detailed-damage .cont-damage .base-damage-detail-cont{
-
+.cont-detailed-damage .cont-damage .base-damage-detail-cont {
+    height: 95px;
 }
 
-.cont-detailed-damage .cont-damage .base-damage-detail-cont img{
+.cont-detailed-damage .cont-damage .base-damage-detail-cont img {
     background-color: #32a215;
     border-radius: 5px;
     margin: 5px;
     transform: scaleX(-1);
 }
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont{
 
-}
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont {}
 
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont{
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont {
     display: flex;
     width: 100%;
 }
 
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont{
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-element-cont {
+    width: calc(50% - 10px);
+    height: 40px;
+    background: #32a215;
+    border-radius: 5px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+
+.element-fire {
+    background: linear-gradient(0deg, #D61709 0%, #F8A52A 100%);
+}
+
+.element-electric {
+    background: linear-gradient(0deg, #FFEE37 0%, #FFFBC6 100%);
+}
+
+.element-poison {
+    background: linear-gradient(0deg, #1F801A 0%, #5FE162 100%);
+}
+#element-reserved{
+    text-shadow: none !important;
+    color: black !important;
+    opacity: 0.3;
+    -webkit-text-fill-color: black !important;
+    -webkit-text-stroke: 0px !important;
+    width: 100%;
+    text-align: center;
+}
+
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-element-cont p {
+    margin: 5px;
+
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-size: 25px;
+}
+
+
+
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont {
     width: calc(50% - 10px);
     height: 40px;
     background: #32a215;
@@ -558,26 +607,28 @@ input::-webkit-inner-spin-button {
     margin-top: 20px;
 
 }
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont label{
+
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont label {
     position: absolute;
     top: -20px;
     font-family: 'Confetti';
     opacity: 0.5;
 }
 
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont img{
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont img {
     margin: 5px;
 }
 
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont p{
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont p {
     margin: 5px;
-    background: linear-gradient(0deg,#FF8309 0%, #FFC420 100%);
+    background: linear-gradient(0deg, #FF8309 0%, #FFC420 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 25px;
 }
-.cont-detailed-damage .cont-skills{
+
+.cont-detailed-damage .cont-skills {
     background: #6DA95C;
     height: calc(100% - 10px);
     width: 440px;
@@ -586,11 +637,11 @@ input::-webkit-inner-spin-button {
     overflow-y: scroll;
 }
 
-.cont-detailed-damage .cont-skills::-webkit-scrollbar{
+.cont-detailed-damage .cont-skills::-webkit-scrollbar {
     width: 0px;
 }
 
-.cont-detailed-damage .cont-skills .skill-detail-cont{
+.cont-detailed-damage .cont-skills .skill-detail-cont {
     height: 100px;
     width: calc(100% - 10px);
     background: #3db81e;
@@ -603,45 +654,48 @@ input::-webkit-inner-spin-button {
     overflow: hidden;
 }
 
-.cont-detailed-damage .cont-skills .skill-detail-cont img{
+.cont-detailed-damage .cont-skills .skill-detail-cont img {
     width: 90px;
     height: 90px;
     margin: 4px;
 }
-.cont-detailed-damage .cont-skills .skill-class-warrior{
-    background:#A2542E;
+
+.cont-detailed-damage .cont-skills .skill-class-warrior {
+    background: #A2542E;
 }
 
-.cont-detailed-damage .cont-skills .skill-class-mage{
-    background:#365499;
+.cont-detailed-damage .cont-skills .skill-class-mage {
+    background: #365499;
 }
 
-.cont-detailed-damage .cont-skills .skill-class-cowboy{
-    background:#708341;
+.cont-detailed-damage .cont-skills .skill-class-cowboy {
+    background: #708341;
 }
 
-.cont-detailed-damage .cont-skills .skill-class-archer{
-    background:#36C02E;
+.cont-detailed-damage .cont-skills .skill-class-archer {
+    background: #36C02E;
 }
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont{
+
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
 }
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont p{
+
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont p {
     font-size: 20px;
     margin: 5px;
 }
 
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont{
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont {
     display: flex;
     align-items: center;
     position: relative;
 }
 
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont p{
-   
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont p {
+
     font-family: 'Confetti';
     color: yellow;
     text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
@@ -649,7 +703,8 @@ input::-webkit-inner-spin-button {
     font-size: 25px;
     height: 30px;
 }
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont input{
+
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont input {
     background: #00000070;
     outline: none;
     -webkit-appearance: none;
@@ -675,26 +730,31 @@ input::-webkit-inner-spin-button {
     height: 15px;
     width: 15px;
     background: #FBFB1E;
-   
+
     border-radius: 15px;
     box-shadow: -100px 0 0 95px #fbfb1e84;
     cursor: pointer;
-    
+
 }
 
-.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont input::-webkit-slider-thumb:hover{
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont input::-webkit-slider-thumb:hover {
 
     background: #f8f86e;
 }
 
-
-.skill-number-identifier{
+.cont-detailed-damage .cont-skills .disable-skill-cont{
+  
+    pointer-events: none;
+    opacity: 0.25;
+}
+.skill-number-identifier {
     text-shadow: none !important;
     color: black !important;
     opacity: 0.5;
     position: absolute;
     right: 0;
 }
+
 .cont-items-all {
     width: 552px;
     background: #56A043;
@@ -780,20 +840,22 @@ input::-webkit-inner-spin-button {
 .item-underleveled img {
     filter: grayscale();
 }
+
 /*
 #loading-bullhorn{
     
 }
 */
 
-#item-id-unhoverable:hover{
+#item-id-unhoverable:hover {
     opacity: 1;
 }
 
-.item .item-equipped-cont{
+.item .item-equipped-cont {
     position: relative;
 }
-.item .item-equipped-cont .item-equipped{
+
+.item .item-equipped-cont .item-equipped {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -890,7 +952,7 @@ input::-webkit-inner-spin-button {
     width: 936px;
     height: 486px;
     display: flex;
-    z-index:3;
+    z-index: 3;
 }
 
 .cont-class-selection div {
@@ -1175,7 +1237,7 @@ body {
     background: #496648;
     top: -133px;
 
-   transform: translateY(159px); 
+    transform: translateY(159px);
     z-index: -2;
     transition: .3s;
 }
@@ -1208,24 +1270,27 @@ body {
     cursor: pointer;
     transition: background .5s cubic-bezier(0.1, 0.89, 0.08, 0.92);
 }
-.monster-index:hover{
-    background:#aad926;
 
-    .monster-image{
+.monster-index:hover {
+    background: #aad926;
+
+    .monster-image {
         background-color: #95bf20;
     }
 
-    .monster-stat{
-        .monster-dmg{
+    .monster-stat {
+        .monster-dmg {
             background: #95bf20;
         }
-        .monster-def{
+
+        .monster-def {
             background: #95bf20;
         }
 
     }
 
 }
+
 .monster-image {
     background-image: url(Item-Images/monsters/1.png);
     width: 85px;
@@ -1248,7 +1313,7 @@ body {
     display: flex;
     justify-content: space-between;
     font-family: Confetti;
-    
+
     transition: background .5s cubic-bezier(0.1, 0.89, 0.08, 0.92);
 }
 
@@ -1262,20 +1327,20 @@ body {
     -webkit-text-stroke: 1px black;
 }
 
-.monster-def p{
-    background: linear-gradient(0deg,#FF8309 0%, #FFC420 100%);
-    
-    background-clip:text ;
+.monster-def p {
+    background: linear-gradient(0deg, #FF8309 0%, #FFC420 100%);
+
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
+
 }
 
 
-.monster-dmg p{
+.monster-dmg p {
 
-    background:green;
-    background-clip:text !important ;
+    background: green;
+    background-clip: text !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
@@ -1304,20 +1369,22 @@ body {
 }
 
 
-.monster-stat-cont:hover{
+.monster-stat-cont:hover {
 
     ::-webkit-scrollbar {
         display: block;
     }
-    .monster-cont{
+
+    .monster-cont {
         height: 114px;
     }
+
     height: 139px;
     top: -148px;
 }
 
 
-.toggle-cont{
+.toggle-cont {
     display: flex;
     justify-content: end;
     align-items: end;
@@ -1325,7 +1392,7 @@ body {
     margin: 5px;
 }
 
-.toggle-saves-button{
+.toggle-saves-button {
     background-image: url(UI/button.png);
     width: 65px;
     height: 35px;
@@ -1334,11 +1401,11 @@ body {
     cursor: pointer;
 }
 
-.toggle-saves-button:hover{
+.toggle-saves-button:hover {
     background-image: url(UI/button-hovered.png);
 }
 
-.toggle-monster-button{
+.toggle-monster-button {
     background-image: url(UI/button.png);
     width: 65px;
     height: 35px;
@@ -1349,12 +1416,12 @@ body {
 }
 
 
-.toggle-monster-button:hover{
+.toggle-monster-button:hover {
     background-image: url(UI/button-hovered.png);
 }
 
 
-.toggle-saves-image{
+.toggle-saves-image {
     width: 65px;
     height: 31px;
     background-repeat: no-repeat;
@@ -1364,7 +1431,7 @@ body {
     background-image: url(UI/icon-character.png);
 }
 
-.toggle-monster-image{
+.toggle-monster-image {
     width: 65px;
     height: 45px;
     background-repeat: no-repeat;
@@ -1373,7 +1440,7 @@ body {
     background-image: url(UI/monster-toggle-hide.png);
 }
 
-#quote{
+#quote {
     -webkit-text-stroke: 0 white;
     font-size: 25px;
     color: #ffffff;
@@ -1387,7 +1454,8 @@ body {
     bottom: 25px;
     font-family: confetti;
 }
-.loading-texts{
+
+.loading-texts {
     position: absolute;
     height: 100%;
 }
