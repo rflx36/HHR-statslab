@@ -613,6 +613,7 @@ input::-webkit-inner-spin-button {
     top: -20px;
     font-family: 'Confetti';
     opacity: 0.5;
+    width: 300px;
 }
 
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont img {
@@ -754,7 +755,13 @@ input::-webkit-inner-spin-button {
     position: absolute;
     right: 0;
 }
-
+.display-one-hit{
+    position: absolute;
+    left: 40px;
+    font-family: 'Comicy';
+    color: red;
+    -webkit-text-stroke: yellow 1px;
+}
 .cont-items-all {
     width: 552px;
     background: #56A043;
@@ -846,7 +853,15 @@ input::-webkit-inner-spin-button {
     
 }
 */
-
+#active-skills-info{
+    font-family: 'Confetti';
+    -webkit-text-stroke: 0px;
+    color: black;
+    opacity: 0.5;
+    font-size: 15px;
+    text-align: center;
+    margin: 5px;
+}
 #item-id-unhoverable:hover {
     opacity: 1;
 }

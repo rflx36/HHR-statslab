@@ -1,6 +1,7 @@
 [
     {
         "name": "Green Bouncer",
+        "hp":12,
         "attack": 1,
         "defense": 1,
         "variant": false,
@@ -8,6 +9,7 @@
     },
     {
         "name": "Green Bouncer Green beanie",
+        "hp":12,
         "attack": 1,
         "defense": 1,
         "variant": true,
@@ -17,6 +19,7 @@
     },
     {
         "name": "Green Bouncer Half Coconut",
+        "hp":12,
         "attack": 1,
         "defense": 1,
         "variant": true,
@@ -25,7 +28,8 @@
         "variant_atk":0
     },
     {
-        "name": "Purple Bouncer",
+        "name": "Purple Goo",
+        "hp":16,
         "attack": 3,
         "defense": 3,
         "variant": false,
@@ -33,6 +37,7 @@
     },
     {
         "name": "Green Walker",
+        "hp":28,
         "attack": 7,
         "defense": 3,
         "variant": false,
@@ -40,6 +45,7 @@
     },
     {
         "name": "Green Walker Half Coconut",
+        "hp":28,
         "attack": 7,
         "defense": 3,
         "variant": true,
@@ -49,6 +55,7 @@
     },
     {
         "name": "Green walker Detective Hat",
+        "hp":28,
         "attack": 7,
         "defense": 3,
         "variant": true,
@@ -58,6 +65,7 @@
     },
     {
         "name": "Red Bouncer",
+        "hp":34,
         "attack": 9,
         "defense": 7,
         "variant": false,
@@ -65,6 +73,7 @@
     },
     {
         "name": "Red Bouncer Sombrero",
+        "hp":34,
         "attack": 9,
         "defense": 7,
         "variant": true,
@@ -74,6 +83,7 @@
     },
     {
         "name": "Yellow Hairy",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": false,
@@ -81,6 +91,7 @@
     },
     {
         "name": "Yellow Hairy Shades",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": true,
@@ -90,6 +101,7 @@
     },
     {
         "name": "Yellow Hairy Coon Hat",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": true,
@@ -99,6 +111,7 @@
     },
     {
         "name": "Yellow Hairy Half Ski Mask",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": true,
@@ -108,6 +121,7 @@
     },
     {
         "name": "Yellow Hairy Jester Hat",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": true,
@@ -117,6 +131,7 @@
     },
     {
         "name": "Yellow Hairy Monster Skull",
+        "hp":28,
         "attack": 11,
         "defense": 10,
         "variant": true,
@@ -126,6 +141,7 @@
     },
     {
         "name": "Mushroom Squish",
+        "hp":24,
         "attack": 18,
         "defense": 16,
         "variant": false,
@@ -133,6 +149,7 @@
     },
     {
         "name": "Mushroom Squish Laser Shades",
+        "hp":24,
         "attack": 18,
         "defense": 16,
         "variant": true,
@@ -142,6 +159,7 @@
     },
     {
         "name": "Mushroom Ball",
+        "hp":48,
         "attack": 24,
         "defense": 19,
         "variant": false,
@@ -149,6 +167,7 @@
     },
     {
         "name": "Mushroom Ball Shades",
+        "hp":48,
         "attack": 24,
         "defense": 19,
         "variant": true,
@@ -158,6 +177,7 @@
     },
     {
         "name": "Mushroom Ball Half Coconut",
+        "hp":48,
         "attack": 24,
         "defense": 19,
         "variant": true,
@@ -167,6 +187,7 @@
     },
     {
         "name": "Mushroom Ball Tiara",
+        "hp":48,
         "attack": 24,
         "defense": 19,
         "variant": true,
@@ -176,6 +197,7 @@
     },
     {
         "name": "Mushroom Ball Pirate Hat",
+        "hp":48,
         "attack": 24,
         "defense": 19,
         "variant": true,
@@ -185,6 +207,7 @@
     },
     {
         "name": "Crab",
+        "hp":72,
         "attack": 27,
         "defense": 38,
         "variant": false,
@@ -192,6 +215,7 @@
     },
     {
         "name": "Crab Hair Flower",
+        "hp":72,
         "attack": 27,
         "defense": 38,
         "variant": true,
@@ -201,6 +225,7 @@
     },
     {
         "name": "Crab Laser Shades",
+        "hp":72,
         "attack": 27,
         "defense": 38,
         "variant": true,
@@ -210,6 +235,7 @@
     },
     {
         "name": "Orange Crazy",
+        "hp":100,
         "attack": 55,
         "defense": 36,
         "variant": false,
@@ -217,6 +243,7 @@
     },
     {
         "name": "Orange Crazy Shades",
+        "hp":100,
         "attack": 55,
         "defense": 36,
         "variant": true,
@@ -226,6 +253,7 @@
     },
     {
         "name": "Orange Crazy Monster Skull",
+        "hp":100,
         "attack": 55,
         "defense": 36,
         "variant": true,
@@ -235,6 +263,7 @@
     },
     {
         "name": "Horned Monster",
+        "hp":110,
         "attack": 63,
         "defense": 37,
         "variant": false,
@@ -242,6 +271,7 @@
     },
     {
         "name": "Pumpkin Creeper",
+        "hp":360,
         "attack": 45,
         "defense": 30,
         "variant": false,
@@ -249,6 +279,7 @@
     },
     {
         "name": "Pumpkin Creeper Army Helmet",
+        "hp":360,
         "attack": 45,
         "defense": 30,
         "variant": true,
@@ -258,6 +289,7 @@
     },
     {
         "name": "Yellow Puff Monster",
+        "hp":210,
         "attack": 93,
         "defense": 12,
         "variant": false,
@@ -265,6 +297,7 @@
     },
     {
         "name": "Bouncing Mushroom",
+        "hp":240,
         "attack": 84,
         "defense": 22,
         "variant": false,
@@ -272,6 +305,7 @@
     },
     {
         "name": "Bouncing Mushroom Pirate Hat",
+        "hp":240,
         "attack": 84,
         "defense": 22,
         "variant": true,
@@ -281,6 +315,7 @@
     },
     {
         "name": "Bouncing Mushroom Pointed Pirate Hat",
+        "hp":240,
         "attack": 84,
         "defense": 22,
         "variant": true,
@@ -290,6 +325,7 @@
     },
     {
         "name": "Aipster",
+        "hp":230,
         "attack": 100,
         "defense": 33,
         "variant": false,
@@ -297,6 +333,7 @@
     },
     {
         "name": "Aipster sorcerer Hat",
+        "hp":230,
         "attack": 100,
         "defense": 33,
         "variant": true,
@@ -306,6 +343,7 @@
     },
     {
         "name": "Aipster Coconut leaves Helmet",
+        "hp":230,
         "attack": 100,
         "defense": 33,
         "variant": true,
@@ -315,6 +353,7 @@
     },
     {
         "name": "Aipster Racing Helmet",
+        "hp":230,
         "attack": 100,
         "defense": 33,
         "variant": true,
@@ -324,6 +363,7 @@
     },
     {
         "name": "Aipster Bronze Helmet",
+        "hp":230,
         "attack": 100,
         "defense": 33,
         "variant": true,
@@ -333,6 +373,7 @@
     },
     {
         "name": "Plant Monster",
+        "hp":460,
         "attack": 108,
         "defense": 45,
         "variant": false,
@@ -340,6 +381,7 @@
     },
     {
         "name": "Great Frog",
+        "hp":910,
         "attack": 120,
         "defense": 29,
         "variant": false,
@@ -347,6 +389,7 @@
     },
     {
         "name": "Great Frog Strong Bascket Helmet",
+        "hp":460,
         "attack": 120,
         "defense": 29,
         "variant": true,
@@ -356,6 +399,7 @@
     },
     {
         "name": "Penguin",
+        "hp":95,
         "attack": 155,
         "defense": 165,
         "variant": false,
@@ -363,6 +407,7 @@
     },
     {
         "name": "Penguin Knight",
+        "hp":95,
         "attack": 155,
         "defense": 165,
         "variant": true,
@@ -372,6 +417,7 @@
     },
     {
         "name":"Sasquatch",
+        "hp":1150,
         "attack":248,
         "defense":44,
         "variant":false,
@@ -379,6 +425,7 @@
     },
     {
       "name": "Goo Cube",
+      "hp":23000,
       "attack": 330,
       "defense": 12,
       "variant": false,
