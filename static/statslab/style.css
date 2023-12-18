@@ -534,7 +534,42 @@ input::-webkit-inner-spin-button {
 .cont-detailed-damage .cont-damage .base-damage-detail-cont {
     height: 95px;
 }
+.cont-detailed-damage .cont-damage .base-damage-detail-cont .base-info-detail-cont{
+    
+    display: flex;
+    width: 100%;
+}
 
+.cont-detailed-damage .cont-damage .base-damage-detail-cont .base-info-detail-cont .base-info-detail{
+    width: 100%;
+   
+}
+
+.cont-detailed-damage .cont-damage .base-damage-detail-cont .base-info-detail-cont .base-info-detail p {
+    overflow: hidden;
+    font-family: 'Confetti';
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+    -webkit-text-stroke: 0px;
+    color: #fbfb1e;
+    font-size: 25px;
+    background: #32a215;
+    /* border: 1px solid black; */
+    /* box-sizing: border-box; */
+    height: 30px;
+    /* box-sizing: border-box; */
+    margin: 5px;
+    margin-left: 0px;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+.cont-detailed-damage .cont-damage .base-damage-detail-cont .base-info-detail-cont .base-info-detail p span{
+    font-family: 'Comicy';
+    color: #adff98;
+    transform: translateX(-55px) translateY(4px);
+    position: absolute;
+    font-size: 25px;
+}
 .cont-detailed-damage .cont-damage .base-damage-detail-cont img {
     background-color: #32a215;
     border-radius: 5px;
@@ -550,11 +585,12 @@ input::-webkit-inner-spin-button {
 }
 
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-element-cont {
-    width: calc(50% - 10px);
+    width: calc(50% - 7.5px);
     height: 40px;
     background: #32a215;
     border-radius: 5px;
-    margin: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -582,7 +618,12 @@ input::-webkit-inner-spin-button {
     width: 100%;
     text-align: center;
 }
-
+#hp-val{
+    padding-left: 60px;
+    color: #adff98;
+    /* margin-left: 35px; */
+    font-size: 30px;
+}
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-element-cont p {
     margin: 5px;
 
@@ -595,11 +636,12 @@ input::-webkit-inner-spin-button {
 
 
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .dealt-cont {
-    width: calc(50% - 10px);
+   width: calc(50% - 7.5px);
     height: 40px;
     background: #32a215;
     border-radius: 5px;
-    margin: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;

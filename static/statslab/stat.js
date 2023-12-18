@@ -310,8 +310,8 @@ let dex_crit_chance = [
   1.00, 1.21, 1.37, 1.50, 1.62, 1.72, 1.82, 1.91, 2.00, 2.08, 2.16, 2.23, 2.30, 2.37, 2.44,
   2.50, 2.56, 2.62, 2.68, 2.74, 2.79, 2.85, 2.90, 2.95, 3.00, 3.05, 3.10, 3.15, 3.19, 3.24,
   3.28, 3.33, 3.37, 3.42, 3.46, 3.50, 3.54, 3.58, 3.62, 3.66, 3.70, 3.74, 3.78, 3.82, 3.85,
-  3.89, 3.92, 3.96, 4.00, 4.04, 4.08,"","","","","","","","", 4.37,"","","","", 4.53,"",
-  4.59,"","",4.68,"","","","","","","","","","",5.00
+  3.89, 3.92, 3.96, 4.00, 4.04, 4.08, "", "", "", "", "", "", "", "", 4.37, "", "", "", "", 4.53, "",
+  4.59, "", "", 4.68, "", "", "", "", "", "", "", "", "", "", 5.00
 ];
 
 
@@ -326,7 +326,7 @@ let dex_crit_chance = [
 
 
 
-  
+
 var current_fdef = 0;
 var current_fatk_p = 0;
 var current_fatk_s = 0;
@@ -553,7 +553,7 @@ function UpdateStats() {
   current_totalprice = (parseInt(selected_helmet.price) + parseInt(selected_armor.price) + parseInt(selected_pants.price) + parseInt(selected_shoes.price) + parseInt(selected_primary_weapon.price) + parseInt(selected_secondary_weapon.price) + parseInt(sheated_primary_weapon.price) + parseInt(sheated_secondary_weapon.price));
 
   fprice.textContent = current_totalprice.toLocaleString('en-US');
-  if (dex_crit_chance[dex] == null) {
+  if (dex_crit_chance[dex] == null || dex_crit_chance[dex] == "") {
     fdex.textContent = "Unavailable";
   } else {
     fdex.textContent = dex_crit_chance[dex] + "x";
@@ -1404,7 +1404,7 @@ function SetMonsters() {
         var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
 
 
-        out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}');">
+        out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
           <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
           <div class='monster-stat'>
             <div class='monster-dmg' title='Monster Damage to you'>
@@ -1426,11 +1426,11 @@ function SetMonsters() {
 }
 
 
-function DisplayMonsterDetail(dmg, def, url,hp) {
+function DisplayMonsterDetail(dmg, def, url, hp, m_name) {
 
-
+  current_m_name = m_name;
   UpdateSkillCase();
-  RequestSkillsInfo(dmg, def, url,hp);
+  RequestSkillsInfo(dmg, def, url, hp);
   DisplayDetailedDamage();
 
 
@@ -1470,18 +1470,22 @@ function UpdateSkillCase() {
   }
 }
 
-let skill_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //data saves
-let skills = [];
-let current_m_def = 0;
-
+var skill_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //data saves
+var skills = [];
+var current_m_def = 0;
+var current_m_hp = 0;
+var current_m_name = "";
 function RepaintSkillLevel(id, val, j) {
 
   let p_lvl = document.getElementById('skill-lvl-id-' + id);
   p_lvl.innerHTML = "lvl: " + val;
 
-  let p_skill = document.getElementById('skill-type-' + (id));
-  let p_skill_crit = document.getElementById('skill-type-crit-' + (id));
+  let p_skill = document.getElementById('skill-type-' + id);
+  let p_skill_crit = document.getElementById('skill-type-crit-' + id);
   let p_label = document.getElementById('skill-label-type-' + id);
+
+  let hit_identifier = document.getElementById('skill-onehit-' + id);
+  let hit_identifier_crit = document.getElementById('skill-onehit-crit-' + id);
 
   skill_level[id] = val; //updates skill data
   skills[j].skill_level = parseInt(val); //updates skill data
@@ -1492,28 +1496,38 @@ function RepaintSkillLevel(id, val, j) {
   let s_level = skills[j].skill_level;
 
 
-  let p_dmg = Math.round(5 * (current_fatk_p + 30) / (current_m_def + 30));
-  let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (current_m_def + 30)) * dex_crit_chance[dex]);
+  let p_dmg = (5 * (current_fatk_p + 30) / (current_m_def + 30));
+  let p_dmg_crit = ((5 * (current_fatk_p + 30) / (current_m_def + 30)) * dex_crit_chance[dex]);
+  p_dmg = p_dmg.toFixed(6);
+  p_dmg_crit = p_dmg_crit.toFixed(6);
 
   if (skills[j].is_multiply) {
 
 
-    p_skill.innerHTML = p_dmg + "<span> x" + s_level + "</span>";
-    p_skill_crit.innerHTML = p_dmg_crit;
+    p_skill.innerHTML = Math.round(p_dmg) + "<span> x" + (s_level + 1) + "</span>";
+    p_skill_crit.innerHTML = Math.round(p_dmg_crit);
 
     p_label.innerHTML = "";
+
+
+    hit_identifier.innerHTML = ((p_dmg * (s_level + 1)) >= current_m_hp) ? "1 Shot" : "";
+    hit_identifier_crit.innerHTML = ((p_dmg_crit * (s_level + 1)) >= current_m_hp) ? "1 Shot" : "";
   }
   else {
 
+
+
     p_label.innerHTML = "(" + Math.round((s_base_val + (s_increase_val * s_level)) * 100) + "%)";
 
-    console.log(s_base_val + (s_increase_val * s_level));
 
-    let skill_damage = parseInt(Math.round(p_dmg * (s_base_val + (s_increase_val * s_level))));
-    let skill_damage_crit = parseInt(Math.round(p_dmg_crit * (s_base_val + (s_increase_val * s_level))));
+    let skill_damage = (Math.round(p_dmg * (s_base_val + (s_increase_val * s_level))));
+    let skill_damage_crit = (Math.round(p_dmg_crit * (s_base_val + (s_increase_val * s_level))));
 
     p_skill.innerHTML = skill_damage;
     p_skill_crit.innerHTML = skill_damage_crit;
+
+    hit_identifier.innerHTML = (skill_damage >= current_m_hp) ? "1 Hit" : "";
+    hit_identifier_crit.innerHTML = (skill_damage_crit >= current_m_hp) ? "1 Hit" : "";
   }
 
   /*
@@ -1527,8 +1541,11 @@ function RepaintSkillLevel(id, val, j) {
 
 
 }
-function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
+function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
   skills = [];
+  if (isNaN(dex_crit_chance[dex])) {
+    dex_crit_chance[dex] = 0;
+  }
   fetch("static/statslab/Items-Info/skills.json")
     .then(response => response.json())
     .then(parsedData => {
@@ -1537,6 +1554,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
 
       let i = 0;
       current_m_def = m_def;
+      current_m_hp = m_hp;
       let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
 
       let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex]);
@@ -1546,25 +1564,37 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
       let p_dmg_poison = 0;
       let p_dmg_ice = 0;
 
+
+      let text_crit_display = "Base Damage Crit";
+      if (dex_crit_chance[dex] == 0) {
+        text_crit_display = "Dex Unavailable";
+      }
+
       skill_damage_info +=
         `
       <div class="base-damage-detail-cont">
         <div class="base-info-detail-cont">
           <img src="${m_url}">
+          <div class="base-info-detail">
           
+              <p>${current_m_name.substring(0,33)}</p>
+          
+              <p id="hp-val" ><span>HP:</span> ${m_hp}</p>
+           
+          </div>
         </div>
       </div>
       <div class="skill-damage-detail-cont">
         <div class="damage-dealt-m-cont">
         <div class="dealt-element-cont" title="10% of base damage per tick (10 ticks) for 6 seconds">
           <img src="static/statslab/UI/icon-element-fire.png">
-          ${(p_dmg_fire >=m_hp )?"<div class='display-one-hit'>One Hit</div>":""}
+          ${(p_dmg_fire >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
           <p class="element-fire" >${p_dmg_fire}</p>
         </div>
 
         <div class="dealt-element-cont"  title="35% of base damage">
           <img src="static/statslab/UI/icon-element-electric.png">
-          ${(p_dmg_electric >=m_hp )?"<div class='display-one-hit'>One Hit</div>":""}
+          ${(p_dmg_electric >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
           <p class="element-electric">${p_dmg_electric}</p>
         </div>
       </div>
@@ -1572,7 +1602,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
       <div class="damage-dealt-m-cont">
         <div class="dealt-element-cont">
           <img src="static/statslab/UI/icon-element-poison.png">
-          ${(p_dmg_poison >=m_hp )?"<div class='display-one-hit'>One Hit</div>":""}
+          ${(p_dmg_poison >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
           <p class="element-poison">${p_dmg_poison}</p>
         </div>
         
@@ -1585,13 +1615,13 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
           <div class="dealt-cont">
             <label>Base Damage</label>
             <img src="static/statslab/UI/icon-base-damage.png">
-            ${(p_dmg >=m_hp )?"<div class='display-one-hit'>One Hit</div>":""}
+            ${(p_dmg >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
             <p>${p_dmg}</p>
           </div>
           <div class="dealt-cont">
-            <label>Base Damage Crit</label>
+            <label style="text-align: center;width: 100%;">${text_crit_display}</label>
             <img src="static/statslab/UI/icon-base-damage-crit.png">
-            ${(p_dmg_crit >=m_hp )?"<div class='display-one-hit'>One Hit</div>":""}
+            ${(p_dmg_crit >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
             <p>${p_dmg_crit}</p>
           </div>
         </div>
@@ -1627,12 +1657,22 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
 
           if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
             j++;
-            let skill_damage = Math.round(p_dmg * (skill.base_value + (skill.value_increase * skill_level[i])));
-            let skill_damage_crit = Math.round(p_dmg_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
+            //Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
+            console.log(current_fatk_p);
+            console.log(m_def);
+            console.log(skill.base_value);
+            console.log(skill.value_increase);
+            console.log(skill_level[i]);
+            let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
+            temp_p = temp_p.toFixed(6);
+
+            let temp_p_crit = (5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex];
+            temp_p_crit = temp_p_crit.toFixed(6);
+
+            let skill_damage = Math.round(temp_p * (skill.base_value + (skill.value_increase * skill_level[i])));
+            let skill_damage_crit = Math.round(temp_p_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
 
             let temp_skill = {
-              "name": skill.name,
-              "skill_id": i,
               "base_value": skill.base_value,
               "value_increase": skill.value_increase,
               "skill_level": skill_level[i],
@@ -1640,7 +1680,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
             }
             skills.push(temp_skill);
             let text = "";
-            let text_display_multiplier = "(" + (skill.base_value + (skill.value_increase * skill_level[i])) * 100 + "%)";
+            let text_display_multiplier = "(" + Math.round((skill.base_value + (skill.value_increase * skill_level[i])) * 100) + "%)";
 
             let text_damage = skill_damage;
             let text_damage_crit = skill_damage_crit;
@@ -1649,7 +1689,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
             let crit_class_identifier = "Skill Crit";
 
             if (skill.is_multiply) {
-              text = "x" + skill_level[i];
+              text = "x" + (parseInt(skill_level[i]) + 1);
 
               text_damage = p_dmg;
               text_damage_crit = p_dmg_crit;
@@ -1666,18 +1706,31 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
               }
 
             }
+
+            if (dex_crit_chance[dex] == 0) {
+              crit_class_identifier = "Dex Unavailable";
+            }
+
+            let hit_identifier = (text_damage >= m_hp) ? "1 Hit" : "";
+            let hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Hit" : "";
+
+            if (skill.is_multiply) {
+              hit_identifier = (text_damage >= m_hp) ? "1 Shot" : "";
+              hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Shot" : "";
+            }
+
             skill_damage_info += `
                 <div class="damage-dealt-m-cont">
                   <div class="dealt-cont">
                     <label >${skill.name} <span id="skill-label-type-${i}"> ${text_display_multiplier} </span></p></label>
                     <img src="static/statslab/UI/icon-base-damage.png">
-                    <div class='display-one-hit'>${(text_damage >=m_hp )?"1 Hit":""}</div>
+                    <div class='display-one-hit' id="skill-onehit-${i}" >${hit_identifier}</div>
                     <p id="skill-type-${i}">${text_damage} <span id="skill-label-multiplier-${i}">${text}</span></p>
                   </div>
                   <div class="dealt-cont">
                     <label style="text-align: center;width: 100%;">${crit_class_identifier}</label>
                     <img src="static/statslab/UI/icon-base-damage-crit.png">
-                    <div class='display-one-hit'>${(text_damage_crit >=m_hp )?"1 Hit":""}</div>
+                    <div class='display-one-hit' id="skill-onehit-crit-${i}" >${hit_identifier_crit}</div>
                     <p id="skill-type-crit-${i}">${text_damage_crit}</p>
                   </div>
                 </div>
@@ -1691,7 +1744,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
       }
 
       skill_damage_info += `</div>`;
-      skill_info_data +=`<p id="active-skills-info"> <i>Active skills depends on your equipped weapon type</i> </p>`;
+      skill_info_data += `<p id="active-skills-info"> <i>Active skills depends on your equipped weapon type</i> </p>`;
       cont_skills.innerHTML = skill_info_data;
       cont_damage.innerHTML = skill_damage_info;
     }
@@ -1706,12 +1759,19 @@ function RequestSkillsInfo(m_dmg, m_def, m_url,m_hp) {
 function DisplayDetailedDamage() {
   d_cont.style.display = "flex";
   t_cont.innerHTML = "YOUR DAMAGE DEALT ";
+  booster_cont.style.transform = "translateY(-80px)";
+  shield_cont.style.transform = "translateY(-80px)";
+
 
 }
 function CloseDetailedDamage() {
   d_cont.style.display = "none";
 
   t_cont.innerHTML = "REBORN STAT LAB";
+
+  booster_cont.style.transform = "translateY(0px)";
+  shield_cont.style.transform = "translateY(0px)";
+
 }
 function SetLoad() {
 
