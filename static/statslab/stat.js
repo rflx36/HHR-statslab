@@ -249,28 +249,32 @@ var selected_helmet = {
   attack: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 };
 var selected_armor = {
   name: "",
   attack: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 };
 var selected_pants = {
   name: "",
   attack: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 };
 var selected_shoes = {
   name: "",
   attack: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 };
 var equipped_two_hander = false;
 var sheathed_two_hander = false;
@@ -279,14 +283,16 @@ var selected_primary_weapon = {
   power: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 }
 var selected_secondary_weapon = {
   name: "",
   power: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 }
 
 
@@ -296,14 +302,16 @@ var sheated_primary_weapon = {
   power: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 }
 var sheated_secondary_weapon = {
   name: "",
   power: 0,
   defense: 0,
   price: 0,
-  class: ""
+  class: "",
+  url:""
 }
 
 let dex_crit_chance = [
@@ -401,28 +409,32 @@ function ClearEquips() {
     attack: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
   selected_armor = {
     name: "",
     attack: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
   selected_pants = {
     name: "",
     attack: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
   selected_shoes = {
     name: "",
     attack: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
   equipped_two_hander = null;
   secondary_sheath.style.display = "none";
@@ -434,14 +446,16 @@ function ClearEquips() {
     power: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
   selected_secondary_weapon = {
     name: "",
     power: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   };
 
 
@@ -450,14 +464,16 @@ function ClearEquips() {
     power: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   }
   sheated_secondary_weapon = {
     name: "",
     power: 0,
     defense: 0,
     price: 0,
-    class: ""
+    class: "",
+    url:""
   }
 
   item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
@@ -1774,22 +1790,17 @@ function CloseDetailedDamage() {
 
 }
 function SetLoad() {
+  /*
+  item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
+  item_armor.style.backgroundImage = "url('static/statslab/UI/icon-armor.png')";
+  item_pants.style.backgroundImage = "url('static/statslab/UI/icon-pants.png')";
+  item_shoes.style.backgroundImage = "url('static/statslab/UI/icon-shoes.png')";
+  item_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_sheath_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+  */
 
-  try {
-
-    selected_helmet = localStorage.getItem('u_helmet');
-    selected_armor = localStorage.getItem('u_armor');
-    selected_pants = localStorage.getItem('u_pants');
-    selected_shoes = localStorage.getItem('u_shoes');
-    selected_primary_weapon = localStorage.getItem('u_primary');
-    selected_secondary_weapon = localStorage.getItem('u_secondary');
-    sheated_primary_weapon = localStorage.getItem('u_primary_sheath');
-    sheated_secondary_weapon = localStorage.getItem('u_secondary_sheath');
-
-  }
-  catch (ex) {
-
-  }
 
   UpdateStats();
 }
@@ -1824,35 +1835,21 @@ function SetSave() {
   save_data.push(atk);
   save_data.push(def);
   save_data.push(dex);
-
-  save_data.push(selected_helmet.name);
-  save_data.push(selected_helmet.class);
-
-  save_data.push(selected_armor.name);
-  save_data.push(selected_armor.class);
-
-  save_data.push(selected_pants.name);
-  save_data.push(selected_pants.class);
-
-  save_data.push(selected_shoes.name);
-  save_data.push(selected_shoes.class);
-
-  save_data.push(selected_primary_weapon.name);
-  save_data.push(selected_primary_weapon.class);
-
-  save_data.push(selected_secondary_weapon.name);
-  save_data.push(selected_secondary_weapon.class);
-
-  save_data.push(sheated_primary_weapon.name);
-  save_data.push(sheated_primary_weapon.class);
-
-  save_data.push(sheated_secondary_weapon.name);
-  save_data.push(sheated_secondary_weapon.class);
-
+  save_data.push(selected_helmet);
+  save_data.push(selected_armor);
+  save_data.push(selected_pants);
+  save_data.push(selected_shoes);
+  save_data.push(selected_primary_weapon);
+  save_data.push(selected_secondary_weapon);
+  save_data.push(sheated_primary_weapon);
+  save_data.push(sheated_secondary_weapon);
+  save_data.push(skill_level);
   localStorage.setItem("Save 1", JSON.stringify(save_data));
   //call set items();
-
-
+  let test = JSON.parse(localStorage.getItem("Save 1"));
+  /*console.log(test[0]);
+  console.log(test[1]);
+  console.log(test[2]);*/
 }
 
 
