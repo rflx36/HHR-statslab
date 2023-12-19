@@ -32,6 +32,44 @@ let loader_cache_cont = document.getElementById('loading-cache-cont');
 let quote = document.getElementById('quote');
 
 
+let skills_data; //load skills.json
+let monsters_data; // load monsters.json
+
+//pre render UI at loading sesion to cache
+let UI_images = [
+  "button-hovered",
+  "button",
+  "icon-archer",
+  "icon-armor",
+  "icon-base-damage-crit",
+  "icon-base-damage",
+  "icon-character",
+  "icon-checked",
+  "icon-close",
+  "icon-coin",
+  "icon-cowboy",
+  "icon-element-electric",
+  "icon-element-fire",
+  "icon-element-poison",
+  "icon-equipped",
+  "icon-helmets",
+  "icon-mage",
+  "icon-minus",
+  "icon-monster-def",
+  "icon-monster-dmg",
+  "icon-pants",
+  "icon-plus",
+  "icon-shoes",
+  "icon-single-handed",
+  "icon-title",
+  "icon-two-handed",
+  "icon-unchecked",
+  "icon-warrior",
+  "monster-toggle-hide",
+  "monster-toggle-show",
+  "monster-toggle-variant"
+]
+
 
 async function SetRandomQuote() {
   let response = await fetch("static/statslab/Items-Info/player_quotes.json");
@@ -61,9 +99,11 @@ function LoadCache(images) {
   loader_cache_cont.innerHTML += t;
 }
 
-function UpdateLoadingBar(progress) {
-  loading_bar.style.width = (progress - 5) * 3 + "px";
-  if (progress == 105) {
+let progress_percent = 0;
+function UpdateLoadingBar() {
+
+  loading_bar.style.width = progress_percent+ "%";
+  if (progress_percent >= 100) {
     setTimeout(() => {
       loader_cont.style.opacity = "0";
       setTimeout(() => {
@@ -87,31 +127,80 @@ async function StartLoading() {
   let response, parsedData;
   var k = 0;
   var images = [];
+
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 6; j++) {
       if (j == 5 && i != 3) {
         continue;
       }
+    
       var FileLocation = "static/statslab/Items-Info/" + c[i] + "_" + e[j] + ".json";
       response = await fetch(FileLocation);
       parsedData = await response.json();
-
+ 
       loading_info.innerHTML = "Loading - " + c[i] + " " + e[j];
       for (let item of parsedData) {
         images.push("static/statslab/" + item.url);
       }
       AssignItems(k, parsedData);
       var filename = c[i] + "_" + e[j] + ".json";
-      console.log("Progress [" + (k * 5) + "]: " + filename);
+     
       k++;
-      UpdateLoadingBar(k * 5);
+      progress_percent += 4;
+      console.log("Progress [" + (progress_percent) + "]: " + filename);
+      UpdateLoadingBar();
+
     }
-    
+
 
 
     LoadCache(images);
     images = [];
   }
+  
+  loading_info.innerHTML = "Loading - UI";
+  for (let i = 0 ; i < UI_images.length ; i++){
+    images.push("static/statslab/UI/"+UI_images[i]+".png");
+  }
+  LoadCache(images);
+  progress_percent += 6;
+  UpdateLoadingBar();
+
+
+  let FileLocationMonsters = "static/statslab/Items-Info/monsters.json";
+  response = await fetch(FileLocationMonsters);
+  parsedData = await response.json();
+  
+  monsters_data = parsedData;
+  loading_info.innerHTML = "Loading - Monsters";
+  
+  for (let monster of parsedData) {
+    images.push(monster.url);
+  }
+  LoadCache(images);
+  images=[];
+  progress_percent += 5;
+  UpdateLoadingBar();
+
+
+
+  let FileLocationSkills = "static/statslab/Items-Info/skills.json";
+  response = await fetch(FileLocationSkills);
+  parsedData = await response.json();
+ 
+  skills_data = parsedData;
+  loading_info.innerHTML = "Loading - Skills";
+  for (let skill of parsedData) {
+    images.push("static/statslab/" + skill.url);
+  }
+  LoadCache(images);
+  images = [];
+  progress_percent += 5;
+  UpdateLoadingBar();
+
+
+
+
   endTime = performance.now();
   timeElapsed = endTime - startTime;
   console.log(Math.round(timeElapsed) + "ms");
@@ -252,7 +341,7 @@ var selected_helmet = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 };
 var selected_armor = {
   name: "",
@@ -260,7 +349,7 @@ var selected_armor = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 };
 var selected_pants = {
   name: "",
@@ -268,7 +357,7 @@ var selected_pants = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 };
 var selected_shoes = {
   name: "",
@@ -276,7 +365,7 @@ var selected_shoes = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 };
 var equipped_two_hander = false;
 var sheathed_two_hander = false;
@@ -286,7 +375,7 @@ var selected_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 }
 var selected_secondary_weapon = {
   name: "",
@@ -294,7 +383,7 @@ var selected_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 }
 
 
@@ -305,7 +394,7 @@ var sheated_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 }
 var sheated_secondary_weapon = {
   name: "",
@@ -313,7 +402,7 @@ var sheated_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url:""
+  url: ""
 }
 
 let dex_crit_chance = [
@@ -412,7 +501,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
   selected_armor = {
     name: "",
@@ -420,7 +509,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
   selected_pants = {
     name: "",
@@ -428,7 +517,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
   selected_shoes = {
     name: "",
@@ -436,7 +525,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
   equipped_two_hander = null;
   secondary_sheath.style.display = "none";
@@ -449,7 +538,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
   selected_secondary_weapon = {
     name: "",
@@ -457,7 +546,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   };
 
 
@@ -467,7 +556,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   }
   sheated_secondary_weapon = {
     name: "",
@@ -475,7 +564,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url:""
+    url: ""
   }
 
   item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
@@ -1325,7 +1414,7 @@ function formatNumberWithAbbreviation(num) {
 var m_dmg = [];
 var m_def = [];
 
-SetMonsters();
+//SetMonsters();
 
 function UpdateMonsterStat() {
   for (var i = 0; i < m_dmg.length; i++) {
@@ -1383,46 +1472,48 @@ function ToggleMonsters() {
 }
 
 
+
+
 function SetMonsters() {
 
-  fetch("static/statslab/Items-Info/monsters.json")
-    .then(response => response.json())
-    .then(parsedData => {
-      var out = ``;
-      var i = 0;
-      m_dmg.length = 0;
-      m_def.length = 0;
-      for (let monster of parsedData) {
 
-        var m_def_bonus = 0;
-        var m_atk_bonus = 0;
-        if (Monster_toggle_variant && monster.variant) {
-          continue;
-        }
+  var out = ``;
+  var i = 0;
+  m_dmg.length = 0;
+  m_def.length = 0;
+  
 
-        if (monster.variant) {
-          m_def_bonus = monster.variant_def;
-          m_atk_bonus = monster.variant_atk;
-        }
+  for (let monster of monsters_data) {
 
+    var m_def_bonus = 0;
+    var m_atk_bonus = 0;
+    if (Monster_toggle_variant && monster.variant) {
+      continue;
+    }
 
-        var monster_dmg = monster.attack * (monster.attack + m_atk_bonus);
-        var monster_def = monster.defense * (monster.defense + m_def_bonus);
-
-        if (monster.name == "Sasquatch") {
-          monster_dmg = monster_dmg * 2.5; // Punch 250%
-        }
-        let d_dmg = monster_dmg;
-        let d_def = monster_def;
-
-        m_dmg.push(monster_dmg);
-        m_def.push(monster_def);
-        var dmg = Math.round(5 * (monster_dmg + 30) / (current_fdef + 30));
-        var monster_dmg = formatNumberWithAbbreviation(dmg);
-        var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
+    if (monster.variant) {
+      m_def_bonus = monster.variant_def;
+      m_atk_bonus = monster.variant_atk;
+    }
 
 
-        out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
+    var monster_dmg = monster.attack * (monster.attack + m_atk_bonus);
+    var monster_def = monster.defense * (monster.defense + m_def_bonus);
+
+    if (monster.name == "Sasquatch") {
+      monster_dmg = monster_dmg * 2.5; // Punch 250%
+    }
+    let d_dmg = monster_dmg;
+    let d_def = monster_def;
+
+    m_dmg.push(monster_dmg);
+    m_def.push(monster_def);
+    var dmg = Math.round(5 * (monster_dmg + 30) / (current_fdef + 30));
+    var monster_dmg = formatNumberWithAbbreviation(dmg);
+    var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
+
+
+    out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
           <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
           <div class='monster-stat'>
             <div class='monster-dmg' title='Monster Damage to you'>
@@ -1436,11 +1527,11 @@ function SetMonsters() {
           </div>
     </div>`;
 
-        i++;
-      }
-      monster_cont.innerHTML = out;
-      UpdateMonsterStat();
-    });
+    i++;
+  }
+  monster_cont.innerHTML = out;
+  UpdateMonsterStat();
+
 }
 
 
@@ -1564,38 +1655,37 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
   if (isNaN(dex_crit_chance[dex])) {
     dex_crit_chance[dex] = 0;
   }
-  fetch("static/statslab/Items-Info/skills.json")
-    .then(response => response.json())
-    .then(parsedData => {
-      var skill_info_data = "";
-      let skill_damage_info = "";
-
-      let i = 0;
-      current_m_def = m_def;
-      current_m_hp = m_hp;
-      let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
-
-      let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex]);
-
-      let p_dmg_fire = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1);
-      let p_dmg_electric = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35);
-      let p_dmg_poison = 0;
-      let p_dmg_ice = 0;
 
 
-      let text_crit_display = "Base Damage Crit";
-      if (dex_crit_chance[dex] == 0) {
-        text_crit_display = "Dex Unavailable";
-      }
+  var skill_info_data = "";
+  let skill_damage_info = "";
 
-      skill_damage_info +=
-        `
+  let i = 0;
+  current_m_def = m_def;
+  current_m_hp = m_hp;
+  let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
+
+  let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex]);
+
+  let p_dmg_fire = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1);
+  let p_dmg_electric = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35);
+  let p_dmg_poison = 0;
+  let p_dmg_ice = 0;
+
+
+  let text_crit_display = "Base Damage Crit";
+  if (dex_crit_chance[dex] == 0) {
+    text_crit_display = "Dex Unavailable";
+  }
+
+  skill_damage_info +=
+    `
       <div class="base-damage-detail-cont">
         <div class="base-info-detail-cont">
           <img src="${m_url}">
           <div class="base-info-detail">
           
-              <p>${current_m_name.substring(0,33)}</p>
+              <p>${current_m_name.substring(0, 33)}</p>
           
               <p id="hp-val" ><span>HP:</span> ${m_hp}</p>
            
@@ -1646,18 +1736,18 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
 
         
       `;
-      let j = 0;
-      for (let skill of parsedData) {
+  let j = 0;
+  for (let skill of skills_data) {
 
-        if (skill.class == selected_class) {
-          let disable_cont = `disable-skill-cont`;
+    if (skill.class == selected_class) {
+      let disable_cont = `disable-skill-cont`;
 
-          if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
-            disable_cont = ``;
+      if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
+        disable_cont = ``;
 
-          }
-          skill_info_data +=
-            `
+      }
+      skill_info_data +=
+        `
             <div  class="skill-detail-cont skill-class-${selected_class} ${disable_cont}">
               <img src="static/statslab/${skill.url}">
               <div class="skill-detail-more-cont">
@@ -1673,71 +1763,71 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
             
             `;
 
-          if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
-            j++;
-            //Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
-            console.log(current_fatk_p);
-            console.log(m_def);
-            console.log(skill.base_value);
-            console.log(skill.value_increase);
-            console.log(skill_level[i]);
-            let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
-            temp_p = temp_p.toFixed(6);
+      if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
+        j++;
+        //Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
+        console.log(current_fatk_p);
+        console.log(m_def);
+        console.log(skill.base_value);
+        console.log(skill.value_increase);
+        console.log(skill_level[i]);
+        let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
+        temp_p = temp_p.toFixed(6);
 
-            let temp_p_crit = (5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex];
-            temp_p_crit = temp_p_crit.toFixed(6);
+        let temp_p_crit = (5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex];
+        temp_p_crit = temp_p_crit.toFixed(6);
 
-            let skill_damage = Math.round(temp_p * (skill.base_value + (skill.value_increase * skill_level[i])));
-            let skill_damage_crit = Math.round(temp_p_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
+        let skill_damage = Math.round(temp_p * (skill.base_value + (skill.value_increase * skill_level[i])));
+        let skill_damage_crit = Math.round(temp_p_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
 
-            let temp_skill = {
-              "base_value": skill.base_value,
-              "value_increase": skill.value_increase,
-              "skill_level": skill_level[i],
-              "is_multiply": skill.is_multiply
-            }
-            skills.push(temp_skill);
-            let text = "";
-            let text_display_multiplier = "(" + Math.round((skill.base_value + (skill.value_increase * skill_level[i])) * 100) + "%)";
+        let temp_skill = {
+          "base_value": skill.base_value,
+          "value_increase": skill.value_increase,
+          "skill_level": skill_level[i],
+          "is_multiply": skill.is_multiply
+        }
+        skills.push(temp_skill);
+        let text = "";
+        let text_display_multiplier = "(" + Math.round((skill.base_value + (skill.value_increase * skill_level[i])) * 100) + "%)";
 
-            let text_damage = skill_damage;
-            let text_damage_crit = skill_damage_crit;
+        let text_damage = skill_damage;
+        let text_damage_crit = skill_damage_crit;
 
 
-            let crit_class_identifier = "Skill Crit";
+        let crit_class_identifier = "Skill Crit";
 
-            if (skill.is_multiply) {
-              text = "x" + (parseInt(skill_level[i]) + 1);
+        if (skill.is_multiply) {
+          text = "x" + (parseInt(skill_level[i]) + 1);
 
-              text_damage = p_dmg;
-              text_damage_crit = p_dmg_crit;
-              text_display_multiplier = "";
+          text_damage = p_dmg;
+          text_damage_crit = p_dmg_crit;
+          text_display_multiplier = "";
 
-              if (skill.class == "archer") {
-                crit_class_identifier = "per arrow Crit";
-              }
-              else if (skill.class == "cowboy") {
-                crit_class_identifier = "per bullet Crit";
-              }
-              else if (skill.class == "mage") {
-                crit_class_identifier = "per orb Crit";
-              }
+          if (skill.class == "archer") {
+            crit_class_identifier = "per arrow Crit";
+          }
+          else if (skill.class == "cowboy") {
+            crit_class_identifier = "per bullet Crit";
+          }
+          else if (skill.class == "mage") {
+            crit_class_identifier = "per orb Crit";
+          }
 
-            }
+        }
 
-            if (dex_crit_chance[dex] == 0) {
-              crit_class_identifier = "Dex Unavailable";
-            }
+        if (dex_crit_chance[dex] == 0) {
+          crit_class_identifier = "Dex Unavailable";
+        }
 
-            let hit_identifier = (text_damage >= m_hp) ? "1 Hit" : "";
-            let hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Hit" : "";
+        let hit_identifier = (text_damage >= m_hp) ? "1 Hit" : "";
+        let hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Hit" : "";
 
-            if (skill.is_multiply) {
-              hit_identifier = (text_damage >= m_hp) ? "1 Shot" : "";
-              hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Shot" : "";
-            }
+        if (skill.is_multiply) {
+          hit_identifier = (text_damage >= m_hp) ? "1 Shot" : "";
+          hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Shot" : "";
+        }
 
-            skill_damage_info += `
+        skill_damage_info += `
                 <div class="damage-dealt-m-cont">
                   <div class="dealt-cont">
                     <label >${skill.name} <span id="skill-label-type-${i}"> ${text_display_multiplier} </span></p></label>
@@ -1753,24 +1843,24 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
                   </div>
                 </div>
                   `;
-          }
-
-        }
-        i++;
-
-
       }
 
-      skill_damage_info += `</div>`;
-      skill_info_data += `<p id="active-skills-info"> <i>Active skills depends on your equipped weapon type</i> </p>`;
-      cont_skills.innerHTML = skill_info_data;
-      cont_damage.innerHTML = skill_damage_info;
     }
+    i++;
 
-    );
 
+  }
 
+  skill_damage_info += `</div>`;
+  skill_info_data += `<p id="active-skills-info"> <i>Active skills depends on your equipped weapon type</i> </p>`;
+  cont_skills.innerHTML = skill_info_data;
+  cont_damage.innerHTML = skill_damage_info;
 }
+
+
+
+
+
 
 
 
