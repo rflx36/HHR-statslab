@@ -106,6 +106,8 @@ async function StartLoading() {
       k++;
       UpdateLoadingBar(k * 5);
     }
+    
+
 
     LoadCache(images);
     images = [];
@@ -1855,10 +1857,11 @@ function SetSave() {
 
 function TriggerSaves() {
   //SetLoad();
-  SetSave();
+  //SetSave();
+  alert("Not Yet Implemented");
   //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
-  let tesTname = JSON.parse(localStorage.getItem('Save 1'));
-  console.log("tEST>" + tesTname.name);
+  //let tesTname = JSON.parse(localStorage.getItem('Save 1'));
+  //console.log("tEST>" + tesTname.name);
 }
 
 
