@@ -956,15 +956,17 @@ function UpdateBooster() {
 
 let reset_points = document.getElementById('reset-points');
 function DisablePointReset() {
-  reset_points.style.background = "#7d7d7d";
-  reset_points.style.borderColor = "#232323";
+  reset_points.style.background = "#636363";
+  reset_points.style.borderColor = "#111211";
   reset_points.style.cursor = "default";
+  reset_points.style.pointerEvents = "none";
   reset_points.setAttribute("disabled", "");
 }
 function EnablePointReset() {
-  reset_points.style.background = "#0080C5";
+  reset_points.style.background = "#0060C6";
   reset_points.style.borderColor = "#001825";
   reset_points.style.cursor = "pointer";
+  reset_points.style.pointerEvents = "all";
   reset_points.removeAttribute("disabled");
 }
 function SetItems(type, item_name, item_url, item_pow, item_def, item_price, item_hander, weapon_slot, type_class) {
@@ -1512,7 +1514,7 @@ function SetMonsters() {
     var monster_dmg = formatNumberWithAbbreviation(dmg);
     var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
 
-
+    
     out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
           <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
           <div class='monster-stat'>
@@ -1917,7 +1919,9 @@ function SetSave() {
   console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
   */
   let save_data = [];
+  let save_name = "";
 
+  save_data.push(save_name);
   save_data.push(selected_level);
   save_data.push(shield_ability);
   save_data.push(booster_ability);
@@ -1947,7 +1951,7 @@ function SetSave() {
 
 function TriggerSaves() {
   //SetLoad();
-  //SetSave();
+  SetSave();
   alert("Not Yet Implemented");
   //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
   //let tesTname = JSON.parse(localStorage.getItem('Save 1'));
