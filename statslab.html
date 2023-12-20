@@ -4,27 +4,28 @@
 <head>
     <title>HHR STAT LAB</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5265399294830411"
-     crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-5265399294830411">
+        crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-5265399294830411">
     <link rel="stylesheet" href="static/statslab/style.css">
     <link rel="icon" href="static/statslab/UI/icon-title.png">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3850748895070741"crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3850748895070741"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
     <a id="discord" href="https://discord.gg/BPGmpJbXR2" target="_blank"></a>
-  <div class="loader" id="loader-cont">
-      <div class="loading-bar-cont">
-          <div class="loading-bar-progress" id="loading-progress"></div>
-          <p id="loading-information"></p>
-      </div>
-      <div id="loading-cache-cont">
-      </div>
-      <div class="loading-texts">
-       <!-- <img id="loading-bullhorn" src="static/statslab/UI/icon-bullhorn.png">-->
-        <p id="quote"></p>
-      </div>
-  </div>
+    <div class="loader" id="loader-cont">
+        <div class="loading-bar-cont">
+            <div class="loading-bar-progress" id="loading-progress"></div>
+            <p id="loading-information"></p>
+        </div>
+        <div id="loading-cache-cont">
+        </div>
+        <div class="loading-texts">
+            <!-- <img id="loading-bullhorn" src="static/statslab/UI/icon-bullhorn.png">-->
+            <p id="quote"></p>
+        </div>
+    </div>
     <div class="cont">
         <h1 id="cont-title-id">REBORN STAT LAB</h1>
         <div class="cont-items-selection" id="set-items-cont">
@@ -37,15 +38,41 @@
                 <div class="cont-items-details" id="item-detail"></div>
                 <div class="all-class-cont">
                     <p>include all class</p>
-                    <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img" src="static/statslab/UI/icon-unchecked.png"></button>
-    
+                    <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img"
+                            src="static/statslab/UI/icon-unchecked.png"></button>
+
                 </div>
             </div>
 
         </div>
         <div class="cont-saving" id="cont-saving-id">
             <div id="close-cont-saving" onclick="CloseSavingTab();"></div>
-            <div class="save-details"></div>
+            <div class="save-details">
+                <div id="save-details-id"></div>
+                <div class="save-actions">
+                    <div class="action-cont" id="actions-1">
+                        <button class="action-save">
+                            <p>SAVE</p>
+                        </button>
+                    </div>
+                    <div class="action-cont" id="actions-2">
+                        <button class="action-delete">
+                            <p>DELETE</p>
+                        </button>
+                        <button id="button-load" class="action-load">
+                            <p>LOAD</p>
+                        </button>
+                    </div>
+                    <div class="action-cont" id="actions-3">
+                        <button class="action-delete">
+                            <p>DELETE</p>
+                        </button>
+                        <button id="button-update" class="action-update">
+                            <p>UPDATE</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="save-list"></div>
         </div>
         <div class="cont-detailed-damage" id="damage-cont">
@@ -60,19 +87,19 @@
         <div class="cont-class-selection" id="class-cont">
             <div onclick="SetClass('warrior');">
                 <button class="class-warrior">
-                <p>Warrior</p>
+                    <p>Warrior</p>
             </div>
             <div onclick="SetClass('archer');">
                 <button class="class-archer">
-                <p>Archer</p>
+                    <p>Archer</p>
             </div>
             <div onclick="SetClass('cowboy');">
                 <button class="class-cowboy">
-                <p>Cowboy</p>
+                    <p>Cowboy</p>
             </div>
             <div onclick="SetClass('mage');">
                 <button class="class-mage">
-                <p>Mage</p>
+                    <p>Mage</p>
             </div>
 
         </div>
@@ -146,10 +173,10 @@
                 <div class="stat-cost-cont">
                     <p>Total Cost:</p>
                     <div>
-                         <p id="tcost">0</p>
-                         <div id="coin-bg"></div>
+                        <p id="tcost">0</p>
+                        <div id="coin-bg"></div>
                     </div>
-                   
+
                 </div>
             </div>
             <div class="cont-set">
@@ -172,11 +199,15 @@
                         <p>Change Class</p>
                     </div>
                     <div class="toggle-cont">
-                        <div class="toggle-saves-button" onclick="TriggerSaves();"><div class="toggle-saves-image" id="toggle-saves-img" ></div></div>
-                        <div class="toggle-monster-button" onclick="ToggleMonsters();"><div class="toggle-monster-image" id="toggle-monster-img"></div></div>
+                        <div class="toggle-saves-button" onclick="TriggerSaves();">
+                            <div class="toggle-saves-image" id="toggle-saves-img"></div>
+                        </div>
+                        <div class="toggle-monster-button" onclick="ToggleMonsters();">
+                            <div class="toggle-monster-image" id="toggle-monster-img"></div>
+                        </div>
 
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -197,11 +228,11 @@
         </div>
         <div class="monster-stat-cont" id="cont-stat-monster">
             <div class="monster-cont" id="cont-monster">
-                
+
             </div>
         </div>
     </div>
-    
+
     <script src="static/statslab/stat.js"></script>
 </body>
 

@@ -102,7 +102,7 @@ function LoadCache(images) {
 let progress_percent = 0;
 function UpdateLoadingBar() {
 
-  loading_bar.style.width = progress_percent+ "%";
+  loading_bar.style.width = progress_percent + "%";
   if (progress_percent >= 100) {
     setTimeout(() => {
       loader_cont.style.opacity = "0";
@@ -133,18 +133,18 @@ async function StartLoading() {
       if (j == 5 && i != 3) {
         continue;
       }
-    
+
       var FileLocation = "static/statslab/Items-Info/" + c[i] + "_" + e[j] + ".json";
       response = await fetch(FileLocation);
       parsedData = await response.json();
- 
+
       loading_info.innerHTML = "Loading - " + c[i] + " " + e[j];
       for (let item of parsedData) {
         images.push("static/statslab/" + item.url);
       }
       AssignItems(k, parsedData);
       var filename = c[i] + "_" + e[j] + ".json";
-     
+
       k++;
       progress_percent += 4;
       console.log("Progress [" + (progress_percent) + "]: " + filename);
@@ -157,10 +157,10 @@ async function StartLoading() {
     LoadCache(images);
     images = [];
   }
-  
+
   loading_info.innerHTML = "Loading - UI";
-  for (let i = 0 ; i < UI_images.length ; i++){
-    images.push("static/statslab/UI/"+UI_images[i]+".png");
+  for (let i = 0; i < UI_images.length; i++) {
+    images.push("static/statslab/UI/" + UI_images[i] + ".png");
   }
   LoadCache(images);
   progress_percent += 6;
@@ -170,15 +170,15 @@ async function StartLoading() {
   let FileLocationMonsters = "static/statslab/Items-Info/monsters.json";
   response = await fetch(FileLocationMonsters);
   parsedData = await response.json();
-  
+
   monsters_data = parsedData;
   loading_info.innerHTML = "Loading - Monsters";
-  
+
   for (let monster of parsedData) {
     images.push(monster.url);
   }
   LoadCache(images);
-  images=[];
+  images = [];
   progress_percent += 5;
   UpdateLoadingBar();
 
@@ -187,7 +187,7 @@ async function StartLoading() {
   let FileLocationSkills = "static/statslab/Items-Info/skills.json";
   response = await fetch(FileLocationSkills);
   parsedData = await response.json();
- 
+
   skills_data = parsedData;
   loading_info.innerHTML = "Loading - Skills";
   for (let skill of parsedData) {
@@ -493,6 +493,25 @@ let secondary_equip = document.getElementById('item-weapon-secondary');
 let secondary_sheath = document.getElementById('item-sheath-secondary');
 
 let monster_cont = document.getElementById('cont-monster');
+
+
+let cont_saving = document.getElementById('cont-saving-id');
+let save_details = document.getElementById('save-details-id');
+
+let loaded_class = "";
+let loaded_name = "";
+let loaded_level = 0;
+let loaded_hp = 0;
+let loaded_mp = 0; //prevents 0
+let loaded_atk = 0;
+let loaded_def = 0;
+let loaded_dex = 0;
+
+var load_flags = 0;
+
+let save_action_1 = document.getElementById('actions-1');
+let save_action_2 = document.getElementById('actions-2');
+let save_action_3 = document.getElementById('actions-3');
 
 function ClearEquips() {
   selected_helmet = {
@@ -1483,7 +1502,7 @@ function SetMonsters() {
   var i = 0;
   m_dmg.length = 0;
   m_def.length = 0;
-  
+
 
   for (let monster of monsters_data) {
 
@@ -1514,7 +1533,7 @@ function SetMonsters() {
     var monster_dmg = formatNumberWithAbbreviation(dmg);
     var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
 
-    
+
     out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
           <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
           <div class='monster-stat'>
@@ -1951,14 +1970,130 @@ function SetSave() {
 
 function TriggerSaves() {
   //SetLoad();
-  SetSave();
-  alert("Not Yet Implemented");
+  //SetSave();
+  cont_saving.style.display = "flex";
+  SaveDisplayDetails();
+  //alert("Not Yet Implemented");
   //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
   //let tesTname = JSON.parse(localStorage.getItem('Save 1'));
   //console.log("tEST>" + tesTname.name);
 }
 
+function CloseSavingTab() {
+  cont_saving.style.display = "none";
+}
+function RequestTextIdentifier(i_name, loaded, identifier, loaded_value, identifier_value) {
 
+  let ci = "";
+  let text
+    = `
+    <div class="save-detail-h">
+      <div class="save-selected-info">
+          <p class="save-info-type">${i_name}: </p>
+          <p>${loaded_value}</p>
+      </div>
+  `;
+  if (loaded != identifier) {
+    if (loaded > identifier) {
+      ci = `style="color:red;"`;
+    }
+    else if (loaded < identifier) {
+      ci = `style="color:green;"`;
+    }
+
+    load_flags++;
+
+    text += `
+      <div class="save-updated-info">
+        <p class="save-updated-info-type"> > </p>
+        <p ${ci} >${identifier_value}</p>
+      </div>
+  `;
+  }
+
+  text += `</div>`;
+  return text;
+}
+
+function SaveDisplayDetails() {
+  load_flags = 0;
+  loaded_class = (loaded_class == "") ? selected_class : loaded_class;
+  loaded_hp = (loaded_hp == 0) ? hp : loaded_hp;
+  loaded_mp = (loaded_mp == 0) ? mp : loaded_mp;
+  loaded_atk = (loaded_atk == 0) ? atk : loaded_atk;
+  loaded_def = (loaded_def == 0) ? def : loaded_def;
+  loaded_dex = (loaded_dex == 0) ? dex : loaded_dex;
+
+  if (loaded_name == "") {
+    SaveActionControl(1);
+  }
+
+  let out = `<h1 style="margin:20px;" > Save Slot 1 </h1>`;
+
+  out += `
+    <div class="save-detail-h">
+      <div class="save-selected-info">
+          <p class="save-info-type">Class: </p>
+          <p>${loaded_class}</p>
+      </div>
+  `;
+
+  if (loaded_class != selected_class) {
+    out += `
+      <div class="save-updated-info">
+        <p class="save-updated-info-type"> > </p>
+        <p>${selected_class}</p>
+      </div>
+  `;
+  }
+  out += `</div>`;
+
+  out += RequestTextIdentifier("hp", loaded_hp, hp, (15 + (loaded_hp * 5)), (15 + (hp * 5)));
+
+  out += RequestTextIdentifier("mp", loaded_mp, mp, (loaded_mp * 3), (mp * 3));
+
+  out += RequestTextIdentifier("atk", loaded_atk, atk, (loaded_atk + 1), (atk + 1));
+
+  out += RequestTextIdentifier("def", loaded_def, def, (loaded_def + 1), (def + 1));
+
+  out += RequestTextIdentifier("dex", loaded_dex, dex, (loaded_dex + 1), (dex + 1));
+
+  save_details.innerHTML = out;
+  console.log(load_flags);
+  if (load_flags == 0) {
+    let d_cont = document.querySelectorAll('.save-detail-h');
+
+    for (let i = 0; i < d_cont.length; i++) {
+
+      d_cont[i].classList.add('save-override');
+    }
+  }
+  else {
+
+    SaveActionControl(3);
+  }
+
+}
+
+
+function SaveActionControl(n) {
+  save_action_1.style.display = "none";
+  save_action_2.style.display = "none"
+  save_action_3.style.display = "none";
+  if (n == 1) {
+    save_action_1.style.display = "flex";
+  }
+  else if (n == 2) {
+    save_action_2.style.display = "flex";
+  }
+  else if (n == 3) {
+    save_action_3.style.display = "flex";
+  }
+}
+
+function SelectSaveSlot() {
+
+}
 
 
 // electric element 35% of base attack
