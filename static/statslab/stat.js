@@ -375,7 +375,8 @@ var selected_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "",
+  twohanded: false
 }
 var selected_secondary_weapon = {
   name: "",
@@ -383,7 +384,8 @@ var selected_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "",
+  twohanded: false
 }
 
 
@@ -394,7 +396,8 @@ var sheated_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "",
+  twohanded: false
 }
 var sheated_secondary_weapon = {
   name: "",
@@ -402,7 +405,8 @@ var sheated_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "",
+  twohanded: false
 }
 
 let dex_crit_chance = [
@@ -500,7 +504,7 @@ let save_details = document.getElementById('save-details-id');
 
 let loaded_class = "";
 let loaded_name = "";
-let loaded_level = 0;
+let loaded_level = 1;//default
 let loaded_hp = 0;
 let loaded_mp = 0; //prevents 0
 let loaded_atk = 0;
@@ -512,7 +516,8 @@ var load_flags = 0;
 let save_action_1 = document.getElementById('actions-1');
 let save_action_2 = document.getElementById('actions-2');
 let save_action_3 = document.getElementById('actions-3');
-
+let save_list_cont = document.getElementById('save-list-id');
+let save_name = "";
 function ClearEquips() {
   selected_helmet = {
     name: "",
@@ -557,7 +562,8 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "",
+    twohanded: false
   };
   selected_secondary_weapon = {
     name: "",
@@ -565,7 +571,8 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "",
+    twohanded: false
   };
 
 
@@ -575,7 +582,8 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "",
+    twohanded: false
   }
   sheated_secondary_weapon = {
     name: "",
@@ -583,7 +591,8 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "",
+    twohanded: false
   }
 
   item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
@@ -1008,6 +1017,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_helmet.price = item_price;
       selected_helmet.class = type_class;
       item_helmet.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      selected_helmet.url = item_url;
       break;
     case "armors":
       selected_armor.name = item_name;
@@ -1016,6 +1026,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_armor.price = item_price;
       selected_armor.class = type_class;
       item_armor.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      selected_armor.url = item_url;
       break;
     case "pants":
       selected_pants.name = item_name;
@@ -1024,6 +1035,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_pants.price = item_price;
       selected_pants.class = type_class;
       item_pants.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      selected_pants.url = item_url;
       break;
     case "shoes":
       selected_shoes.name = item_name;
@@ -1032,6 +1044,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_shoes.price = item_price;
       selected_shoes.class = type_class;
       item_shoes.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      selected_shoes.url = item_url;
 
       break;
     case "weapons":
@@ -1043,6 +1056,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           selected_primary_weapon.power = item_pow;
           selected_primary_weapon.price = item_price;
           selected_primary_weapon.class = type_class;
+          selected_primary_weapon.url = item_url;
           if (item_hander == "false") {
             equipped_two_hander = false;
             secondary_equip.style.display = "initial";
@@ -1052,7 +1066,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
               name: "",
               power: 0,
               defense: 0,
-              price: 0
+              price: 0,
+              class: "",
+              url: ""
             };
 
             item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
@@ -1068,6 +1084,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           selected_secondary_weapon.defense = item_def;
           item_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           selected_secondary_weapon.price = item_price;
+          selected_secondary_weapon.url = item_url;
           break;
         case "s1":
           sheated_primary_weapon.name = item_name;
@@ -1075,6 +1092,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_primary_weapon.class = type_class;
           sheated_primary_weapon.defense = item_def;
           sheated_primary_weapon.price = item_price;
+          sheated_primary_weapon.url = item_url;
           if (item_hander == "false") {
             sheathed_two_hander = false;
 
@@ -1092,7 +1110,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
             name: "",
             power: 0,
             defense: 0,
-            price: 0
+            price: 0,
+            class: "",
+            url: ""
           };
 
           item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
@@ -1102,6 +1122,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_secondary_weapon.power = item_pow;
           sheated_secondary_weapon.price = item_price;
           sheated_secondary_weapon.class = type_class;
+          sheated_secondary_weapon.url = item_url;
           item_sheath_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           break;
 
@@ -1917,7 +1938,6 @@ function SetLoad() {
 
   UpdateStats();
 }
-
 function SetSave() {
 
   // get name get class
@@ -1937,8 +1957,22 @@ function SetSave() {
   
   console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
   */
+
   let save_data = [];
-  let save_name = "";
+  
+
+  let saves = JSON.parse(localStorage.getItem("SaveData"));
+  if (saves == null) {
+    saves = [];
+  }
+  SaveActionControl(0);
+  if (save_name == "") {
+    save_name = "Save " + (parseInt(saves.length) + 1);
+  }
+  saves.push(save_name);
+
+  console.log(saves);
+  localStorage.setItem("SaveData", JSON.stringify(saves));
 
   save_data.push(save_name);
   save_data.push(selected_level);
@@ -1959,12 +1993,13 @@ function SetSave() {
   save_data.push(sheated_primary_weapon);
   save_data.push(sheated_secondary_weapon);
   save_data.push(skill_level);
-  localStorage.setItem("Save 1", JSON.stringify(save_data));
+  localStorage.setItem("Save " + saves.length, JSON.stringify(save_data));
   //call set items();
-  let test = JSON.parse(localStorage.getItem("Save 1"));
+  //let test = JSON.parse(localStorage.getItem("Save 1"));
   /*console.log(test[0]);
   console.log(test[1]);
   console.log(test[2]);*/
+
 }
 
 
@@ -1990,7 +2025,7 @@ function RequestTextIdentifier(i_name, loaded, identifier, loaded_value, identif
     <div class="save-detail-h">
       <div class="save-selected-info">
           <p class="save-info-type">${i_name}: </p>
-          <p>${loaded_value}</p>
+          <p id="display-${i_name}">${loaded_value}</p>
       </div>
   `;
   if (loaded != identifier) {
@@ -2016,8 +2051,10 @@ function RequestTextIdentifier(i_name, loaded, identifier, loaded_value, identif
 }
 
 function SaveDisplayDetails() {
+  DisplaySavesList();
   load_flags = 0;
   loaded_class = (loaded_class == "") ? selected_class : loaded_class;
+  loaded_level = (loaded_level == 1) ? selected_level : loaded_level;
   loaded_hp = (loaded_hp == 0) ? hp : loaded_hp;
   loaded_mp = (loaded_mp == 0) ? mp : loaded_mp;
   loaded_atk = (loaded_atk == 0) ? atk : loaded_atk;
@@ -2028,13 +2065,13 @@ function SaveDisplayDetails() {
     SaveActionControl(1);
   }
 
-  let out = `<h1 style="margin:20px;" > Save Slot 1 </h1>`;
+  let out = `<h1 style="margin:20px;" id="display-name" >${loaded_name}</h1>`;
 
   out += `
     <div class="save-detail-h">
       <div class="save-selected-info">
           <p class="save-info-type">Class: </p>
-          <p>${loaded_class}</p>
+          <p id="display-class">${loaded_class}</p>
       </div>
   `;
 
@@ -2042,11 +2079,13 @@ function SaveDisplayDetails() {
     out += `
       <div class="save-updated-info">
         <p class="save-updated-info-type"> > </p>
-        <p>${selected_class}</p>
+        <p >${selected_class}</p>
       </div>
   `;
   }
   out += `</div>`;
+
+  out += RequestTextIdentifier("level", (parseInt(loaded_level)), selected_level, (parseInt(loaded_level)), selected_level);
 
   out += RequestTextIdentifier("hp", loaded_hp, hp, (15 + (loaded_hp * 5)), (15 + (hp * 5)));
 
@@ -2091,10 +2130,131 @@ function SaveActionControl(n) {
   }
 }
 
-function SelectSaveSlot() {
+function DisplaySavesList() {
+
+  let saves_data = JSON.parse(localStorage.getItem("SaveData"));
+  let saves_list_text = ``;
+  if (saves_data == null) {
+    return;
+  }
+  for (let i = 0; i < saves_data.length; i++) {
+    let current_save_data = JSON.parse(localStorage.getItem(saves_data[i]));
+    let current_img_url = current_save_data[10].url;
+    if (current_img_url == "") {
+      current_img_url = "UI/icon-helmets.png";
+    }
+
+    saves_list_text += `
+      <div class="saved-data-cont" onclick="SelectSaveSlot(${i});">
+        <img src="static/statslab/${current_img_url}">
+        <p>${current_save_data[0]}</p>
+      </div>
+    `;
+  }
+  
+  save_list_cont.innerHTML = saves_list_text;
 
 }
 
+function SelectSaveSlot(slot_n) {
 
+  let saves_data = JSON.parse(localStorage.getItem("SaveData"));
+  let selected_save_data = JSON.parse(localStorage.getItem(saves_data[slot_n]));
+  SaveActionControl(2);
+  let action_button = document.getElementById("button-load");
+  let display_name = document.getElementById("display-name");
+  let display_class = document.getElementById("display-class");
+  let display_level = document.getElementById("display-level");
+  let display_hp = document.getElementById("display-hp");
+  let display_mp = document.getElementById("display-mp");
+  let display_atk = document.getElementById("display-atk");
+  let display_def = document.getElementById("display-def");
+  let display_dex = document.getElementById("display-dex");
+
+  action_button.value = slot_n;
+  display_name.innerHTML = selected_save_data[0];
+  display_class.innerHTML = selected_save_data[4];
+  display_level.innerHTML = selected_save_data[1];
+  display_hp.innerHTML = (15 + (parseInt(selected_save_data[5]) * 5));
+  display_mp.innerHTML = (parseInt(selected_save_data[6]) * 3);
+  display_atk.innerHTML = (parseInt(selected_save_data[7]) + 1);
+  display_def.innerHTML = (parseInt(selected_save_data[8]) + 1);
+  display_dex.innerHTML = (parseInt(selected_save_data[9]) + 1);
+
+}
+
+function LoadSaveSlot(slot_n){
+  
+  let saves_data = JSON.parse(localStorage.getItem("SaveData"));
+  let sd = JSON.parse(localStorage.getItem(saves_data[slot_n]));
+
+
+  //twohanded: false
+  /*save_data.push(selected_level);
+  save_data.push(shield_ability);
+  save_data.push(booster_ability);
+  save_data.push(selected_class);
+  save_data.push(hp);
+  save_data.push(mp);
+  save_data.push(atk);
+  save_data.push(def);
+  save_data.push(dex);
+  */
+  loaded_name = sd[0];
+  loaded_level = sd[1];
+  loaded_hp = sd[5];
+  loaded_mp = sd[6];
+  loaded_atk = sd[7];
+  loaded_def = sd[8];
+  loaded_dex = sd[9];
+
+
+  save_name = sd[0];
+  selected_level = sd[1];
+  shield_ability = sd[2];
+  booster_ability = sd[3];
+  selected_class = sd[4];
+  hp = sd[5];
+  mp = sd[6];
+  atk = sd[7];
+  def = sd[8];
+  dex = sd[9];
+  SetItems("helmets",sd[10].name, sd[10].url, sd[10].attack, sd[10].defense, sd[10].price,"","",sd[10].class);
+  SetItems("armors",sd[11].name, sd[11].url, sd[11].attack, sd[11].defense, sd[11].price,"","",sd[11].class);
+  SetItems("pants",sd[12].name, sd[12].url, sd[12].attack, sd[12].defense, sd[12].price,"","",sd[12].class);
+  SetItems("shoes",sd[13].name, sd[13].url, sd[13].attack, sd[13].defense, sd[13].price,"","",sd[13].class);
+
+  SetItems("weapons",sd[14].name, sd[14].url, sd[14].attack, sd[14].defense, sd[14].price,sd[14].twohanded,"e1",sd[14].class);
+  if (!sd[14].twohanded){
+
+    SetItems("weapons",sd[15].name, sd[15].url, sd[15].attack, sd[15].defense, sd[15].price,sd[15].twohanded,"e2",sd[15].class);
+  }
+
+  
+  SetItems("weapons",sd[16].name, sd[16].url, sd[16].attack, sd[16].defense, sd[16].price,sd[16].twohanded,"s1",sd[16].class);
+  if (!sd[16].twohanded){
+
+    SetItems("weapons",sd[17].name, sd[17].url, sd[17].attack, sd[17].defense, sd[17].price,sd[17].twohanded,"s2",sd[17].class);
+  }
+  skill_level = sd[18];
+  DisplayStat(hp, mp, atk, def, dex);
+
+
+
+  level_input.value = selected_level;
+  points = (level_input.value - 1) * 3;
+  points_label.innerHTML = points;
+  if (points > 0){
+    DisablePointReset();
+  }
+  else{
+    EnablePointReset();
+  }
+  
+
+  UpdateStats();
+  CloseSavingTab();
+
+}
 // electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

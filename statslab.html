@@ -51,7 +51,7 @@
                 <div id="save-details-id"></div>
                 <div class="save-actions">
                     <div class="action-cont" id="actions-1">
-                        <button class="action-save">
+                        <button class="action-save" onclick="SetSave();">
                             <p>SAVE</p>
                         </button>
                     </div>
@@ -59,7 +59,7 @@
                         <button class="action-delete">
                             <p>DELETE</p>
                         </button>
-                        <button id="button-load" class="action-load">
+                        <button id="button-load" class="action-load" value="" onclick="LoadSaveSlot(this.value);">
                             <p>LOAD</p>
                         </button>
                     </div>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="save-list"></div>
+            <div class="save-list" id="save-list-id"></div>
         </div>
         <div class="cont-detailed-damage" id="damage-cont">
             <div id="close-detailed-damage" onclick="CloseDetailedDamage();"></div>
