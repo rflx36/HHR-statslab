@@ -49,6 +49,7 @@ let UI_images = [
   "icon-close",
   "icon-coin",
   "icon-cowboy",
+  "icon-discord-server-xmas",
   "icon-element-electric",
   "icon-element-fire",
   "icon-element-poison",
@@ -1941,17 +1942,19 @@ function CloseDetailedDamage() {
   shield_cont.style.transform = "translateY(0px)";
 
 }
+
+
+
+
+
+
+
+
+
+
+
 function SetLoad() {
-  /*
-  item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
-  item_armor.style.backgroundImage = "url('static/statslab/UI/icon-armor.png')";
-  item_pants.style.backgroundImage = "url('static/statslab/UI/icon-pants.png')";
-  item_shoes.style.backgroundImage = "url('static/statslab/UI/icon-shoes.png')";
-  item_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
-  item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
-  item_sheath_primary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
-  item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
-  */
+  
 
 
   UpdateStats();
@@ -2003,14 +2006,9 @@ function SetSave() {
 
 
 function TriggerSaves() {
-  //SetLoad();
-  //SetSave();
+  
   cont_saving.style.display = "flex";
   SaveDisplayDetails();
-  //alert("Not Yet Implemented");
-  //let tesTname = JSON.parse(localStorage.getItem('u_helmet'));
-  //let tesTname = JSON.parse(localStorage.getItem('Save 1'));
-  //console.log("tEST>" + tesTname.name);
 }
 
 function CloseSavingTab() {
