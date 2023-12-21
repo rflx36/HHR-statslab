@@ -629,6 +629,15 @@ function SetClass(s_class) {
   UpdateStats();
 
   booster_cont.style.transform = "translateY(0px)";
+    
+  loaded_class = "";
+  loaded_name = "";
+  loaded_level = 1;//default
+  loaded_hp = 0;
+  loaded_mp = 0; //prevents 0
+  loaded_atk = 0;
+  loaded_def = 0;
+  loaded_dex = 0;
 }
 function LoadClass() {
   class_container.style.display = "flex";
@@ -2076,6 +2085,8 @@ function SaveDisplayDetails() {
   `;
 
   if (loaded_class != selected_class) {
+    
+    load_flags++;
     out += `
       <div class="save-updated-info">
         <p class="save-updated-info-type"> > </p>
