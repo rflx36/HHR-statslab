@@ -1267,6 +1267,8 @@ input::-webkit-inner-spin-button {
 
 body {
     background-color: #2F3136;
+    background-image: url(UI/bg-snowflake.png);
+    background-size: 300px;
 }
 
 #discord {

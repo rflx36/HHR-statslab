@@ -37,6 +37,7 @@ let monsters_data; // load monsters.json
 
 //pre render UI at loading sesion to cache
 let UI_images = [
+  "bg-snowflake",
   "button-hovered",
   "button",
   "icon-archer",
@@ -341,7 +342,7 @@ var selected_helmet = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "UI/icon-helmets.png"
 };
 var selected_armor = {
   name: "",
@@ -349,7 +350,7 @@ var selected_armor = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "UI/icon-armor.png"
 };
 var selected_pants = {
   name: "",
@@ -357,7 +358,7 @@ var selected_pants = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "UI/icon-pants.png"
 };
 var selected_shoes = {
   name: "",
@@ -365,7 +366,7 @@ var selected_shoes = {
   defense: 0,
   price: 0,
   class: "",
-  url: ""
+  url: "UI/icon-shoes.png"
 };
 var equipped_two_hander = false;
 var sheathed_two_hander = false;
@@ -375,7 +376,7 @@ var selected_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: "",
+  url: "UI/icon-single-handed.png",
   twohanded: false
 }
 var selected_secondary_weapon = {
@@ -384,7 +385,7 @@ var selected_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: "",
+  url: "UI/icon-single-handed.png",
   twohanded: false
 }
 
@@ -396,7 +397,7 @@ var sheated_primary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: "",
+  url: "UI/icon-single-handed.png",
   twohanded: false
 }
 var sheated_secondary_weapon = {
@@ -405,7 +406,7 @@ var sheated_secondary_weapon = {
   defense: 0,
   price: 0,
   class: "",
-  url: "",
+  url: "UI/icon-single-handed.png",
   twohanded: false
 }
 
@@ -519,13 +520,15 @@ let save_action_3 = document.getElementById('actions-3');
 let save_list_cont = document.getElementById('save-list-id');
 let save_name = "";
 function ClearEquips() {
+
+
   selected_helmet = {
     name: "",
     attack: 0,
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "UI/icon-helmets.png"
   };
   selected_armor = {
     name: "",
@@ -533,7 +536,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "UI/icon-armor.png"
   };
   selected_pants = {
     name: "",
@@ -541,7 +544,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "UI/icon-pants.png"
   };
   selected_shoes = {
     name: "",
@@ -549,7 +552,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: ""
+    url: "UI/icon-shoes.png"
   };
   equipped_two_hander = null;
   secondary_sheath.style.display = "none";
@@ -562,7 +565,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: "",
+    url: "UI/icon-single-handed.png",
     twohanded: false
   };
   selected_secondary_weapon = {
@@ -571,7 +574,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: "",
+    url: "UI/icon-single-handed.png",
     twohanded: false
   };
 
@@ -582,7 +585,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: "",
+    url: "UI/icon-single-handed.png",
     twohanded: false
   }
   sheated_secondary_weapon = {
@@ -591,7 +594,7 @@ function ClearEquips() {
     defense: 0,
     price: 0,
     class: "",
-    url: "",
+    url: "UI/icon-single-handed.png",
     twohanded: false
   }
 
@@ -629,7 +632,7 @@ function SetClass(s_class) {
   UpdateStats();
 
   booster_cont.style.transform = "translateY(0px)";
-    
+
   loaded_class = "";
   loaded_name = "";
   loaded_level = 1;//default
@@ -1655,17 +1658,25 @@ function RepaintSkillLevel(id, val, j) {
   let s_increase_val = skills[j].value_increase;
   let s_level = skills[j].skill_level;
 
+  /*
+  let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
+  let p_dmg_crit = Math.floor(p_dmg * dex_crit_chance[dex]);
+  let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
 
+  temp_p = temp_p.toFixed(6);
+
+  let skill_damage = Math.round(temp_p * (skill.base_value + (skill.value_increase * skill_level[i])));
+  let skill_damage_crit = Math.floor(skill_damage * dex_crit_chance[dex]);
+  */
   let p_dmg = (5 * (current_fatk_p + 30) / (current_m_def + 30));
-  let p_dmg_crit = ((5 * (current_fatk_p + 30) / (current_m_def + 30)) * dex_crit_chance[dex]);
+  let p_dmg_crit = Math.floor(Math.round(p_dmg) * dex_crit_chance[dex]);
   p_dmg = p_dmg.toFixed(6);
-  p_dmg_crit = p_dmg_crit.toFixed(6);
 
   if (skills[j].is_multiply) {
 
 
     p_skill.innerHTML = Math.round(p_dmg) + "<span> x" + (s_level + 1) + "</span>";
-    p_skill_crit.innerHTML = Math.round(p_dmg_crit);
+    p_skill_crit.innerHTML = p_dmg_crit;
 
     p_label.innerHTML = "";
 
@@ -1680,8 +1691,8 @@ function RepaintSkillLevel(id, val, j) {
     p_label.innerHTML = "(" + Math.round((s_base_val + (s_increase_val * s_level)) * 100) + "%)";
 
 
-    let skill_damage = (Math.round(p_dmg * (s_base_val + (s_increase_val * s_level))));
-    let skill_damage_crit = (Math.round(p_dmg_crit * (s_base_val + (s_increase_val * s_level))));
+    let skill_damage = Math.round(p_dmg * (s_base_val + (s_increase_val * s_level)));
+    let skill_damage_crit = Math.floor(skill_damage * dex_crit_chance[dex]);
 
     p_skill.innerHTML = skill_damage;
     p_skill_crit.innerHTML = skill_damage_crit;
@@ -1716,7 +1727,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
   current_m_hp = m_hp;
   let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
 
-  let p_dmg_crit = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex]);
+  let p_dmg_crit = Math.floor(p_dmg * dex_crit_chance[dex]);
 
   let p_dmg_fire = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1);
   let p_dmg_electric = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35);
@@ -1825,11 +1836,9 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
         let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
         temp_p = temp_p.toFixed(6);
 
-        let temp_p_crit = (5 * (current_fatk_p + 30) / (m_def + 30)) * dex_crit_chance[dex];
-        temp_p_crit = temp_p_crit.toFixed(6);
 
         let skill_damage = Math.round(temp_p * (skill.base_value + (skill.value_increase * skill_level[i])));
-        let skill_damage_crit = Math.round(temp_p_crit * (skill.base_value + (skill.value_increase * skill_level[i])));
+        let skill_damage_crit = Math.floor(skill_damage * dex_crit_chance[dex]);
 
         let temp_skill = {
           "base_value": skill.base_value,
@@ -1874,8 +1883,8 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
         let hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Hit" : "";
 
         if (skill.is_multiply) {
-          hit_identifier = (text_damage >= m_hp) ? "1 Shot" : "";
-          hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Shot" : "";
+          hit_identifier = ((text_damage * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
+          hit_identifier_crit = ((text_damage_crit * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
         }
 
         skill_damage_info += `
@@ -1949,27 +1958,8 @@ function SetLoad() {
 }
 function SetSave() {
 
-  // get name get class
-  // name class name class name class
-  //
-  /*
-  localStorage.setItem("u_helmet", JSON.stringify(selected_helmet));
-  localStorage.setItem("u_armor", selected_armor);
-  localStorage.setItem("u_pants", selected_pants);
-  localStorage.setItem("u_shoes", selected_shoes);
-
-  localStorage.setItem("u_primary", selected_primary_weapon);
-  localStorage.setItem("u_secondary", selected_secondary_weapon);
-
-  localStorage.setItem("u_primary_sheath", sheated_primary_weapon);
-  localStorage.setItem("u_secondary_sheath", sheated_secondary_weapon);
-  
-  console.log("logs:test:"+JSON.stringify(selected_helmet)) ;
-  */
 
   let save_data = [];
-  
-
   let saves = JSON.parse(localStorage.getItem("SaveData"));
   if (saves == null) {
     saves = [];
@@ -2085,7 +2075,7 @@ function SaveDisplayDetails() {
   `;
 
   if (loaded_class != selected_class) {
-    
+
     load_flags++;
     out += `
       <div class="save-updated-info">
@@ -2162,7 +2152,7 @@ function DisplaySavesList() {
       </div>
     `;
   }
-  
+
   save_list_cont.innerHTML = saves_list_text;
 
 }
@@ -2194,8 +2184,8 @@ function SelectSaveSlot(slot_n) {
 
 }
 
-function LoadSaveSlot(slot_n){
-  
+function LoadSaveSlot(slot_n) {
+
   let saves_data = JSON.parse(localStorage.getItem("SaveData"));
   let sd = JSON.parse(localStorage.getItem(saves_data[slot_n]));
 
@@ -2211,8 +2201,11 @@ function LoadSaveSlot(slot_n){
   save_data.push(def);
   save_data.push(dex);
   */
+
+  SetClass(sd[4]);
   loaded_name = sd[0];
   loaded_level = sd[1];
+  loaded_class = sd[4];
   loaded_hp = sd[5];
   loaded_mp = sd[6];
   loaded_atk = sd[7];
@@ -2224,46 +2217,45 @@ function LoadSaveSlot(slot_n){
   selected_level = sd[1];
   shield_ability = sd[2];
   booster_ability = sd[3];
-  selected_class = sd[4];
-  hp = sd[5];
-  mp = sd[6];
-  atk = sd[7];
-  def = sd[8];
-  dex = sd[9];
-  SetItems("helmets",sd[10].name, sd[10].url, sd[10].attack, sd[10].defense, sd[10].price,"","",sd[10].class);
-  SetItems("armors",sd[11].name, sd[11].url, sd[11].attack, sd[11].defense, sd[11].price,"","",sd[11].class);
-  SetItems("pants",sd[12].name, sd[12].url, sd[12].attack, sd[12].defense, sd[12].price,"","",sd[12].class);
-  SetItems("shoes",sd[13].name, sd[13].url, sd[13].attack, sd[13].defense, sd[13].price,"","",sd[13].class);
 
-  SetItems("weapons",sd[14].name, sd[14].url, sd[14].attack, sd[14].defense, sd[14].price,sd[14].twohanded,"e1",sd[14].class);
-  if (!sd[14].twohanded){
 
-    SetItems("weapons",sd[15].name, sd[15].url, sd[15].attack, sd[15].defense, sd[15].price,sd[15].twohanded,"e2",sd[15].class);
+
+  level_input.value = sd[1];
+  document.getElementById("hp-amount").value = sd[5];
+  document.getElementById("mp-amount").value = sd[6];
+  document.getElementById("atk-amount").value = sd[7];
+  document.getElementById("def-amount").value = sd[8];
+  document.getElementById("dex-amount").value = sd[9];
+
+  UpdateLevel();
+  SetStat("hp");
+  SetStat("mp");
+  SetStat("atk");
+  SetStat("def");
+  SetStat("dex");
+
+  SetItems("helmets", sd[10].name, sd[10].url, sd[10].attack, sd[10].defense, sd[10].price, "", "", sd[10].class);
+  SetItems("armors", sd[11].name, sd[11].url, sd[11].attack, sd[11].defense, sd[11].price, "", "", sd[11].class);
+  SetItems("pants", sd[12].name, sd[12].url, sd[12].attack, sd[12].defense, sd[12].price, "", "", sd[12].class);
+  SetItems("shoes", sd[13].name, sd[13].url, sd[13].attack, sd[13].defense, sd[13].price, "", "", sd[13].class);
+
+  SetItems("weapons", sd[14].name, sd[14].url, sd[14].attack, sd[14].defense, sd[14].price, sd[14].twohanded, "e1", sd[14].class);
+  if (!sd[14].twohanded) {
+
+    SetItems("weapons", sd[15].name, sd[15].url, sd[15].attack, sd[15].defense, sd[15].price, sd[15].twohanded, "e2", sd[15].class);
   }
 
-  
-  SetItems("weapons",sd[16].name, sd[16].url, sd[16].attack, sd[16].defense, sd[16].price,sd[16].twohanded,"s1",sd[16].class);
-  if (!sd[16].twohanded){
+  SetItems("weapons", sd[16].name, sd[16].url, sd[16].attack, sd[16].defense, sd[16].price, sd[16].twohanded, "s1", sd[16].class);
+  if (!sd[16].twohanded) {
 
-    SetItems("weapons",sd[17].name, sd[17].url, sd[17].attack, sd[17].defense, sd[17].price,sd[17].twohanded,"s2",sd[17].class);
+    SetItems("weapons", sd[17].name, sd[17].url, sd[17].attack, sd[17].defense, sd[17].price, sd[17].twohanded, "s2", sd[17].class);
   }
   skill_level = sd[18];
-  DisplayStat(hp, mp, atk, def, dex);
 
 
 
-  level_input.value = selected_level;
-  points = (level_input.value - 1) * 3;
-  points_label.innerHTML = points;
-  if (points > 0){
-    DisablePointReset();
-  }
-  else{
-    EnablePointReset();
-  }
-  
 
-  UpdateStats();
+
   CloseSavingTab();
 
 }
