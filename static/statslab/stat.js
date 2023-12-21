@@ -504,17 +504,6 @@ let monster_cont = document.getElementById('cont-monster');
 let cont_saving = document.getElementById('cont-saving-id');
 let save_details = document.getElementById('save-details-id');
 
-let loaded_class = "";
-let loaded_name = "";
-let loaded_level = 1;//default
-let loaded_hp = 0;
-let loaded_mp = 0; //prevents 0
-let loaded_atk = 0;
-let loaded_def = 0;
-let loaded_dex = 0;
-
-var load_flags = 0;
-
 let save_action_1 = document.getElementById('actions-1');
 let save_action_2 = document.getElementById('actions-2');
 let save_action_3 = document.getElementById('actions-3');
@@ -634,14 +623,6 @@ function SetClass(s_class) {
 
   booster_cont.style.transform = "translateY(0px)";
 
-  loaded_class = "";
-  loaded_name = "";
-  loaded_level = 1;//default
-  loaded_hp = 0;
-  loaded_mp = 0; //prevents 0
-  loaded_atk = 0;
-  loaded_def = 0;
-  loaded_dex = 0;
 }
 function LoadClass() {
   class_container.style.display = "flex";
@@ -2014,103 +1995,51 @@ function TriggerSaves() {
 function CloseSavingTab() {
   cont_saving.style.display = "none";
 }
-function RequestTextIdentifier(i_name, loaded, identifier, loaded_value, identifier_value) {
-
-  let ci = "";
+function RequestTextIdentifier(i_name, identifier_value) {
   let text
     = `
     <div class="save-detail-h">
       <div class="save-selected-info">
           <p class="save-info-type">${i_name}: </p>
-          <p id="display-${i_name}">${loaded_value}</p>
+          <p id="display-${i_name}">${identifier_value}</p>
       </div>
+    </div>
   `;
-  if (loaded != identifier) {
-    if (loaded > identifier) {
-      ci = `style="color:red;"`;
-    }
-    else if (loaded < identifier) {
-      ci = `style="color:green;"`;
-    }
-
-    load_flags++;
-
-    text += `
-      <div class="save-updated-info">
-        <p class="save-updated-info-type"> > </p>
-        <p ${ci} >${identifier_value}</p>
-      </div>
-  `;
-  }
-
-  text += `</div>`;
   return text;
 }
 
 function SaveDisplayDetails() {
   DisplaySavesList();
-  load_flags = 0;
-  loaded_class = (loaded_class == "") ? selected_class : loaded_class;
-  loaded_level = (loaded_level == 1) ? selected_level : loaded_level;
-  loaded_hp = (loaded_hp == 0) ? hp : loaded_hp;
-  loaded_mp = (loaded_mp == 0) ? mp : loaded_mp;
-  loaded_atk = (loaded_atk == 0) ? atk : loaded_atk;
-  loaded_def = (loaded_def == 0) ? def : loaded_def;
-  loaded_dex = (loaded_dex == 0) ? dex : loaded_dex;
+  
 
-  if (loaded_name == "") {
+  if (save_name == "") {
     SaveActionControl(1);
   }
 
-  let out = `<h1 style="margin:20px;" id="display-name" >${loaded_name}</h1>`;
+  let out = `<h1 style="margin:20px;" id="display-name" >${save_name}</h1>`;
 
   out += `
     <div class="save-detail-h">
       <div class="save-selected-info">
           <p class="save-info-type">Class: </p>
-          <p id="display-class">${loaded_class}</p>
+          <p id="display-class">${selected_class}</p>
       </div>
+    </div>
   `;
 
-  if (loaded_class != selected_class) {
-
-    load_flags++;
-    out += `
-      <div class="save-updated-info">
-        <p class="save-updated-info-type"> > </p>
-        <p >${selected_class}</p>
-      </div>
-  `;
-  }
-  out += `</div>`;
-
-  out += RequestTextIdentifier("level", (parseInt(loaded_level)), selected_level, (parseInt(loaded_level)), selected_level);
-
-  out += RequestTextIdentifier("hp", loaded_hp, hp, (15 + (loaded_hp * 5)), (15 + (hp * 5)));
-
-  out += RequestTextIdentifier("mp", loaded_mp, mp, (loaded_mp * 3), (mp * 3));
-
-  out += RequestTextIdentifier("atk", loaded_atk, atk, (loaded_atk + 1), (atk + 1));
-
-  out += RequestTextIdentifier("def", loaded_def, def, (loaded_def + 1), (def + 1));
-
-  out += RequestTextIdentifier("dex", loaded_dex, dex, (loaded_dex + 1), (dex + 1));
+  out += RequestTextIdentifier("level",selected_level);
+  out += RequestTextIdentifier("hp", (15 + (hp * 5)));
+  out += RequestTextIdentifier("mp",  (mp * 3));
+  out += RequestTextIdentifier("atk", (atk + 1));
+  out += RequestTextIdentifier("def", (def + 1));
+  out += RequestTextIdentifier("dex", (dex + 1));
 
   save_details.innerHTML = out;
-  console.log(load_flags);
-  if (load_flags == 0) {
-    let d_cont = document.querySelectorAll('.save-detail-h');
+  
 
-    for (let i = 0; i < d_cont.length; i++) {
-
-      d_cont[i].classList.add('save-override');
-    }
-  }
-  else {
-
-    SaveActionControl(3);
-  }
-
+  //SaveActionControl(3); UPDATE
+  
+  //2ND TIME pressing the "load" cause bug not workiing to load current save data
 }
 
 
@@ -2201,14 +2130,7 @@ function LoadSaveSlot(slot_n) {
   */
 
   SetClass(sd[4]);
-  loaded_name = sd[0];
-  loaded_level = sd[1];
-  loaded_class = sd[4];
-  loaded_hp = sd[5];
-  loaded_mp = sd[6];
-  loaded_atk = sd[7];
-  loaded_def = sd[8];
-  loaded_dex = sd[9];
+  
 
 
   save_name = sd[0];
