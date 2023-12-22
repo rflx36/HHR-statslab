@@ -61,6 +61,7 @@ let UI_images = [
   "icon-monster-dmg",
   "icon-pants",
   "icon-plus",
+  "icon-remove",
   "icon-shoes",
   "icon-single-handed",
   "icon-title",
@@ -1015,6 +1016,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_helmet.price = item_price;
       selected_helmet.class = type_class;
       item_helmet.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      if (item_url == "default"){
+        item_helmet.style.backgroundImage = `url("static/statslab/UI/icon-helmets.png")`;
+      }
       selected_helmet.url = item_url;
       break;
     case "armors":
@@ -1024,6 +1028,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_armor.price = item_price;
       selected_armor.class = type_class;
       item_armor.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      if (item_url == "default"){
+        item_armor.style.backgroundImage = `url("static/statslab/UI/icon-armor.png")`;
+      }
       selected_armor.url = item_url;
       break;
     case "pants":
@@ -1033,6 +1040,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_pants.price = item_price;
       selected_pants.class = type_class;
       item_pants.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      if (item_url == "default"){
+        item_pants.style.backgroundImage = `url("static/statslab/UI/icon-pants.png")`;
+      }
       selected_pants.url = item_url;
       break;
     case "shoes":
@@ -1042,6 +1052,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_shoes.price = item_price;
       selected_shoes.class = type_class;
       item_shoes.style.backgroundImage = `url("static/statslab/${item_url}")`;
+      if (item_url == "default"){
+        item_shoes.style.backgroundImage = `url("static/statslab/UI/icon-shoes.png")`;
+      }
       selected_shoes.url = item_url;
 
       break;
@@ -1056,6 +1069,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           selected_primary_weapon.class = type_class;
           selected_primary_weapon.url = item_url;
           selected_primary_weapon.twohanded = item_hander;
+          
           if (item_hander == "false") {
             equipped_two_hander = false;
             secondary_equip.style.display = "initial";
@@ -1076,6 +1090,10 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
             secondary_equip.style.display = "none";
           }
           item_primary.style.backgroundImage = `url("static/statslab/${item_url}")`;
+
+          if (item_url == "default"){
+            item_primary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
+          }
           break;
         case "e2":
           selected_secondary_weapon.name = item_name;
@@ -1085,7 +1103,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           item_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           selected_secondary_weapon.price = item_price;
           selected_secondary_weapon.url = item_url;
-
+          if (item_url == "default"){
+            item_secondary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
+          }
           break;
         case "s1":
           sheated_primary_weapon.name = item_name;
@@ -1119,6 +1139,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           };
 
           item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+          if (item_url == "default"){
+            item_sheath_primary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
+          }
           break;
         case "s2":
           sheated_secondary_weapon.name = item_name;
@@ -1127,6 +1150,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_secondary_weapon.class = type_class;
           sheated_secondary_weapon.url = item_url;
           item_sheath_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
+          if (item_url == "default"){
+            item_sheath_secondary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
+          }
           break;
 
 
@@ -1407,7 +1433,13 @@ function LoadItems(type) {
 
 
   }
-  items_container.innerHTML = out;
+  out_remove =
+  `<div class="item-remove" onclick='SetItems("` + type + `","","default","0","0","0","false","` + weapon_slot + `","");'>
+    <img class="item-display"src='static/statslab/UI/icon-remove.png'>
+  </div>
+  `;
+  
+  items_container.innerHTML =out_remove + out;
 
 
 

@@ -1877,3 +1877,13 @@ body {
         border: 2px solid #211200;
     }
 }
+
+
+.item-remove{
+    background-color: #92e092;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
