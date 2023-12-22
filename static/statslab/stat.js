@@ -509,6 +509,10 @@ let save_action_2 = document.getElementById('actions-2');
 let save_action_3 = document.getElementById('actions-3');
 let save_list_cont = document.getElementById('save-list-id');
 let save_name = "";
+let selected_save = -1;
+
+let delete_action = document.getElementById('action-delete-id');
+
 function ClearEquips() {
 
 
@@ -1051,6 +1055,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           selected_primary_weapon.price = item_price;
           selected_primary_weapon.class = type_class;
           selected_primary_weapon.url = item_url;
+          selected_primary_weapon.twohanded = item_hander;
           if (item_hander == "false") {
             equipped_two_hander = false;
             secondary_equip.style.display = "initial";
@@ -1062,7 +1067,8 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
               defense: 0,
               price: 0,
               class: "",
-              url: ""
+              url: "UI/icon-single-handed.png",
+              twohanded: false
             };
 
             item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
@@ -1079,6 +1085,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           item_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           selected_secondary_weapon.price = item_price;
           selected_secondary_weapon.url = item_url;
+
           break;
         case "s1":
           sheated_primary_weapon.name = item_name;
@@ -1087,6 +1094,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_primary_weapon.defense = item_def;
           sheated_primary_weapon.price = item_price;
           sheated_primary_weapon.url = item_url;
+          sheated_primary_weapon.twohanded = item_hander;
           if (item_hander == "false") {
             sheathed_two_hander = false;
 
@@ -1106,7 +1114,8 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
             defense: 0,
             price: 0,
             class: "",
-            url: ""
+            url: "UI/icon-single-handed.png",
+            twohanded: false
           };
 
           item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
@@ -1663,7 +1672,7 @@ function RepaintSkillLevel(id, val, j) {
     p_label.innerHTML = "";
 
 
-    hit_identifier.innerHTML = ((p_dmg * (s_level + 1)) >= current_m_hp) ? "1 Shot" : "";
+    hit_identifier.innerHTML = (Math.round(p_dmg * (s_level + 1)) >= current_m_hp) ? "1 Shot" : "";
     hit_identifier_crit.innerHTML = ((p_dmg_crit * (s_level + 1)) >= current_m_hp) ? "1 Shot" : "";
   }
   else {
@@ -1793,6 +1802,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
       skill_info_data +=
         `
             <div  class="skill-detail-cont skill-class-${selected_class} ${disable_cont}">
+            
               <img src="static/statslab/${skill.url}">
               <div class="skill-detail-more-cont">
                 <p>${skill.name}</p> 
@@ -1864,13 +1874,45 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
         let hit_identifier = (text_damage >= m_hp) ? "1 Hit" : "";
         let hit_identifier_crit = (text_damage_crit >= m_hp) ? "1 Hit" : "";
 
+        let skill_dmg = (skill.base_value + (skill.value_increase * skill_level[i]));
+        let base_dmg = (5 * (current_fatk_p + 30) / (m_def + 30));
+        let skill_element_fire = Math.round((base_dmg * 0.1) * skill_dmg);
+        let skill_element_electric = Math.round((base_dmg * 0.35) * skill_dmg);
+        let skill_element_poison = 0;
+
+
+        let skill_damage_more_info = ``;
+
         if (skill.is_multiply) {
           hit_identifier = ((text_damage * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
           hit_identifier_crit = ((text_damage_crit * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
         }
-
+        else {
+          skill_damage_more_info += `
+          <div class="skill-damage-list-cont" id="skill-class-${selected_class}" >
+            <h6>${skill.name} elemental damage </h6>
+            <div class="skill-dealt-element-cont" title="10% of skill damage per tick (10 ticks) for 6 seconds">
+              <img src="static/statslab/UI/icon-element-fire.png">
+              ${(skill_element_fire >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+              <p class="element-fire" >${skill_element_fire}</p>
+            </div>
+            <div class="skill-dealt-element-cont" title="35% of skill damage ">
+              <img src="static/statslab/UI/icon-element-electric.png">
+              ${(skill_element_fire >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+              <p class="element-electric" >${skill_element_electric}</p>
+            </div>
+            <div class="skill-dealt-element-cont" >
+              <img src="static/statslab/UI/icon-element-poison.png">
+              ${(skill_element_poison >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+              <p class="element-poison">${skill_element_poison}</p>
+            </div>
+            
+          </div>  
+        `;
+        }
         skill_damage_info += `
                 <div class="damage-dealt-m-cont">
+                  ${skill_damage_more_info}
                   <div class="dealt-cont">
                     <label >${skill.name} <span id="skill-label-type-${i}"> ${text_display_multiplier} </span></p></label>
                     <img src="static/statslab/UI/icon-base-damage.png">
@@ -1920,7 +1962,11 @@ function CloseDetailedDamage() {
   t_cont.innerHTML = "REBORN STAT LAB";
 
   booster_cont.style.transform = "translateY(0px)";
-  shield_cont.style.transform = "translateY(0px)";
+
+  if (shielded) {
+    shield_cont.style.transform = "translateY(0px)";
+  }
+
 
 }
 
@@ -1935,13 +1981,13 @@ function CloseDetailedDamage() {
 
 
 function SetLoad() {
-  
+
 
 
   UpdateStats();
 }
 function SetSave() {
-
+  CloseSavingTab();
 
   let save_data = [];
   let saves = JSON.parse(localStorage.getItem("SaveData"));
@@ -1949,11 +1995,24 @@ function SetSave() {
     saves = [];
   }
   SaveActionControl(0);
-  if (save_name == "") {
-    save_name = "Save " + (parseInt(saves.length) + 1);
-  }
-  saves.push(save_name);
 
+  let s_case = false ;
+  let save_name = "";
+  i = 1;
+  while (i < 10000){
+    
+    save_name = "Save " + i;
+    if (saves.includes(save_name)){
+      i++;
+      
+    }
+    else{
+      break;
+    }
+  }
+
+  saves.push(save_name);
+  saves.sort();
   console.log(saves);
   localStorage.setItem("SaveData", JSON.stringify(saves));
 
@@ -1976,7 +2035,7 @@ function SetSave() {
   save_data.push(sheated_primary_weapon);
   save_data.push(sheated_secondary_weapon);
   save_data.push(skill_level);
-  localStorage.setItem("Save " + saves.length, JSON.stringify(save_data));
+  localStorage.setItem(save_name, JSON.stringify(save_data));
   //call set items();
   //let test = JSON.parse(localStorage.getItem("Save 1"));
   /*console.log(test[0]);
@@ -1987,7 +2046,7 @@ function SetSave() {
 
 
 function TriggerSaves() {
-  
+
   cont_saving.style.display = "flex";
   SaveDisplayDetails();
 }
@@ -2009,14 +2068,14 @@ function RequestTextIdentifier(i_name, identifier_value) {
 }
 
 function SaveDisplayDetails() {
+
   DisplaySavesList();
-  
 
-  if (save_name == "") {
-    SaveActionControl(1);
-  }
+  let temp_name = "Current";
+  SaveActionControl(1);
+  temp_name = "Current";
 
-  let out = `<h1 style="margin:20px;" id="display-name" >${save_name}</h1>`;
+  let out = `<h1 style="margin:20px;" id="display-name" >${temp_name}</h1>`;
 
   out += `
     <div class="save-detail-h">
@@ -2027,18 +2086,18 @@ function SaveDisplayDetails() {
     </div>
   `;
 
-  out += RequestTextIdentifier("level",selected_level);
+  out += RequestTextIdentifier("level", selected_level);
   out += RequestTextIdentifier("hp", (15 + (hp * 5)));
-  out += RequestTextIdentifier("mp",  (mp * 3));
+  out += RequestTextIdentifier("mp", (mp * 3));
   out += RequestTextIdentifier("atk", (atk + 1));
   out += RequestTextIdentifier("def", (def + 1));
   out += RequestTextIdentifier("dex", (dex + 1));
 
   save_details.innerHTML = out;
-  
+
 
   //SaveActionControl(3); UPDATE
-  
+
   //2ND TIME pressing the "load" cause bug not workiing to load current save data
 }
 
@@ -2066,14 +2125,18 @@ function DisplaySavesList() {
     return;
   }
   for (let i = 0; i < saves_data.length; i++) {
+
     let current_save_data = JSON.parse(localStorage.getItem(saves_data[i]));
     let current_img_url = current_save_data[10].url;
     if (current_img_url == "") {
       current_img_url = "UI/icon-helmets.png";
     }
-
+    let s_text = ``;
+    if (i == selected_save) {
+      s_text = `id="save-data-active"`;
+    }
     saves_list_text += `
-      <div class="saved-data-cont" onclick="SelectSaveSlot(${i});">
+      <div class="saved-data-cont" ${s_text} onclick="SelectSaveSlot(${i});">
         <img src="static/statslab/${current_img_url}">
         <p>${current_save_data[0]}</p>
       </div>
@@ -2085,7 +2148,6 @@ function DisplaySavesList() {
 }
 
 function SelectSaveSlot(slot_n) {
-
   let saves_data = JSON.parse(localStorage.getItem("SaveData"));
   let selected_save_data = JSON.parse(localStorage.getItem(saves_data[slot_n]));
   SaveActionControl(2);
@@ -2109,75 +2171,110 @@ function SelectSaveSlot(slot_n) {
   display_def.innerHTML = (parseInt(selected_save_data[8]) + 1);
   display_dex.innerHTML = (parseInt(selected_save_data[9]) + 1);
 
+  let del_button = document.getElementById("action-delete-id");
+  del_button.setAttribute("onclick", "DeleteSaveSlot('" + slot_n + "')");
 }
 
 function LoadSaveSlot(slot_n) {
-
   let saves_data = JSON.parse(localStorage.getItem("SaveData"));
   let sd = JSON.parse(localStorage.getItem(saves_data[slot_n]));
 
-
-  //twohanded: false
-  /*save_data.push(selected_level);
-  save_data.push(shield_ability);
-  save_data.push(booster_ability);
-  save_data.push(selected_class);
-  save_data.push(hp);
-  save_data.push(mp);
-  save_data.push(atk);
-  save_data.push(def);
-  save_data.push(dex);
-  */
-
   SetClass(sd[4]);
-  
 
-
+  selected_save = slot_n;
   save_name = sd[0];
   selected_level = sd[1];
   shield_ability = sd[2];
   booster_ability = sd[3];
 
-
-
   level_input.value = sd[1];
-  document.getElementById("hp-amount").value = sd[5];
-  document.getElementById("mp-amount").value = sd[6];
-  document.getElementById("atk-amount").value = sd[7];
-  document.getElementById("def-amount").value = sd[8];
-  document.getElementById("dex-amount").value = sd[9];
-
   UpdateLevel();
-  SetStat("hp");
-  SetStat("mp");
-  SetStat("atk");
-  SetStat("def");
-  SetStat("dex");
 
-  SetItems("helmets", sd[10].name, sd[10].url, sd[10].attack, sd[10].defense, sd[10].price, "", "", sd[10].class);
-  SetItems("armors", sd[11].name, sd[11].url, sd[11].attack, sd[11].defense, sd[11].price, "", "", sd[11].class);
-  SetItems("pants", sd[12].name, sd[12].url, sd[12].attack, sd[12].defense, sd[12].price, "", "", sd[12].class);
-  SetItems("shoes", sd[13].name, sd[13].url, sd[13].attack, sd[13].defense, sd[13].price, "", "", sd[13].class);
+  hp = sd[5];
+  mp = sd[6];
+  atk = sd[7];
+  def = sd[8];
+  dex = sd[9];
+  points -= hp + mp + atk + def + dex;
+  points_label.innerHTML = points;
 
-  SetItems("weapons", sd[14].name, sd[14].url, sd[14].attack, sd[14].defense, sd[14].price, sd[14].twohanded, "e1", sd[14].class);
-  if (!sd[14].twohanded) {
+  DisplayStat(hp, mp, atk, def, dex)
+  UpdateStats();
 
-    SetItems("weapons", sd[15].name, sd[15].url, sd[15].attack, sd[15].defense, sd[15].price, sd[15].twohanded, "e2", sd[15].class);
+  booster_input.value = booster_ability;
+  UpdateBooster();
+  shield_input.value = shield_ability;
+  UpdateShield();
+
+  LoadSaveItems(sd[10], "helmets", "");
+  LoadSaveItems(sd[11], "armors", "");
+  LoadSaveItems(sd[12], "pants", "");
+  LoadSaveItems(sd[13], "shoes", "");
+  LoadSaveItems(sd[14], "weapons", "e1");
+  LoadSaveItems(sd[15], "weapons", "e2");
+  LoadSaveItems(sd[16], "weapons", "s1");
+  LoadSaveItems(sd[17], "weapons", "s2");
+  UpdateStats();
+
+  if (shielded) {
+    shield_cont.style.transform = "translateY(0px)";
   }
 
-  SetItems("weapons", sd[16].name, sd[16].url, sd[16].attack, sd[16].defense, sd[16].price, sd[16].twohanded, "s1", sd[16].class);
-  if (!sd[16].twohanded) {
-
-    SetItems("weapons", sd[17].name, sd[17].url, sd[17].attack, sd[17].defense, sd[17].price, sd[17].twohanded, "s2", sd[17].class);
-  }
+  booster_cont.style.transform = "translateY(0px)";
   skill_level = sd[18];
-
-
-
-
-
   CloseSavingTab();
-
 }
+function LoadSaveItems(s_data, type, w_slot) {
+
+  let s_name = s_data.name;
+  let s_url = s_data.url;
+  let s_atk = s_data.attack;
+  let s_def = s_data.defense;
+  let s_price = s_data.price;
+
+  let s_class = s_data.class;
+
+  let s_hander = "";
+  if (type == "weapons") {
+    s_atk = s_data.power;
+    s_hander = s_data.twohanded;
+  }
+  SetItems(type, s_name, s_url, s_atk, s_def, s_price, s_hander, w_slot, s_class);
+}
+
+
+function DeleteSaveSlot(slot_id) {
+  CloseSavingTab();
+  /*
+  let saves = JSON.parse(localStorage.getItem("SaveData"));
+  if (saves == null) {
+    saves = [];
+  }
+  for (let i = 0; i < saves.length - 1; i++) {
+    if (i == slot_id) {
+      continue;
+    }
+    save_name = "Save " + (parseInt(saves.length) + 1);
+    saves.push(save_name);
+  }
+
+
+
+
+
+
+  localStorage.setItem("SaveData", JSON.stringify(saves));
+
+*/
+
+  let saves = JSON.parse(localStorage.getItem("SaveData"));
+  let saves_index = saves.indexOf("Save "+ (parseInt(slot_id) + 1));
+  saves.splice(saves_index,1);
+  localStorage.setItem("SaveData",JSON.stringify(saves));
+  localStorage.removeItem("Save " + (parseInt(slot_id) + 1));
+  DisplaySavesList();
+}
+
+
 // electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

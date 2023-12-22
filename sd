@@ -1,0 +1,11 @@
+SetItems("helmets","Relic Helmet","Item-Images/mage-helmets/21.webp","17","124","973594","undefined","","mage");
+SetItems("helmets", Relic Helmet, Item-Images/mage-helmets/21.webp, 17, 124, 973594, "", "", mage)
+
+
+
+SetItems("weapons","Heart Wand","Item-Images/mage-weapons/17.webp","41","0","54614","false","e1","mage");
+
+SetItems("weapons","Wand of Blessings","Item-Images/mage-weapons/19.webp","47","0","77897","false","e1","mage");
+
+
+SetItems("helmets","Paper Hat","Item-Images/cowboy-helmets/2.webp","0","4","129","undefined","","cowboy");
