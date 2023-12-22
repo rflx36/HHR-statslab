@@ -1046,7 +1046,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
 
       break;
     case "weapons":
-      console.log("item hander:" + item_hander + " weapon slot:" + weapon_slot);
+    
       switch (weapon_slot) {
 
         case "e1":
@@ -1266,7 +1266,7 @@ function LoadItems(type) {
     //jsonfile = "static/statslab/Item-Info/warrior_" + type + ".json";
     parsedData = ReturnItems("warrior", type);
 
-    console.log(type);
+  //  console.log(type);
 
 
     temp_parse = ReturnItems("mage", type);
@@ -1307,14 +1307,14 @@ function LoadItems(type) {
         if (item.twohanded == null) {
           item.twohanded = false;
 
-          console.log("Sets twohanded to false");
+       //   console.log("Sets twohanded to false");
         }
         if (item.twohanded == true) {
           continue;
         }
       }
       catch (ex) {
-        console.log(ex, item.name);
+      //  console.log(ex, item.name);
 
         ReloadItems(type, weapon_slot);
 
@@ -1323,17 +1323,17 @@ function LoadItems(type) {
     try {
       if (item.power == null) {
         item.power = 0;
-        console.log("Sets power to 0");
+       // console.log("Sets power to 0");
 
       }
       if (item.defense == null) {
         item.defense = 0;
-        console.log("Sets defense to 0");
+       // console.log("Sets defense to 0");
 
       }
       if (item.level == null) {
         item.level = 0;
-        console.log("Sets level to 0");
+       // console.log("Sets level to 0");
 
       }
       //item.power = item.power || 0;
@@ -1341,7 +1341,7 @@ function LoadItems(type) {
 
     }
     catch (ex) {
-      console.log(ex, item.name);
+ //     console.log(ex, item.name);
       ReloadItems(type, weapon_slot);
     }
     if (selected_level >= item.level) {
@@ -1820,11 +1820,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
       if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
         j++;
         //Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
-        console.log(current_fatk_p);
-        console.log(m_def);
-        console.log(skill.base_value);
-        console.log(skill.value_increase);
-        console.log(skill_level[i]);
+      
         let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
         temp_p = temp_p.toFixed(6);
 
@@ -2013,7 +2009,6 @@ function SetSave() {
 
   saves.push(save_name);
   saves.sort();
-  console.log(saves);
   localStorage.setItem("SaveData", JSON.stringify(saves));
 
   save_data.push(save_name);
