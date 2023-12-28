@@ -1,0 +1,27 @@
+[
+    {
+        "name":"Boulder",
+        "attack":0,
+        "defense":60,
+        "hp":500,
+        "url":"static/statslab/UI/pve_1.png"
+    },
+    {
+        "name":"Saw",
+        "attack":350,
+        "hp":0,
+        "url":"static/statslab/UI/pve_2.png"
+    },
+    {
+        "name":"Swinging Axe",
+        "attack":420,
+        "hp":0,
+        "url":"static/statslab/UI/pve_3.png"
+    },
+    {
+        "name":"guillotine",
+        "attack":490,
+        "hp":0,
+        "url":"static/statslab/UI/pve_4.png"
+    }
+]

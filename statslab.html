@@ -37,10 +37,18 @@
                 <div class="cont-items-image"></div>
                 <div class="cont-items-details" id="item-detail"></div>
                 <div class="all-class-cont">
-                    <p>include all class</p>
-                    <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img"
-                            src="static/statslab/UI/icon-unchecked.png"></button>
-
+                  
+                    <div class="div-cont">
+                        <p>all class</p>
+                        <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img"
+                                src="static/statslab/UI/icon-unchecked.png"></button>
+                    </div>
+                    <div class="div-cont" id="div-cont-enchanted-id">
+                        <p>enchanted</p>
+                        <button id="toggle-enchanted" onclick="ToggleEnchanted();">
+                            <img id="toggle-enchanted-img" src="static/statslab/UI/icon-unchecked.png">
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -64,7 +72,7 @@
                         </button>
                     </div>
                     <div class="action-cont" id="actions-3">
-                        <button class="action-delete" >
+                        <button class="action-delete">
                             <p>DELETE</p>
                         </button>
                         <button id="button-update" class="action-update">
@@ -106,8 +114,12 @@
         <div class="cont-all">
             <div class="cont-items">
                 <div class="item-sheath item-cont">
-                    <button id="item-sheath-primary" onclick="LoadItems('weapons-s1');"></button>
-                    <button id="item-sheath-secondary" onclick="LoadItems('weapons-s2');"></button>
+                    <button id="item-sheath-primary" onclick="LoadItems('weapons-s1');">
+                        <div id="w-s1" class="weapon-enchanted"></div>
+                    </button>
+                    <button id="item-sheath-secondary" onclick="LoadItems('weapons-s2');">
+                        <div id="w-s2" class="weapon-enchanted"></div>
+                    </button>
                     <p>Sheath</p>
                 </div>
                 <div class="item-set item-cont">
@@ -118,8 +130,13 @@
                 </div>
 
                 <div class="item-weapon item-cont">
-                    <button id="item-weapon-primary" onclick="LoadItems('weapons-e1');"></button>
-                    <button id="item-weapon-secondary" onclick="LoadItems('weapons-e2');"></button>
+
+                    <button id="item-weapon-primary" onclick="LoadItems('weapons-e1');">
+                        <div id="w-e1" class="weapon-enchanted"></div>
+                    </button>
+                    <button id="item-weapon-secondary" onclick="LoadItems('weapons-e2');">
+                        <div id="w-e2" class="weapon-enchanted"></div>
+                    </button>
                 </div>
             </div>
             <div class="cont-stats">
@@ -170,6 +187,7 @@
                     <p>final defense:</p>
                     <p id="fdef">0</p>
                 </div>
+
                 <div class="stat-cost-cont">
                     <p>Total Cost:</p>
                     <div>
@@ -178,6 +196,15 @@
                     </div>
 
                 </div>
+                <div class="stat-enchantment-cont">
+                    <p>Enchantment Cost:</p>
+                    <div>
+                        <p id="ecost">0</p>
+                        <div id="fish-bg"></div>
+                    </div>
+
+                </div>
+
             </div>
             <div class="cont-set">
                 <div class="set-cont">
@@ -197,6 +224,9 @@
                     </div>
                     <div class="set-button" id="change-class" onclick="LoadClass();">
                         <p>Change Class</p>
+                    </div>
+                    <div class="set-button" id="tutorial" onclick="TutorialLink();">
+                        <p>Tutorial</p>
                     </div>
                     <div class="toggle-cont">
                         <div class="toggle-saves-button" onclick="TriggerSaves();">

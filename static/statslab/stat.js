@@ -34,12 +34,13 @@ let quote = document.getElementById('quote');
 
 let skills_data; //load skills.json
 let monsters_data; // load monsters.json
-
+let environment_data; // load environment.json
 //pre render UI at loading sesion to cache
 let UI_images = [
   "bg-snowflake",
   "button-hovered",
   "button",
+  "enchanted",
   "icon-archer",
   "icon-armor",
   "icon-base-damage-crit",
@@ -166,7 +167,7 @@ async function StartLoading() {
     images.push("static/statslab/UI/" + UI_images[i] + ".png");
   }
   LoadCache(images);
-  progress_percent += 6;
+  progress_percent += 3;
   UpdateLoadingBar();
 
 
@@ -201,7 +202,18 @@ async function StartLoading() {
   progress_percent += 5;
   UpdateLoadingBar();
 
-
+  let FileLocationEnvironment = "static/statslab/Items-Info/environment.json";
+  response = await fetch(FileLocationEnvironment);
+  parsedData = await response.json();
+  environment_data = parsedData;
+  loading_info.innerHTML = "Loading - PVE";
+  for (let pve of parsedData) {
+    images.push(pve.url);
+  }
+  LoadCache(images);
+  images = [];
+  progress_percent += 3;
+  UpdateLoadingBar();
 
 
   endTime = performance.now();
@@ -379,7 +391,8 @@ var selected_primary_weapon = {
   price: 0,
   class: "",
   url: "UI/icon-single-handed.png",
-  twohanded: false
+  twohanded: false,
+  enchanted: false
 }
 var selected_secondary_weapon = {
   name: "",
@@ -388,7 +401,8 @@ var selected_secondary_weapon = {
   price: 0,
   class: "",
   url: "UI/icon-single-handed.png",
-  twohanded: false
+  twohanded: false,
+  enchanted: false
 }
 
 
@@ -400,7 +414,8 @@ var sheated_primary_weapon = {
   price: 0,
   class: "",
   url: "UI/icon-single-handed.png",
-  twohanded: false
+  twohanded: false,
+  enchanted: false
 }
 var sheated_secondary_weapon = {
   name: "",
@@ -409,7 +424,8 @@ var sheated_secondary_weapon = {
   price: 0,
   class: "",
   url: "UI/icon-single-handed.png",
-  twohanded: false
+  twohanded: false,
+  enchanted: false
 }
 
 let dex_crit_chance = [
@@ -431,8 +447,8 @@ let dex_crit_chance = [
 
 
 
-
-
+var bonus_enchant_damage = 0;
+let weapon_enchanted = false;
 var current_fdef = 0;
 var current_fatk_p = 0;
 var current_fatk_s = 0;
@@ -476,6 +492,7 @@ let fatk_ = document.getElementById('fatk');
 let fspeed = document.getElementById('fspeed');
 let fdex = document.getElementById('fdex');
 let fprice = document.getElementById('tcost');
+let fenchantprice = document.getElementById('ecost');
 let minus_hp = document.getElementById('minus-hp');
 let minus_mp = document.getElementById('minus-mp');
 let minus_atk = document.getElementById('minus-atk');
@@ -502,6 +519,12 @@ let secondary_sheath = document.getElementById('item-sheath-secondary');
 let monster_cont = document.getElementById('cont-monster');
 
 
+let enchant_e1 = document.getElementById('w-e1');
+let enchant_e2 = document.getElementById('w-e2');
+let enchant_s1 = document.getElementById('w-s1');
+let enchant_s2 = document.getElementById('w-s2');
+let enchant_cont = document.getElementById('div-cont-enchanted-id');
+
 let cont_saving = document.getElementById('cont-saving-id');
 let save_details = document.getElementById('save-details-id');
 
@@ -524,6 +547,7 @@ function ClearEquips() {
     price: 0,
     class: "",
     url: "UI/icon-helmets.png"
+
   };
   selected_armor = {
     name: "",
@@ -561,7 +585,8 @@ function ClearEquips() {
     price: 0,
     class: "",
     url: "UI/icon-single-handed.png",
-    twohanded: false
+    twohanded: false,
+    enchanted: false
   };
   selected_secondary_weapon = {
     name: "",
@@ -570,7 +595,8 @@ function ClearEquips() {
     price: 0,
     class: "",
     url: "UI/icon-single-handed.png",
-    twohanded: false
+    twohanded: false,
+    enchanted: false
   };
 
 
@@ -581,7 +607,8 @@ function ClearEquips() {
     price: 0,
     class: "",
     url: "UI/icon-single-handed.png",
-    twohanded: false
+    twohanded: false,
+    enchanted: false
   }
   sheated_secondary_weapon = {
     name: "",
@@ -590,7 +617,8 @@ function ClearEquips() {
     price: 0,
     class: "",
     url: "UI/icon-single-handed.png",
-    twohanded: false
+    twohanded: false,
+    enchanted: false
   }
 
   item_helmet.style.backgroundImage = "url('static/statslab/UI/icon-helmets.png')";
@@ -684,9 +712,40 @@ function UpdateStats() {
 
   current_fdef = (def + 8) * (2 + parseInt(selected_helmet.defense) + parseInt(selected_armor.defense) + parseInt(selected_pants.defense) + parseInt(selected_shoes.defense) + parseInt(selected_secondary_weapon.defense * (1 + ((shield_ability * 5) / 100))) + parseInt(Math.floor(Math.floor(sheated_primary_weapon.defense * 0.35) * (1 + ((shield_ability * 5) / 100)))));
   fdef_.textContent = current_fdef.toLocaleString('en-US');
-  current_totalprice = (parseInt(selected_helmet.price) + parseInt(selected_armor.price) + parseInt(selected_pants.price) + parseInt(selected_shoes.price) + parseInt(selected_primary_weapon.price) + parseInt(selected_secondary_weapon.price) + parseInt(sheated_primary_weapon.price) + parseInt(sheated_secondary_weapon.price));
 
+  let total_enchantment_cost = 0;
+  let p_helmet = parseInt(selected_helmet.price);
+  let p_armor = parseInt(selected_armor.price);
+  let p_pants = parseInt(selected_pants.price);
+  let p_shoes = parseInt(selected_shoes.price);
+
+  let p_primary = parseInt(selected_primary_weapon.price);
+  let p_secondary = parseInt(selected_secondary_weapon.price);
+
+  let p_primary_sheath = parseInt(sheated_primary_weapon.price);
+  let p_secondary_sheath = parseInt(sheated_secondary_weapon.price);
+
+  if (selected_primary_weapon.enchanted) {
+    total_enchantment_cost += Math.round(Math.sqrt(selected_primary_weapon.price) * 2);
+    p_primary *= 2;
+  }
+  if (selected_secondary_weapon.enchanted) {
+    total_enchantment_cost += Math.round(Math.sqrt(selected_secondary_weapon.price) * 2);
+    p_secondary *= 2;
+  }
+  if (sheated_primary_weapon.enchanted) {
+    total_enchantment_cost += Math.round(Math.sqrt(sheated_primary_weapon.price) * 2);
+    p_primary_sheath *= 2;
+  }
+  if (sheated_secondary_weapon.enchanted) {
+    total_enchantment_cost += Math.round(Math.sqrt(sheated_secondary_weapon.price) * 2);
+    p_secondary_sheath *= 2;
+  }
+  fenchantprice.textContent = total_enchantment_cost;
+
+  current_totalprice = p_helmet + p_armor + p_pants + p_shoes + p_primary + p_secondary + p_primary_sheath + p_secondary_sheath;
   fprice.textContent = current_totalprice.toLocaleString('en-US');
+
   if (dex_crit_chance[dex] == null || dex_crit_chance[dex] == "") {
     fdex.textContent = "Unavailable";
   } else {
@@ -755,6 +814,15 @@ function UpdateStats() {
   fspeed.textContent = speed + "%";
 
   UpdateMonsterStat();
+  if (sheated_primary_weapon.enchanted && sheated_secondary_weapon.enchanted) {
+    bonus_enchant_damage = 0.25;
+  }
+  else if (sheated_primary_weapon.enchanted || sheated_secondary_weapon.enchanted) {
+    bonus_enchant_damage = 0.125;
+  }
+  else {
+    bonus_enchant_damage = 0;
+  }
 }
 function UpdateLevel() {
   if (level_input.value == "") {
@@ -1016,7 +1084,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_helmet.price = item_price;
       selected_helmet.class = type_class;
       item_helmet.style.backgroundImage = `url("static/statslab/${item_url}")`;
-      if (item_url == "default"){
+      if (item_url == "default") {
         item_helmet.style.backgroundImage = `url("static/statslab/UI/icon-helmets.png")`;
       }
       selected_helmet.url = item_url;
@@ -1028,7 +1096,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_armor.price = item_price;
       selected_armor.class = type_class;
       item_armor.style.backgroundImage = `url("static/statslab/${item_url}")`;
-      if (item_url == "default"){
+      if (item_url == "default") {
         item_armor.style.backgroundImage = `url("static/statslab/UI/icon-armor.png")`;
       }
       selected_armor.url = item_url;
@@ -1040,7 +1108,7 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_pants.price = item_price;
       selected_pants.class = type_class;
       item_pants.style.backgroundImage = `url("static/statslab/${item_url}")`;
-      if (item_url == "default"){
+      if (item_url == "default") {
         item_pants.style.backgroundImage = `url("static/statslab/UI/icon-pants.png")`;
       }
       selected_pants.url = item_url;
@@ -1052,14 +1120,14 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
       selected_shoes.price = item_price;
       selected_shoes.class = type_class;
       item_shoes.style.backgroundImage = `url("static/statslab/${item_url}")`;
-      if (item_url == "default"){
+      if (item_url == "default") {
         item_shoes.style.backgroundImage = `url("static/statslab/UI/icon-shoes.png")`;
       }
       selected_shoes.url = item_url;
 
       break;
     case "weapons":
-    
+
       switch (weapon_slot) {
 
         case "e1":
@@ -1069,12 +1137,9 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           selected_primary_weapon.class = type_class;
           selected_primary_weapon.url = item_url;
           selected_primary_weapon.twohanded = item_hander;
-          
-          if (item_hander == "false") {
-            equipped_two_hander = false;
-            secondary_equip.style.display = "initial";
-          } else {
+          selected_primary_weapon.enchanted = weapon_enchanted;
 
+          if (item_hander == "true" || item_name == "") {
             selected_secondary_weapon = {
               name: "",
               power: 0,
@@ -1082,16 +1147,27 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
               price: 0,
               class: "",
               url: "UI/icon-single-handed.png",
-              twohanded: false
+              twohanded: false,
+              enchanted: false
             };
 
             item_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
+            enchant_e2.style.opacity = "0";
             equipped_two_hander = true;
             secondary_equip.style.display = "none";
+
+          } else {
+
+
+
+            equipped_two_hander = false;
+            secondary_equip.style.display = "initial";
           }
           item_primary.style.backgroundImage = `url("static/statslab/${item_url}")`;
-
-          if (item_url == "default"){
+          if (item_name != "") {
+            enchant_e1.style.opacity = (weapon_enchanted) ? "1" : "0";
+          }
+          if (item_url == "default") {
             item_primary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
           }
           break;
@@ -1103,9 +1179,20 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           item_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
           selected_secondary_weapon.price = item_price;
           selected_secondary_weapon.url = item_url;
-          if (item_url == "default"){
+          selected_secondary_weapon.enchanted = false;
+          if (item_url == "default") {
             item_secondary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
           }
+          if (item_pow > 0 && item_name != "") {
+            enchant_e2.style.opacity = (weapon_enchanted) ? "1" : "0";
+            selected_secondary_weapon.enchanted = weapon_enchanted;
+          }
+
+          
+          if (item_def > 0){
+            enchant_e2.style.opacity = "0";
+          }
+
           break;
         case "s1":
           sheated_primary_weapon.name = item_name;
@@ -1115,19 +1202,22 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_primary_weapon.price = item_price;
           sheated_primary_weapon.url = item_url;
           sheated_primary_weapon.twohanded = item_hander;
-          if (item_hander == "false") {
-            sheathed_two_hander = false;
-
-            secondary_sheath.style.display = "initial";
-          }
-          else {
+          sheated_primary_weapon.enchanted = false;
+          if (item_hander == "true" || item_def > 0 || item_name == "") {
             sheathed_two_hander = true;
 
             secondary_sheath.style.display = "none";
           }
+          else {
+            sheathed_two_hander = false;
+
+            secondary_sheath.style.display = "initial";
+
+          }
+
           item_sheath_primary.style.backgroundImage = `url("static/statslab/${item_url}")`;
-
-
+          enchant_s2.style.opacity = "0";
+          enchant_s1.style.opacity = "0";
           sheated_secondary_weapon = {
             name: "",
             power: 0,
@@ -1135,11 +1225,15 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
             price: 0,
             class: "",
             url: "UI/icon-single-handed.png",
-            twohanded: false
+            twohanded: false,
+            enchanted: false
           };
-
+          if (item_pow > 0 && weapon_enchanted && item_name != "") {
+            sheated_primary_weapon.enchanted = true;
+            enchant_s1.style.opacity = "1";
+          }
           item_sheath_secondary.style.backgroundImage = "url('static/statslab/UI/icon-single-handed.png')";
-          if (item_url == "default"){
+          if (item_url == "default") {
             item_sheath_primary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
           }
           break;
@@ -1149,12 +1243,18 @@ function SetItems(type, item_name, item_url, item_pow, item_def, item_price, ite
           sheated_secondary_weapon.price = item_price;
           sheated_secondary_weapon.class = type_class;
           sheated_secondary_weapon.url = item_url;
+          sheated_secondary_weapon.enchanted = weapon_enchanted;
           item_sheath_secondary.style.backgroundImage = `url("static/statslab/${item_url}")`;
-          if (item_url == "default"){
+
+          if (item_name != "") {
+            enchant_s2.style.opacity = (weapon_enchanted) ? "1" : "0";
+          }
+
+          if (item_url == "default") {
             item_sheath_secondary.style.backgroundImage = `url("static/statslab/UI/icon-single-handed.png")`;
           }
+          
           break;
-
 
       }
       break;
@@ -1218,9 +1318,10 @@ function DisplayEquipped(type, item, wslot) {
 
 
 let include_all = false;
-
+let enchanted = false;
 
 let btn_image = document.getElementById("toggle-class-img");
+let btn_image_2 = document.getElementById("toggle-enchanted-img");
 function ToggleInclude() {
   set_items.style.display = "none";
 
@@ -1241,6 +1342,25 @@ function ToggleInclude() {
 
 
 }
+function ToggleEnchanted() {
+  set_items.style.display = "none";
+  items_container.innerHTML = '';
+
+  if (enchanted) {
+    enchanted = false;
+    btn_image_2.src = "static/statslab/UI/icon-unchecked.png";
+    LoadItems(current_type_selected);
+  }
+  else {
+    enchanted = true;
+    btn_image_2.src = "static/statslab/UI/icon-checked.png";
+    LoadItems(current_type_selected);
+  }
+
+  weapon_enchanted = enchanted;
+
+}
+
 current_type_selected = "";
 
 function LoadItems(type) {
@@ -1292,7 +1412,7 @@ function LoadItems(type) {
     //jsonfile = "static/statslab/Item-Info/warrior_" + type + ".json";
     parsedData = ReturnItems("warrior", type);
 
-  //  console.log(type);
+    //  console.log(type);
 
 
     temp_parse = ReturnItems("mage", type);
@@ -1327,20 +1447,22 @@ function LoadItems(type) {
      }*/
     //console.log(temp_parse);
   }
+
+  enchant_cont.style.display = (type == "weapons") ? "flex" : "none";
   for (let item of parsedData) {
     if (weapon_slot == "e2" || weapon_slot == "s2") {
       try {
         if (item.twohanded == null) {
           item.twohanded = false;
 
-       //   console.log("Sets twohanded to false");
+          //   console.log("Sets twohanded to false");
         }
         if (item.twohanded == true) {
           continue;
         }
       }
       catch (ex) {
-      //  console.log(ex, item.name);
+        //  console.log(ex, item.name);
 
         ReloadItems(type, weapon_slot);
 
@@ -1349,17 +1471,17 @@ function LoadItems(type) {
     try {
       if (item.power == null) {
         item.power = 0;
-       // console.log("Sets power to 0");
+        // console.log("Sets power to 0");
 
       }
       if (item.defense == null) {
         item.defense = 0;
-       // console.log("Sets defense to 0");
+        // console.log("Sets defense to 0");
 
       }
       if (item.level == null) {
         item.level = 0;
-       // console.log("Sets level to 0");
+        // console.log("Sets level to 0");
 
       }
       //item.power = item.power || 0;
@@ -1367,7 +1489,7 @@ function LoadItems(type) {
 
     }
     catch (ex) {
- //     console.log(ex, item.name);
+      //     console.log(ex, item.name);
       ReloadItems(type, weapon_slot);
     }
     if (selected_level >= item.level) {
@@ -1385,9 +1507,14 @@ function LoadItems(type) {
     }
     let d_equipped_text = "";
     d_equipped_text = DisplayEquipped(type, item, weapon_slot);
-
+    let enchantment_detail_img = "";
     out += d_equipped_text;
-
+    let enchantment_value = 0;
+    if (enchanted && type == "weapons" && item.power > 0) {
+      out += `<div class="item-enchanted-cont"><img class="item-enchanted" src="static/statslab/UI/enchanted.png"></div>`;
+      enchantment_detail_img = ` <div class="item-enchanted-cont"><img class="item-enchanted-detail" src="static/statslab/UI/enchanted.png"></div>`;
+      enchantment_value = Math.round(Math.sqrt(item.price) * 2);
+    }
     if (d_equipped_text != "") {
       out += `<img id="item-id-unhoverable" class="item-display"src='static/statslab/${item.url}'>`;
     }
@@ -1397,6 +1524,7 @@ function LoadItems(type) {
     out += `
             <div class="item-details">
               <p class="details-title">${item.name}</p> 
+              ${enchantment_detail_img}
               <img class="details-img"src='static/statslab/${item.url}'>`;
     if (include_all) {
       out += `<p class="details-p"`;
@@ -1423,23 +1551,27 @@ function LoadItems(type) {
     if (item.twohanded == true) {
       out += `<p class="details-p">TWO HANDED </p>`;
     }
+
     var temp_price = item.price.toLocaleString('en-US');
     out +=
       ` <p class="details-p" id="underleveled">Required Level: ${item.level}</p>
               <p class="details-p">Price: `+ temp_price + `</p>
-            </div>
-        </div>
       `;
-
-
+    if (enchantment_value > 0) {
+      out += `<p class="details-p details-enchanted">Enchantment Cost: ${enchantment_value}`;
+    }
+    out += `
+        </div>
+      </div>
+      `;
   }
   out_remove =
-  `<div class="item-remove" onclick='SetItems("` + type + `","","default","0","0","0","false","` + weapon_slot + `","");'>
+    `<div class="item-remove" onclick='SetItems("` + type + `","","default","0","0","0","false","` + weapon_slot + `","");'>
     <img class="item-display"src='static/statslab/UI/icon-remove.png'>
   </div>
   `;
-  
-  items_container.innerHTML =out_remove + out;
+
+  items_container.innerHTML = out_remove + out;
 
 
 
@@ -1512,11 +1644,12 @@ function UpdateMonsterStat() {
 
 var Monster_selection = 1;
 var Monster_toggle_variant = false;
+var Pve_toggle = false;
 var Monster_image_cont = document.getElementById('toggle-monster-img');
 var Monster_stat_cont = document.getElementById('cont-stat-monster');
 function ToggleMonsters() {
   Monster_selection++;
-  if (Monster_selection > 3) {
+  if (Monster_selection > 4) {
     Monster_selection = 1;
   }
 
@@ -1525,7 +1658,7 @@ function ToggleMonsters() {
   if (Monster_selection == 1) {
 
     Monster_stat_cont.style = "transform:translateY(159px);";
-
+    Pve_toggle = false;
 
     Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-hide.png');";
   }
@@ -1537,24 +1670,90 @@ function ToggleMonsters() {
     SetMonsters();
     Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-show.png');";
   }
-  else {
+  else if (Monster_selection == 3) {
 
     Monster_toggle_variant = false;
     monster_cont.innerHTML = '';
     SetMonsters();
     Monster_image_cont.style = " background-image:url('static/statslab/UI/monster-toggle-variant.png');";
   }
+  else {
+    monster_cont.innerHTML = '';
+    Pve_toggle = true;
+    SetMonsters();
+    Monster_image_cont.style = "background-image:url('static/statslab/UI/pve-toggle.png');";
+  }
 
   //console.log(Monster_selection)
 }
 
 
+function SetEnvironments() {
 
+
+  var out = ``;
+  var i = 0;
+  m_dmg.length = 0;
+  m_def.length = 0;
+
+
+  for (let monster of monsters_data) {
+
+    var m_def_bonus = 0;
+    var m_atk_bonus = 0;
+    if (Monster_toggle_variant && monster.variant) {
+      continue;
+    }
+
+    if (monster.variant) {
+      m_def_bonus = monster.variant_def;
+      m_atk_bonus = monster.variant_atk;
+    }
+
+
+    var monster_dmg = monster.attack * (monster.attack + m_atk_bonus);
+    var monster_def = monster.defense * (monster.defense + m_def_bonus);
+
+    if (monster.name == "Sasquatch") {
+      monster_dmg = monster_dmg * 2.5; // Punch 250%
+    }
+    let d_dmg = monster_dmg;
+    let d_def = monster_def;
+
+    m_dmg.push(monster_dmg);
+    m_def.push(monster_def);
+    var dmg = Math.round(5 * (monster_dmg + 30) / (current_fdef + 30));
+    var monster_dmg = formatNumberWithAbbreviation(dmg);
+    var monster_def = formatNumberWithAbbreviation(Math.round(((current_fatk_p + 30) / ((monster_def + 30) * 5))));
+
+
+    out += `<div class='monster-index' onclick="DisplayMonsterDetail(${d_dmg},${d_def},'${monster.url}','${monster.hp}','${monster.name}');">
+          <div class='monster-image' title='${monster.name}' style='background-image:url(${monster.url});'></div>
+          <div class='monster-stat'>
+            <div class='monster-dmg' title='Monster Damage to you'>
+              <div class='monster-dmg-icon'> </div>
+              <p id="m_dmg_`+ i + `" style='color:` + ((dmg >= 1) ? 'red' : '#00EA00') + `'>` + monster_dmg + `</p>
+            </div>
+            <div class='monster-def' title='Your Damage Dealt'>
+              <div class='monster-def-icon'> </div>
+              <p id="m_def_`+ i + `">` + monster_def + `</p>
+            </div>
+          </div>
+    </div>`;
+
+    i++;
+  }
+  monster_cont.innerHTML = out;
+  UpdateMonsterStat();
+
+}
 
 function SetMonsters() {
 
 
   var out = ``;
+
+
   var i = 0;
   m_dmg.length = 0;
   m_def.length = 0;
@@ -1752,8 +1951,8 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
 
   let p_dmg_crit = Math.floor(p_dmg * dex_crit_chance[dex]);
 
-  let p_dmg_fire = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1);
-  let p_dmg_electric = Math.round((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35);
+  let p_dmg_fire = Math.round(((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.1) * (1 + bonus_enchant_damage));
+  let p_dmg_electric = Math.round(((5 * (current_fatk_p + 30) / (m_def + 30)) * 0.35) * (1 + bonus_enchant_damage));
   let p_dmg_poison = 0;
   let p_dmg_ice = 0;
 
@@ -1761,6 +1960,35 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
   let text_crit_display = "Base Damage Crit";
   if (dex_crit_chance[dex] == 0) {
     text_crit_display = "Dex Unavailable";
+  }
+  let text_element_display = `
+  <div class="damage-dealt-m-cont">
+          <div class="dealt-element-cont" title="10% of base damage per tick (10 ticks) for 6 seconds">
+            <img src="static/statslab/UI/icon-element-fire.png">
+            ${(p_dmg_fire >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+            <p class="element-fire" >${p_dmg_fire}</p>
+          </div>
+
+          <div class="dealt-element-cont"  title="35% of base damage">
+            <img src="static/statslab/UI/icon-element-electric.png">
+            ${(p_dmg_electric >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+            <p class="element-electric">${p_dmg_electric}</p>
+          </div>
+        </div>
+
+        <div class="damage-dealt-m-cont">
+          <div class="dealt-element-cont">
+            <img src="static/statslab/UI/icon-element-poison.png">
+            ${(p_dmg_poison >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
+            <p class="element-poison">${p_dmg_poison}</p>
+          </div>
+        
+          <div class="dealt-element-cont">
+            <p id="element-reserved" >ICE RESERVED</p>
+          </div>
+        </div>`;
+  if (!(selected_primary_weapon.enchanted || selected_secondary_weapon.enchanted)) {
+    text_element_display = `<p id="active-elements-info"><i>To display elemental damage equip an enchanted weapon</i></p>`;
   }
 
   skill_damage_info +=
@@ -1778,31 +2006,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
         </div>
       </div>
       <div class="skill-damage-detail-cont">
-        <div class="damage-dealt-m-cont">
-        <div class="dealt-element-cont" title="10% of base damage per tick (10 ticks) for 6 seconds">
-          <img src="static/statslab/UI/icon-element-fire.png">
-          ${(p_dmg_fire >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
-          <p class="element-fire" >${p_dmg_fire}</p>
-        </div>
-
-        <div class="dealt-element-cont"  title="35% of base damage">
-          <img src="static/statslab/UI/icon-element-electric.png">
-          ${(p_dmg_electric >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
-          <p class="element-electric">${p_dmg_electric}</p>
-        </div>
-      </div>
-
-      <div class="damage-dealt-m-cont">
-        <div class="dealt-element-cont">
-          <img src="static/statslab/UI/icon-element-poison.png">
-          ${(p_dmg_poison >= m_hp) ? "<div class='display-one-hit'>1 Hit</div>" : ""}
-          <p class="element-poison">${p_dmg_poison}</p>
-        </div>
-        
-        <div class="dealt-element-cont">
-          <p id="element-reserved" >ICE RESERVED</p>
-        </div>
-      </div>
+        ${text_element_display}
 
         <div class="damage-dealt-m-cont">
           <div class="dealt-cont">
@@ -1852,7 +2056,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
       if (skill.weapon_type == skill_weapon_case || skill.weapon_type == "any") {
         j++;
         //Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
-      
+
         let temp_p = (5 * (current_fatk_p + 30) / (m_def + 30));
         temp_p = temp_p.toFixed(6);
 
@@ -1904,8 +2108,8 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
 
         let skill_dmg = (skill.base_value + (skill.value_increase * skill_level[i]));
         let base_dmg = (5 * (current_fatk_p + 30) / (m_def + 30));
-        let skill_element_fire = Math.round((base_dmg * 0.1) * skill_dmg);
-        let skill_element_electric = Math.round((base_dmg * 0.35) * skill_dmg);
+        let skill_element_fire = Math.round(((base_dmg * 0.1) * skill_dmg) * (1 + bonus_enchant_damage));
+        let skill_element_electric = Math.round(((base_dmg * 0.35) * skill_dmg) * (1 + bonus_enchant_damage));
         let skill_element_poison = 0;
 
 
@@ -1915,7 +2119,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
           hit_identifier = ((text_damage * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
           hit_identifier_crit = ((text_damage_crit * (parseInt(skill_level[i]) + 1)) >= m_hp) ? "1 Shot" : "";
         }
-        else {
+        else if (selected_primary_weapon.enchanted || selected_secondary_weapon.enchanted) {
           skill_damage_more_info += `
           <div class="skill-damage-list-cont" id="skill-class-${selected_class}" >
             <h6>${skill.name} elemental damage </h6>
@@ -2024,17 +2228,17 @@ function SetSave() {
   }
   SaveActionControl(0);
 
-  let s_case = false ;
+  let s_case = false;
   let save_name = "";
   i = 1;
-  while (i < 10000){
-    
+  while (i < 10000) {
+
     save_name = "Save " + i;
-    if (saves.includes(save_name)){
+    if (saves.includes(save_name)) {
       i++;
-      
+
     }
-    else{
+    else {
       break;
     }
   }
@@ -2232,15 +2436,39 @@ function LoadSaveSlot(slot_n) {
   UpdateBooster();
   shield_input.value = shield_ability;
   UpdateShield();
+  if (sd[14].enchanted == undefined) {
+    sd[14].enchanted = false;
+  }
+  if (sd[15].enchanted == undefined) {
+    sd[15].enchanted = false;
+  }
+  if (sd[16].enchanted == undefined) {
+    sd[16].enchanted = false;
+  }
+  if (sd[16].enchanted == undefined) {
+    sd[16].enchanted = false;
+  }
+
+
+
 
   LoadSaveItems(sd[10], "helmets", "");
   LoadSaveItems(sd[11], "armors", "");
   LoadSaveItems(sd[12], "pants", "");
   LoadSaveItems(sd[13], "shoes", "");
+
+  weapon_enchanted = sd[14].enchanted;
   LoadSaveItems(sd[14], "weapons", "e1");
+
+  weapon_enchanted = sd[15].enchanted;
   LoadSaveItems(sd[15], "weapons", "e2");
+
+  weapon_enchanted = sd[16].enchanted;
   LoadSaveItems(sd[16], "weapons", "s1");
+
+  weapon_enchanted = sd[17].enchanted;
   LoadSaveItems(sd[17], "weapons", "s2");
+  weapon_enchanted = enchanted;
   UpdateStats();
 
   if (shielded) {
@@ -2295,13 +2523,19 @@ function DeleteSaveSlot(slot_id) {
 */
 
   let saves = JSON.parse(localStorage.getItem("SaveData"));
-  let saves_index = saves.indexOf("Save "+ (parseInt(slot_id) + 1));
-  saves.splice(saves_index,1);
-  localStorage.setItem("SaveData",JSON.stringify(saves));
+  let saves_index = saves.indexOf("Save " + (parseInt(slot_id) + 1));
+  saves.splice(saves_index, 1);
+  localStorage.setItem("SaveData", JSON.stringify(saves));
   localStorage.removeItem("Save " + (parseInt(slot_id) + 1));
   DisplaySavesList();
 }
 
+
+function TutorialLink() {
+  let newTab = window.open();
+
+  newTab.location.href = "https://www.youtube.com/watch?v=ILISxC_CF30&ab_channel=BlueHairedDirt";
+}
 
 // electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

@@ -181,7 +181,7 @@ input::-webkit-inner-spin-button {
     width: 50px;
     height: 50px;
     cursor: pointer;
-
+    position: relative;
     transition: .3s cubic-bezier(0.18, 0.85, 0.18, 0.84);
 
 }
@@ -401,6 +401,29 @@ input::-webkit-inner-spin-button {
     margin-right: 10px;
 }
 
+.stat-enchantment-cont {
+    background: #3DB81E;
+    height: 31px;
+    display: flex;
+    border-radius: 5px;
+    border: 2px solid #073506;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.stat-enchantment-cont p {
+    font-size: 28px;
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+    margin-left: 10px;
+    -webkit-text-stroke-width: 0;
+    font-family: Confetti;
+    color: #4FE7FF;
+}
+
+.stat-enchantment-cont div {
+    display: flex;
+}
+
 .stat-cost-cont {
     background: #3DB81E;
     height: 31px;
@@ -424,6 +447,16 @@ input::-webkit-inner-spin-button {
     display: flex;
 }
 
+#fish-bg {
+    background-image: url(UI/icon-fish.png);
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 19px;
+
+}
+
 #coin-bg {
     background-image: url(UI/icon-coin.png);
     width: 30px;
@@ -435,7 +468,7 @@ input::-webkit-inner-spin-button {
 }
 
 .stat-br {
-    height: 50px;
+    height: 15px;
 }
 
 #close-item-selection {
@@ -626,8 +659,8 @@ input::-webkit-inner-spin-button {
     position: relative;
 
 
-    #skill-class-warrior{
-    background: #A2542E;
+    #skill-class-warrior {
+        background: #A2542E;
     }
 
     #skill-class-mage {
@@ -677,7 +710,7 @@ input::-webkit-inner-spin-button {
     transform: translateY(-50px);
 }
 
-.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .skill-damage-list-cont h6{
+.cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .skill-damage-list-cont h6 {
     width: 100%;
     text-align: center;
     font-family: 'Confetti';
@@ -685,6 +718,7 @@ input::-webkit-inner-spin-button {
     height: 15px;
     opacity: 0.5;
 }
+
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont .skill-damage-list-cont .skill-dealt-element-cont {
     width: calc(50% - 7.5px);
     height: 40px;
@@ -708,12 +742,13 @@ input::-webkit-inner-spin-button {
 }
 
 .cont-detailed-damage .cont-damage .skill-damage-detail-cont .damage-dealt-m-cont:hover {
-    > .skill-damage-list-cont {
+    >.skill-damage-list-cont {
         transform: translateY(0px);
         opacity: 1;
         transition: .3s cubic-bezier(0.11, 0.8, 0.13, 0.84)
     }
-    > .dealt-cont {
+
+    >.dealt-cont {
         background: #00000038;
     }
 }
@@ -1032,6 +1067,15 @@ input::-webkit-inner-spin-button {
     margin: 5px;
 }
 
+#active-elements-info {
+    font-family: 'Confetti';
+    -webkit-text-stroke: 0px;
+    color: black;
+    opacity: 0.5;
+    font-size: 15px;
+    text-align: center;
+    margin: 5px;
+}
 #item-id-unhoverable:hover {
     opacity: 1;
 }
@@ -1392,7 +1436,8 @@ body {
     border-radius: 5px;
     background: #3DB81E;
     display: flex;
-
+    justify-content: space-between;
+  
 }
 
 .all-class-cont p {
@@ -1404,6 +1449,11 @@ body {
     margin-left: 10px;
     align-self: center;
     font-size: 25px;
+
+}
+
+.all-class-cont .div-cont {
+    display: flex;
 }
 
 #toggle-class {
@@ -1413,6 +1463,12 @@ body {
     cursor: pointer;
 }
 
+#toggle-enchanted {
+    margin-left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 .monster-stat-cont {
     width: 960px;
@@ -1575,8 +1631,9 @@ body {
     display: flex;
     justify-content: end;
     align-items: end;
-    height: 140px;
+    height: 100px;
     margin: 5px;
+
 }
 
 .toggle-saves-button {
@@ -1689,11 +1746,13 @@ body {
     height: -webkit-fill-available;
 
 }
-.cont-saving .save-list #save-data-active{
+
+.cont-saving .save-list #save-data-active {
     background: #96D719;
     transform: translateX(10px);
     width: calc(100% - 70px);
 }
+
 .cont-saving .save-list .saved-data-cont {
     width: calc(100% - 60px);
     height: 50px;
@@ -1709,7 +1768,7 @@ body {
 }
 
 .cont-saving .save-list .saved-data-cont:hover {
-   /* background: #96D719;*/
+    /* background: #96D719;*/
     background: #BEF4BB;
 
 }
@@ -1879,11 +1938,56 @@ body {
 }
 
 
-.item-remove{
+.item-remove {
     background-color: #92e092;
     width: 100px;
     height: 100px;
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
+}
+
+#tutorial {
+    background: #C66400;
+}
+
+#tutorial:hover {
+    background: #e17204;
+
+}
+
+.item-enchanted {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 3;
+}
+
+.item-enchanted-detail {
+    width: 220px;
+    margin-left: 70px;
+    margin-top: 9px;
+}
+
+.item-enchanted-cont {
+    width: 0px;
+    height: 0px;
+    position: relative;
+    pointer-events: none;
+}
+
+.details-enchanted {
+    color: #4FE7FF;
+}
+
+
+.weapon-enchanted {
+    height: 46px;
+    width: 46px;
+    background: url(UI/enchanted.png);
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    background-size: contain;
+    opacity: 0;
 }
