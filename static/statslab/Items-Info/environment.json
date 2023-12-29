@@ -1,7 +1,7 @@
 [
     {
         "name":"Boulder",
-        "attack":0,
+       
         "defense":60,
         "hp":500,
         "url":"static/statslab/UI/pve_1.png"
@@ -19,7 +19,7 @@
         "url":"static/statslab/UI/pve_3.png"
     },
     {
-        "name":"guillotine",
+        "name":"Guillotine",
         "attack":490,
         "hp":0,
         "url":"static/statslab/UI/pve_4.png"

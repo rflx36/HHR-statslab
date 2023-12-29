@@ -1391,7 +1391,7 @@ input::-webkit-inner-spin-button {
 
 body {
     background-color: #2F3136;
-    background-image: url(UI/bg-snowflake.png);
+    /*background-image: url(UI/bg-snowflake.png);*/
     background-size: 300px;
 }
 
@@ -1401,7 +1401,7 @@ body {
     bottom: 0;
     margin: 15px;
     font-size: 20px;
-    background: url(UI/icon-discord-server-xmas.png);
+    background: url(UI/icon-discord-server-2024.png);
     width: 50px;
     height: 50px;
     background-size: 50px;
@@ -1807,6 +1807,13 @@ body {
 
 }
 
+.cont-saving .save-name { 
+    display: flex;
+    margin: 5px;
+    justify-content: center;
+}
+
+
 .cont-saving .save-details .save-detail-h {
     display: flex;
     margin: 5px;
@@ -1990,4 +1997,26 @@ body {
     top: 0;
     background-size: contain;
     opacity: 0;
+}
+
+#save-name-input {
+    width: 200px;
+    height: 31px;
+    border: 1px solid #535353;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 9px;
+    padding-left: 7px;
+    padding-top: 4px;
+    outline: none;
+    font-family: "Confetti";
+    color: #131313;
+    font-size: 20px;
+}
+
+#save-name-input::placeholder{
+    color: #1313136f;
+    font-style: italic;
+    font-family: "Confetti";
+
 }
