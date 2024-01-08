@@ -1931,9 +1931,15 @@ function RepaintSkillLevel(id, val, j) {
   skills[j].skill_level = parseInt(val); //updates skill data
 
 
+  let p_skill_mp = document.getElementById('skill-mana-'+id);
+  
   let s_base_val = skills[j].base_value;
   let s_increase_val = skills[j].value_increase;
   let s_level = skills[j].skill_level;
+  let s_base_mp = skills[j].base_mp;
+  let s_increase_mp = skills[j].mp_increase;
+
+  p_skill_mp.innerHTML = s_base_mp + (s_increase_mp * s_level);
 
   /*
   let p_dmg = Math.round(5 * (current_fatk_p + 30) / (m_def + 30));
@@ -2103,7 +2109,7 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
                   <div class="mana-cont">
                     <div class="mana-icon">
                     </div>
-                    <p id="skill-mana-${i}">${skill.mana * skill_level[i]}</p>
+                    <p id="skill-mana-${i}">${skill.base_mp + (skill.mp_increase * skill_level[i])}</p>
                   </div>
                 </div>
               </div> 
@@ -2127,7 +2133,9 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
           "base_value": skill.base_value,
           "value_increase": skill.value_increase,
           "skill_level": skill_level[i],
-          "is_multiply": skill.is_multiply
+          "is_multiply": skill.is_multiply,
+          "base_mp":skill.base_mp,
+          "mp_increase":skill.mp_increase
         }
         skills.push(temp_skill);
         let text = "";
