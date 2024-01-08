@@ -43,5 +43,14 @@
         "price": 342036,
         "url": "Item-Images/cowboy-shoes/5.webp",
         "class": "cowboy"
+    },
+    {
+        "name": "Guard Boots",
+        "power": 9,
+        "defense": 91,
+        "level": 114,
+        "price": 434691,
+        "url": "Item-Images/cowboy-shoes/6.webp",
+        "class": "cowboy"
     }
 ]

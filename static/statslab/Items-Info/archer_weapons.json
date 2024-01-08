@@ -178,5 +178,14 @@
         "url": "Item-Images/archer-weapons/20.webp",
         "class": "archer",
         "twohanded":true
+    },
+    {
+        "name": "Reef Bow",
+        "power": 233,
+        "level": 180,
+        "price": 2236257,
+        "url": "Item-Images/archer-weapons/21.webp",
+        "class": "archer",
+        "twohanded":true
     }
 ]

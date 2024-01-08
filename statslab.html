@@ -37,7 +37,7 @@
                 <div class="cont-items-image"></div>
                 <div class="cont-items-details" id="item-detail"></div>
                 <div class="all-class-cont">
-                  
+
                     <div class="div-cont">
                         <p>all class</p>
                         <button id="toggle-class" onclick="ToggleInclude();"><img id="toggle-class-img"
@@ -59,8 +59,8 @@
                 <div id="save-details-id"></div>
                 <div class="save-actions">
                     <div class="action-cont" id="actions-1">
-                        <div id="save-name" >
-                            <input type="text" autocomplete="off" id="save-name-input" placeholder="Enter name..." >
+                        <div id="save-name">
+                            <input type="text" autocomplete="off" id="save-name-input" placeholder="Enter name...">
 
                         </div>
                         <button class="action-save" onclick="SetSave();">
@@ -116,6 +116,33 @@
 
         </div>
         <div class="cont-all">
+            <div class="shield-guard-bg" id="shield-guard-bg-id">
+                <div class="shield-guard-cont">
+
+                    <div class="close-guard" onclick="CloseGuard();"></div>
+                    <div class="guard-details">
+                        <img src="static/statslab/UI/guard-skill.png">
+                        <div class="guard-detail-div">
+                            <p>You assume a guarded position creating a protective magnetic field.</p>
+                            <p style="line-height: 13px;"><i>(This doubles the defensive effectiveness of your shield
+                                    and increases players within the field's defense)</i></p>
+                        </div>
+
+                    </div>
+                    <div class="shield-skill-value-cont">
+                        <p> Guard Skill:</p>
+                        <input type="range" min="0" max="30" value="0" id="guard-skill-input" onchange="UpdateGuardSkill(this.value);">
+                        <p id="guard-skill-label">0%</p>
+                    </div>
+                    <div class="shield-skill-toggle-cont">
+                        <p id="guard-enable"> Enable: </p>
+                        <div class="shield-skill-toggle-div">
+                            <button id="toggle-guard-off" onclick="ToggleGuard(false);"><p>off</p></button>
+                            <button id="toggle-guard-on" onclick="ToggleGuard(true);"><p>on</p></button>  
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="cont-items">
                 <div class="item-sheath item-cont">
                     <button id="item-sheath-primary" onclick="LoadItems('weapons-s1');">
@@ -233,6 +260,9 @@
                         <p>Tutorial</p>
                     </div>
                     <div class="toggle-cont">
+                        <div class="toggle-guard-button" onclick="OpenGuard();" id="toggle-guard-button-id">
+                            <div class="toggle-guard-image" id="toggle-guard-img"></div>
+                        </div>
                         <div class="toggle-saves-button" onclick="TriggerSaves();">
                             <div class="toggle-saves-image" id="toggle-saves-img"></div>
                         </div>

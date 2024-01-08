@@ -218,5 +218,25 @@
         "twohanded": true,
         "url": "Item-Images/cowboy-weapons/22.webp",
         "class": "cowboy"
+    },
+    {
+        "name": "Mushroom Spitter",
+        "power": 98,
+        "level": 180,
+        "rpm": 185,
+        "price": 1371376,
+        "twohanded": false,
+        "url": "Item-Images/cowboy-weapons/23.webp",
+        "class": "cowboy"
+    },
+    {
+        "name": "Mushroom Sizzler",
+        "power": 162,
+        "level": 180,
+        "rpm": 185,
+        "price": 2262770,
+        "twohanded": true,
+        "url": "Item-Images/cowboy-weapons/24.webp",
+        "class": "cowboy"
     }
 ]

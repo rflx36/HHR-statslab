@@ -160,6 +160,15 @@
         "price": 1014355,
         "url": "Item-Images/cowboy-helmets/18.webp",
         "class": "cowboy"
+    },
+    {
+        "name": "Guard Helmet",
+        "power": 17,
+        "defense": 138,
+        "level": 180,
+        "price": 1284767,
+        "url": "Item-Images/cowboy-helmets/19.webp",
+        "class": "cowboy"
     }
     
     

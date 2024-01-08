@@ -124,6 +124,15 @@
         "price": 1460257,
         "url": "Item-Images/warrior-pants/14.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Ancient Legs",
+        "defense": 165,
+        "power": 17,
+        "level": 212,
+        "price": 2042676,
+        "url": "Item-Images/warrior-pants/15.webp",
+        "class": "warrior"
     }
 
 ]

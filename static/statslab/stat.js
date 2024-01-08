@@ -515,6 +515,7 @@ let booster_cont = document.getElementById('booster-container');
 let booster_input = document.getElementById('booster-skill-input');
 let booster_label = document.getElementById('booster-skill-label');
 
+
 let secondary_equip = document.getElementById('item-weapon-secondary');
 let secondary_sheath = document.getElementById('item-sheath-secondary');
 
@@ -538,6 +539,11 @@ let save_name = "";
 let selected_save = -1;
 
 let delete_action = document.getElementById('action-delete-id');
+
+let shield_guard = 0;
+let is_shield_guarded = false;
+
+let guard_cont = document.getElementById('shield-guard-bg-id');
 
 function ClearEquips() {
 
@@ -644,6 +650,11 @@ function CloseSetItems() {
     shield_cont.style.transform = "translateY(0px)";
   }
   booster_cont.style.transform = "translateY(0px)";
+
+
+
+
+
 }
 
 function SetClass(s_class) {
@@ -710,9 +721,19 @@ function UpdateStats() {
     shield_cont.style.transform = "translateY(-80px)";
 
   }
+  let shield_guard_value = 1;
+  if (is_shield_guarded && shielded) {
+    shield_guard_value = 2;
 
+  }
+ 
+  document.getElementById('toggle-guard-button-id').style.display = (shielded)?"block":"none";
+  
+  current_fdef = (def + 8) * (2 + parseInt(selected_helmet.defense) + parseInt(selected_armor.defense) + parseInt(selected_pants.defense) + parseInt(selected_shoes.defense) + parseInt(selected_secondary_weapon.defense * (shield_guard_value + ((shield_ability * 5) / 100))) + parseInt(Math.floor(Math.floor(sheated_primary_weapon.defense * 0.35) * (shield_guard_value + ((shield_ability * 5) / 100)))));
+  if (is_shield_guarded && shielded) {
+    current_fdef = Math.floor(current_fdef * (1+( shield_guard * 0.03)));
+  }
 
-  current_fdef = (def + 8) * (2 + parseInt(selected_helmet.defense) + parseInt(selected_armor.defense) + parseInt(selected_pants.defense) + parseInt(selected_shoes.defense) + parseInt(selected_secondary_weapon.defense * (1 + ((shield_ability * 5) / 100))) + parseInt(Math.floor(Math.floor(sheated_primary_weapon.defense * 0.35) * (1 + ((shield_ability * 5) / 100)))));
   fdef_.textContent = current_fdef.toLocaleString('en-US');
 
   let total_enchantment_cost = 0;
@@ -1810,7 +1831,7 @@ function SetMonsters() {
     var monster_dmg = monster.attack * (monster.attack + m_atk_bonus);
     var monster_def = monster.defense * (monster.defense + m_def_bonus);
 
-    if (monster.name == "Sasquatch") {
+    if (monster.name.includes("Sasquatch")) {
       monster_dmg = monster_dmg * 2.5; // Punch 250%
     }
     let d_dmg = monster_dmg;
@@ -2079,7 +2100,11 @@ function RequestSkillsInfo(m_dmg, m_def, m_url, m_hp) {
                 <div class="range-level-cont">
                   <input type="range" min="0" max="${skill.max_level}" value="${skill_level[i]}" onchange="RepaintSkillLevel(${i},this.value,${j});">
                   <p id="skill-lvl-id-${i}">lvl: ${skill_level[i]}</p>
-              
+                  <div class="mana-cont">
+                    <div class="mana-icon">
+                    </div>
+                    <p id="skill-mana-${i}">${skill.mana * skill_level[i]}</p>
+                  </div>
                 </div>
               </div> 
 
@@ -2258,7 +2283,7 @@ function SetSave() {
   let saveNameInput = document.getElementById('save-name-input');
   let enteredName = saveNameInput.value.trim().toLowerCase();
 
-  if (enteredName == ""){
+  if (enteredName == "") {
     alert("Please enter a name before saving.");
     return;
   }
@@ -2274,9 +2299,9 @@ function SetSave() {
   SaveActionControl(0);
 
   let save_name = "";
-  
-  if (saves.includes(enteredName)){
-    
+
+  if (saves.includes(enteredName)) {
+
     alert("name already exist");
     return;
   }
@@ -2397,7 +2422,7 @@ function DisplaySavesList() {
   for (let i = 0; i < saves_data.length; i++) {
 
     let current_save_data = JSON.parse(localStorage.getItem(saves_data[i]));
-    if (current_save_data == null){
+    if (current_save_data == null) {
       continue;
     }
     let current_img_url = current_save_data[10].url;
@@ -2560,6 +2585,8 @@ function DeleteSaveSlot(slot_id) {
 
 
 
+
+
   localStorage.setItem("SaveData", JSON.stringify(saves));
 
 */
@@ -2568,9 +2595,10 @@ function DeleteSaveSlot(slot_id) {
   localStorage.removeItem(saves[slot_id]);
   saves.splice(slot_id, 1);
   localStorage.setItem("SaveData", JSON.stringify(saves));
-  
+
   DisplaySavesList();
 }
+
 
 
 function TutorialLink() {
@@ -2578,6 +2606,33 @@ function TutorialLink() {
 
   newTab.location.href = "https://www.youtube.com/watch?v=ILISxC_CF30&ab_channel=BlueHairedDirt";
 }
+
+
+function ToggleGuard(toggle_case) {
+  is_shield_guarded = toggle_case;
+  UpdateStats();
+  let guard_button_off = document.getElementById('toggle-guard-off');
+  let guard_button_on = document.getElementById('toggle-guard-on');
+
+  guard_button_off.style.background = (toggle_case) ? "#636363" : "#00C500";
+  guard_button_on.style.background = (!toggle_case) ? "#636363" : "#00C500";
+
+  guard_button_on.style.borderColor = (toggle_case) ? "#002000" : "#111211";
+  guard_button_off.style.borderColor = (!toggle_case) ? "#002000" : "#111211";
+
+}
+
+const CloseGuard = () => guard_cont.style.display = "none";
+const OpenGuard = () => guard_cont.style.display = "block";
+
+const UpdateGuardSkill = (g_skill_val) => {
+
+  document.getElementById('guard-skill-label').innerHTML = g_skill_val + "%";
+  shield_guard = g_skill_val;
+  UpdateStats();
+}
+
+
 
 // electric element 35% of base attack
 // x = math.round(5*(a*a + 30) / (b + 30))

@@ -169,5 +169,14 @@
         "price": 973594,
         "url": "Item-Images/mage-pants/19.webp",
         "class": "mage"
+    },
+    {
+        "name": "Element Legs",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/mage-pants/20.webp",
+        "class": "mage"
     }
 ]

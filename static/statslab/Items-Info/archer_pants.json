@@ -97,5 +97,14 @@
         "price": 1014816,
         "url": "Item-Images/archer-pants/11.webp",
         "class": "archer"
+    },
+    {
+        "name": "Reef legs",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/archer-pants/12.webp",
+        "class": "archer"
     }
 ]

@@ -70,5 +70,13 @@
         "price": 374769,
         "url": "Item-Images/warrior-shields/9.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Ancient Shield",
+        "defense": 165,
+        "level": 212,
+        "price": 2039512,
+        "url": "Item-Images/warrior-shields/10.webp",
+        "class": "warrior"
     }
 ]

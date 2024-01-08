@@ -151,5 +151,14 @@
         "price": 1014816,
         "url": "Item-Images/archer-helmets/17.webp",
         "class": "archer"
+    },
+    {
+        "name": "Reef Helmet",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/archer-helmets/18.webp",
+        "class": "archer"
     }
 ]

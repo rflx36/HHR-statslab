@@ -196,5 +196,14 @@
         "price": 973594,
         "url": "Item-Images/mage-helmets/21.webp",
         "class": "mage"
+    },
+    {
+        "name": "Element Helmet",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/mage-helmets/23.webp",
+        "class": "mage"
     }
 ]

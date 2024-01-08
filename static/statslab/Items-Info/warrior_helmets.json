@@ -108,6 +108,15 @@
         "class": "warrior"
     },
     {
+        "name": "Bucket Helmet",
+        "power": 2,
+        "defense": 34,
+        "level": 37,
+        "price": 1000000,
+        "url": "Item-Images/warrior-helmets/31.webp",
+        "class": "warrior"
+    },
+    {
         "name": "Coconut Leaves Helmet",
         "power": 3,
         "defense": 35,
@@ -249,6 +258,24 @@
         "level": 187,
         "price": 1460257,
         "url": "Item-Images/warrior-helmets/28.webp",
+        "class": "warrior"
+    },
+    {
+        "name": "Crusader Helmet",
+        "defense": 155,
+        "power": 17,
+        "level": 200,
+        "price": 1736690,
+        "url": "Item-Images/warrior-helmets/29.webp",
+        "class": "warrior"
+    },
+    {
+        "name": "Ancient Helmet",
+        "defense": 165,
+        "power": 17,
+        "level": 212,
+        "price": 2042676,
+        "url": "Item-Images/warrior-helmets/30.webp",
         "class": "warrior"
     }
 ]

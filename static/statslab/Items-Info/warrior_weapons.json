@@ -243,6 +243,15 @@
         "class": "warrior"
     },
     {
+        "name": "Claw",
+        "power": 40,
+        "level": 49,
+        "price": 389988,
+        "twohanded": false,
+        "url": "Item-Images/warrior-weapons/49.webp",
+        "class": "warrior"
+    },
+    {
         "name": "Skull Spear",
         "power": 69,
         "level": 52,
@@ -411,6 +420,24 @@
         "price": 2236257,
         "twohanded": true,
         "url": "Item-Images/warrior-weapons/46.webp",
+        "class": "warrior"
+    },
+    {
+        "name": "Ancient Axe",
+        "power": 161,
+        "level": 206,
+        "price": 1913442,
+        "twohanded": false,
+        "url": "Item-Images/warrior-weapons/47.webp",
+        "class": "warrior"
+    },
+    {
+        "name": "Ancient Glaive",
+        "power": 266,
+        "level": 206,
+        "price": 3157179,
+        "twohanded": true,
+        "url": "Item-Images/warrior-weapons/48.webp",
         "class": "warrior"
     }
 ]

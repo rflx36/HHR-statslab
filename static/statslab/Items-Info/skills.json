@@ -7,7 +7,8 @@
         "max_level":4,
         "weapon_type":"dual",
         "is_multiply":false,
-        "url":"UI/skill_1.webp"
+        "url":"UI/skill_1.webp",
+        "mana":0
     },
     {
         "class":"warrior",
@@ -17,7 +18,8 @@
         "max_level":3,
         "weapon_type":"two hander",
         "is_multiply":false,
-        "url":"UI/skill_2.webp"
+        "url":"UI/skill_2.webp",
+        "mana":0
     },
     {
         "class":"warrior",
@@ -27,7 +29,8 @@
         "max_level":2,
         "weapon_type":"shield",
         "is_multiply":false,
-        "url":"UI/skill_3.webp"
+        "url":"UI/skill_3.webp",
+        "mana":0
     },
     {
         "class":"warrior",
@@ -37,7 +40,8 @@
         "max_level":2,
         "weapon_type":"two hander",
         "is_multiply":false,
-        "url":"UI/skill_4.webp"
+        "url":"UI/skill_4.webp",
+        "mana":0
     },
     {
         "class":"mage",
@@ -47,7 +51,8 @@
         "max_level":3,
         "weapon_type":"dual",
         "is_multiply":true,
-        "url":"UI/skill_5.webp"
+        "url":"UI/skill_5.webp",
+        "mana":0
     },
     {
         "class":"mage",
@@ -57,7 +62,8 @@
         "max_level":10,
         "weapon_type":"two hander",
         "is_multiply":false,
-        "url":"UI/skill_6.webp"
+        "url":"UI/skill_6.webp",
+        "mana":0
     },
     {
         "class":"cowboy",
@@ -67,7 +73,8 @@
         "max_level":6,
         "weapon_type":"any",
         "is_multiply":false,
-        "url":"UI/skill_7.webp"
+        "url":"UI/skill_7.webp",
+        "mana":0
     },
     {
         "class":"cowboy",
@@ -77,7 +84,8 @@
         "max_level":5,
         "weapon_type":"any",
         "is_multiply":true,
-        "url":"UI/skill_8.webp"
+        "url":"UI/skill_8.webp",
+        "mana":0
     },
     {
         "class":"archer",
@@ -87,7 +95,8 @@
         "max_level":5,
         "weapon_type":"two hander",
         "is_multiply":true,
-        "url":"UI/skill_9.webp"
+        "url":"UI/skill_9.webp",
+        "mana":0
     },
     {
         "class":"archer",
@@ -97,6 +106,7 @@
         "max_level":10,
         "weapon_type":"two hander",
         "is_multiply":false,
-        "url":"UI/skill_10.webp"
+        "url":"UI/skill_10.webp",
+        "mana":0
     }
 ]

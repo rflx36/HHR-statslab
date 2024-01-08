@@ -133,5 +133,14 @@
         "price": 1460257,
         "url": "Item-Images/warrior-armors/15.webp",
         "class": "warrior"
+    },
+    {
+        "name": "Ancient Armor",
+        "defense": 165,
+        "power": 17,
+        "level": 212,
+        "price": 2042676,
+        "url": "Item-Images/warrior-armors/16.webp",
+        "class": "warrior"
     }
 ]

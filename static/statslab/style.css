@@ -904,8 +904,26 @@ input::-webkit-inner-spin-button {
     -webkit-text-stroke: 0px;
     font-size: 25px;
     height: 30px;
+    width: 70px;
 }
-
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont .mana-cont{
+    width: 57.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont .mana-cont .mana-icon{
+    width: 25px;
+    background-size: contain;
+    height: 25px;
+    background-position: center;
+    background-image: url(UI/icon-mana.png);
+    background-repeat: no-repeat;
+}
+.cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont .range-level-cont .mana-cont p{
+    color: #417ce1;
+    width: 30px;
+}
 .cont-detailed-damage .cont-skills .skill-detail-cont .skill-detail-more-cont input {
     background: #00000070;
     outline: none;
@@ -915,7 +933,7 @@ input::-webkit-inner-spin-button {
     border-radius: 15px;
     border: 1.5px solid black;
     overflow: hidden;
-    width: 200px;
+    width: 175px;
     margin: 5px;
 }
 
@@ -1256,7 +1274,7 @@ input::-webkit-inner-spin-button {
     transform: translateY(-80px);
 
     z-index: -1;
-    transition: 0.3s
+    transition: 0.3s;
 }
 
 .booster-skill-cont {
@@ -1271,7 +1289,22 @@ input::-webkit-inner-spin-button {
     transform: translateY(-80px);
 
     z-index: -1;
-    transition: 0.3s
+    transition: 0.3s;
+}
+
+.guard-skill-cont {
+    background: #496648;
+    border: 2px #073506 solid;
+    border-radius: 15px;
+    width: 476px;
+    height: 60px;
+    position: absolute;
+    margin-top: 82px;
+    right: -2px;
+    transform: translateY(-147px);
+
+    z-index: -1;
+    transition: 0.3s;
 }
 
 .skill-cont {
@@ -1386,6 +1419,56 @@ input::-webkit-inner-spin-button {
     width: 50px;
     margin-right: 10px;
 }
+
+
+
+
+#guard-skill-input {
+    width: 225px;
+    margin-top: 4px;
+    margin-left: 75px;
+    background: #00000084;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 23px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid #000000a9;
+
+}
+
+#guard-skill-input::-webkit-slider-runnable-track {
+
+    appearance: none;
+    -webkit-appearance: none;
+
+}
+
+#guard-skill-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 23px;
+    width: 30px;
+    background: #FBFB1E;
+    border-right: 2px solid #292901;
+    border-radius: 5px;
+    box-shadow: -120px 0 0 95px #fbfb1e;
+    ;
+}
+
+#guard-skill-input::-webkit-slider-thumb:hover {
+
+    background: #f8f86e;
+}
+
+#guard-skill-label {
+    width: 50px;
+    margin-left: 10px;
+}
+
+
+
 
 
 
@@ -1636,6 +1719,19 @@ body {
 
 }
 
+.toggle-guard-button {
+    background-image: url(UI/button.png);
+    width: 65px;
+    height: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.toggle-guard-button:hover {
+    background-image: url(UI/button-hovered.png);
+}
+
 .toggle-saves-button {
     background-image: url(UI/button.png);
     width: 65px;
@@ -1664,6 +1760,15 @@ body {
     background-image: url(UI/button-hovered.png);
 }
 
+.toggle-guard-image {
+    width: 65px;
+    height: 31px;
+    background-repeat: no-repeat;
+    background-position: center;
+   
+    margin-top: 2px;
+    background-image: url(UI/icon-guard.png);
+}
 
 .toggle-saves-image {
     width: 65px;
@@ -2019,4 +2124,162 @@ body {
     font-style: italic;
     font-family: "Confetti";
 
+}
+
+
+
+.shield-guard-bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #0000003d;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    z-index: 1;
+    display: none;
+   
+}
+.shield-guard-bg .shield-guard-cont{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    width: 500px;
+    background: #a2542e;
+    height: 200px;
+    z-index: 1;
+    border-radius: 10px;
+    border:solid 2px #00000087;
+}
+
+.shield-guard-bg .shield-guard-cont .close-guard{
+    background-image: url(UI/icon-close.png);
+    width: 38px;
+    height: 38px;
+    z-index: 3;
+    background-size: 40px;
+    background-position: center;
+    right: -10px;
+    top: -10px;
+    position: absolute;
+    border-radius: 100px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.shield-guard-bg .shield-guard-cont .close-guard:hover{
+    opacity: 0.7;
+}
+
+
+.shield-guard-bg .shield-guard-cont .shield-skill-value-cont{
+    display: flex;
+    width: 490px;
+    margin: 5px;
+}
+
+.shield-guard-bg .shield-guard-cont .shield-skill-value-cont p{
+    font-family: 'Confetti';
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+    font-size: 25px;
+    -webkit-text-stroke: 0;
+}
+
+
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    width: 490px;
+    align-items: center;
+}
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont #guard-enable{
+    font-family: 'Confetti';
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+    font-size: 25px;
+    -webkit-text-stroke: 0;
+}
+
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont .shield-skill-toggle-div #toggle-guard-off{
+    background: #00C500;
+    border-color: #002000;
+}
+
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont .shield-skill-toggle-div #toggle-guard-on{
+    background: #636363;
+    border-color: #111211;
+}
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont .shield-skill-toggle-div button{
+    padding-left: 25px;
+
+    padding-right: 25px;
+
+    padding-top: 5px;
+    border-radius: 14px;
+    padding-bottom: 5px;
+    border: 2px solid #001825;
+    margin: 5px;
+    cursor: pointer;
+    transition: .3s cubic-bezier(0.18, 0.85, 0.18, 0.84);
+    position: relative;
+}
+
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont .shield-skill-toggle-div button::after{
+    width: calc(100% - 10px);
+    height: 6px;
+    background-color: #ffffff;
+    content: 'w';
+    color: transparent;
+    border-radius: 100px / 30px;
+    position: absolute;
+    left: 0;
+    margin-left: 5px;
+    top: 2px;
+    opacity: 0.1;
+}
+
+
+.shield-guard-bg .shield-guard-cont .shield-skill-toggle-cont .shield-skill-toggle-div button::before{
+    width: 100%;
+    height: 100%;
+    content: 'w';
+    color: transparent;
+    border-bottom: 3px black solid;
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    opacity: 0.15;
+}
+
+.shield-guard-bg .shield-guard-cont .guard-details{
+    display: flex;
+}
+
+.shield-guard-bg .shield-guard-cont .guard-details img{
+    width: 90px;
+    height: 90px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.shield-guard-bg .shield-guard-cont .guard-details .guard-detail-div{
+    margin: 5px;
+}
+
+.shield-guard-bg .shield-guard-cont .guard-details p{
+    font-family: 'Confetti';
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+    font-size: 25px;
+    -webkit-text-stroke: 0;
+}
+
+.shield-guard-bg .shield-guard-cont .guard-details p i{
+    color: black;
+    opacity: 0.5;
+    text-shadow: none;
+    font-size: 15px;
 }

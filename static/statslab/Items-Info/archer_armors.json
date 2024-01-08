@@ -106,5 +106,14 @@
         "price": 1014816,
         "url": "Item-Images/archer-armors/12.webp",
         "class":"archer"
+    },
+    {
+        "name": "Reef Armor",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/archer-armors/13.webp",
+        "class":"archer"
     }
 ]

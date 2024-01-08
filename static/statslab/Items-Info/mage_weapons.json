@@ -268,5 +268,23 @@
         "twohanded": true,
         "url": "Item-Images/mage-weapons/30.webp",
         "class": "mage"
+    },
+    {
+        "name": "Element Wand",
+        "power": 141,
+        "level": 180,
+        "price": 1355307,
+        "twohanded": false,
+        "url": "Item-Images/mage-weapons/31.webp",
+        "class": "mage"
+    },
+    {
+        "name": "Element Staff",
+        "power": 233,
+        "level": 180,
+        "price": 2236257,
+        "twohanded": true,
+        "url": "Item-Images/mage-weapons/32.webp",
+        "class": "mage"
     }
 ]

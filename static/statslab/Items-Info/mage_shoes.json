@@ -79,5 +79,14 @@
         "price": 342036,
         "url": "Item-Images/mage-shoes/9.webp",
         "class": "mage"
+    },
+    {
+        "name": "Element Boots",
+        "power": 9,
+        "defense": 91,
+        "level": 114,
+        "price": 434691,
+        "url": "Item-Images/mage-shoes/10.webp",
+        "class": "mage"
     }
 ]

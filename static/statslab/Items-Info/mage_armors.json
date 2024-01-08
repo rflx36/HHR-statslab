@@ -178,5 +178,14 @@
         "price": 973594,
         "url": "Item-Images/mage-armors/20.webp",
         "class": "mage"
+    },
+    {
+        "name": "Element Armor",
+        "power": 18,
+        "defense": 137,
+        "level": 180,
+        "price": 1261268,
+        "url": "Item-Images/mage-armors/21.webp",
+        "class": "mage"
     }
 ]
